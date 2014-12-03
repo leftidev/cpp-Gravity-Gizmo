@@ -38,7 +38,7 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 
 
     // If player has not jumped and presses W.
-    if (jumped == false && _inputManager->isKeyPressed(SDLK_w) == true) {
+	if (jumped == false && _inputManager->isKeyDown(SDLK_SPACE) == true) {
         jump();
     }
 
@@ -49,11 +49,11 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
     }
 
     // Move left.
-    if (_inputManager->isKeyDown(SDLK_a)) {
+	if (_inputManager->isKeyDown(SDLK_a) || _inputManager->isKeyDown(SDLK_LEFT)) {
         _speed.x = -runningSpeed;
     }
     // Move right.
-    else if (_inputManager->isKeyDown(SDLK_d)) {
+	else if (_inputManager->isKeyDown(SDLK_d) || _inputManager->isKeyDown(SDLK_RIGHT)) {
         _speed.x = runningSpeed;
     }
     else {

@@ -3,15 +3,16 @@ Gravity Gizmo
 What?
 -----
 This repo contains Gravity Gizmo. Game under progress. 
-The game is going to be programmed in C++, using SDL2 and OpenGL.
+The game is going to be programmed in C++, using GEngine.
 
-- SDL (Simple DirectMedia Layer) is used for handling input, audio, windowing and text
+- GEngine is a 2D game engine, using SDL2 and OpenGL
+- SDL2 (Simple DirectMedia Layer) is used for handling input, audio, windowing and text
 - OpenGL is used for graphics
 
 Project:
 ---------
-- Using the project from GEngine/platformer-demo as the game template
-- Under progress..
+- Using the project from cpp-GEngine/platformer-demo as the game template
+- Uses GEngine from the repo cpp-GEngine
 
 How to play?
 ------------
