@@ -1,5 +1,5 @@
 /*
-    This is Gravity Gizmo. Under progress.
+    This is Gravity Gizmo. Under development.
 */
 
 #include <algorithm>
@@ -31,7 +31,6 @@ MainGame::~MainGame() {
 }
 
 void MainGame::run() {
-
     initSystems();
 
     initLevel();
@@ -79,7 +78,7 @@ void MainGame::initShaders() {
 }
 
 void MainGame::gameLoop() {
-    // Some helpful constants.
+    // Some helpful constants
     const float DESIRED_FPS = 60.0f; // FPS the game is designed to run at
     const int MAX_PHYSICS_STEPS = 6; // Max number of physics steps per frame
     const float MS_PER_SECOND = 1000; // Number of milliseconds in a second
@@ -183,7 +182,7 @@ void MainGame::drawGame() {
     GLint pUniform = _textureProgram.getUniformLocation("P");
     glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
 
-    const glm::vec2 tileDimensions(_levels[_currentLevel]->_tiles[0]->width);
+    const glm::vec2 tileDimensions(42.0f);
 
     // Begin drawing
     _mainSpriteBatch.begin();
@@ -207,6 +206,6 @@ void MainGame::drawGame() {
     // Unbind the program
     _textureProgram.unuse();
 
-    // Swap our buffer and draw everything to the screen!
+    // Swap the buffer and draw everything to the screen
     _window.swapBuffer();
 }

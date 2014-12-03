@@ -24,6 +24,8 @@ SOFTWARE.
 This software uses the following external libraries:
 ---------------------------------------------------
 
+*GEngine (based on Ben Arnold's "Bengine")
+
 Distributed under the license zlib - http://www.gzip.org/zlib/zlib_license.html
 
 *SDL by Sam Lantinga - https://www.libsdl.org/index.php

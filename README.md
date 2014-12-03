@@ -14,7 +14,7 @@ I am going to re-program the game in C++, using GEngine. NOTE: In very early sta
 
 Project:
 ---------
-- Sidescrolling puzzle platformer, where quick reactions are a must
+- Sidescrolling platformer, where quick reactions are a must
 - Graphics created in Paint.net
 - Uses GEngine from cpp-GEngine
 - Uses the project from cpp-GEngine/platformer-demo as the basic template
