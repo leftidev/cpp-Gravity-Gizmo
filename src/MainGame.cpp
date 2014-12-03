@@ -70,7 +70,7 @@ void MainGame::initLevel() {
 
 void MainGame::initShaders() {
     // Compile the color shader
-    _textureProgram.compileShaders("Shaders/textureShading.vert", "Shaders/textureShading.frag");
+    _textureProgram.compileShaders("../assets/Shaders/textureShading.vert", "../assets/Shaders/textureShading.frag");
     _textureProgram.addAttribute("vertexPosition");
     _textureProgram.addAttribute("vertexColor");
     _textureProgram.addAttribute("vertexUV");
