@@ -41,7 +41,6 @@ Level::Level(const std::string& fileName) {
 
             // Process the tile
             switch (tile) {
-                case 'B':
                 case 'R': {
                     Tile* temp = new Tile();
                     temp->init(GEngine::ResourceManager::getTexture("Textures/red_bricks.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH));

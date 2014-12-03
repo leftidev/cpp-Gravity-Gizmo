@@ -5,6 +5,7 @@
 #include <GEngine/SpriteBatch.h>
 #include <GEngine/ResourceManager.h>
 
+class Tile;
 
 class Entity
 {
@@ -20,7 +21,7 @@ public:
     float height;
 
 protected:
-    bool collideWithTile(int width, int height, Entity* entity);
+    bool collideWithTile(int width, int height, Tile* tile);
 
     int textureID;
 

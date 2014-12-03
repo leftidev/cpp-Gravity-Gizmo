@@ -11,8 +11,9 @@ but re-programmed in C++, using GEngine.
 
 Project:
 ---------
-- Using the project from cpp-GEngine/platformer-demo as the game template
-- Uses GEngine from the repo cpp-GEngine
+- Uses the project from cpp-GEngine/platformer-demo as the basic template
+- Uses GEngine from cpp-GEngine
+- Is under progress
 
 How to play?
 ------------

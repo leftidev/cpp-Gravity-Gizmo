@@ -2,6 +2,7 @@
 
 #include <algorithm>
 
+#include "Tile.h"
 
 Entity::Entity() {
 }
@@ -22,13 +23,13 @@ void Entity::draw(GEngine::SpriteBatch& _spriteBatch) {
 }
 
 // AABB (Axis Aligned Bounding Box) collision
-bool Entity::collideWithTile(int width, int height, Entity* entity) {
+bool Entity::collideWithTile(int width, int height, Tile* tile) {
     // The minimum distance before a collision occurs
-    const float MIN_DISTANCE_X = width / 2.0f + entity->width / 2.0f;
-    const float MIN_DISTANCE_Y = height / 2.0f + entity->height / 2.0f;
+	const float MIN_DISTANCE_X = width / 2.0f + tile->width / 2.0f;
+	const float MIN_DISTANCE_Y = height / 2.0f + tile->height / 2.0f;
 
     // Vector from center of agent to center of tile
-    glm::vec2 distVec = (_position + glm::vec2(width / 2, height / 2)) - (entity->getPosition() + glm::vec2(entity->width / 2, entity->height / 2));
+	glm::vec2 distVec = (_position + glm::vec2(width / 2, height / 2)) - (tile->getPosition() + glm::vec2(tile->width / 2, tile->height / 2));
 
     // Get the depth of the collision
     float xDepth = MIN_DISTANCE_X - abs(distVec.x);
