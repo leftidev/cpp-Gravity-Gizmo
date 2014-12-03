@@ -4,7 +4,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <IncludePath>$(SolutionDir);$(SolutionDir)deps/include/;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)deps/lib/;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)deps/lib/debug;$(LibraryPath)</LibraryPath>
     <_PropertySheetDisplayName>Debug</_PropertySheetDisplayName>
   </PropertyGroup>
   <ItemDefinitionGroup>

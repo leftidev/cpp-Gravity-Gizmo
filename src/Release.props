@@ -4,7 +4,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <IncludePath>$(SolutionDir);$(SolutionDir)deps/include/;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Release/;$(SolutionDir)deps/lib/;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)deps/lib/release;$(LibraryPath)</LibraryPath>
     <_PropertySheetDisplayName>Release</_PropertySheetDisplayName>
   </PropertyGroup>
   <ItemDefinitionGroup>
