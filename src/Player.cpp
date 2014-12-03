@@ -86,8 +86,8 @@ void Player::jump() {
 void Player::collide(glm::fvec2(speed), std::vector<Tile*> tiles) {
 
     // Collide with level tiles.
-    for (int i = 0; i < tiles.size(); i++) {
-        if (collideWithTile(width, height, tiles[i])) {
+	for (unsigned int i = 0; i < tiles.size(); i++) {
+        if (collideWithTile((int)width, (int)height, tiles[i])) {
             // Collide from left.
             if (speed.x > 0) {
                 _position.x = tiles[i]->getPosition().x - width;

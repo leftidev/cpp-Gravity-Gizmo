@@ -7,7 +7,6 @@
 
 #include "Level.h"
 
-
 Level::Level(const std::string& fileName) {
 
     std::ifstream file;
@@ -34,8 +33,8 @@ Level::Level(const std::string& fileName) {
     std::reverse(_levelData.begin(), _levelData.end());
 
     // Render all the tiles
-    for (int y = 0; y < _levelData.size(); y++) {
-        for (int x = 0; x < _levelData[y].size(); x++) {
+    for (unsigned int y = 0; y < _levelData.size(); y++) {
+        for (unsigned int x = 0; x < _levelData[y].size(); x++) {
             // Grab the tile
             char tile = _levelData[y][x];
 
@@ -64,8 +63,8 @@ Level::Level(const std::string& fileName) {
                 }
                     break;
                 case '@':
-                    _startPlayerPos.x = x * TILE_WIDTH;
-                    _startPlayerPos.y = y * TILE_WIDTH;
+                    _startPlayerPos.x = (float)x * (float)TILE_WIDTH;
+					_startPlayerPos.y = (float)y * (float)TILE_WIDTH;
                     break;
                 case '.':
                     break;
@@ -80,11 +79,10 @@ Level::Level(const std::string& fileName) {
 
 }
 
-
 Level::~Level()
 {
     // Don't forget to delete the tiles!
-    for (int i = 0; i < _tiles.size(); i++) {
+    for (unsigned int i = 0; i < _tiles.size(); i++) {
         delete _tiles[i];
     }
 }

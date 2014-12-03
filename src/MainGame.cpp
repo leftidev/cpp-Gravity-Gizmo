@@ -31,7 +31,7 @@ MainGame::MainGame() :
 
 MainGame::~MainGame() {
     // Don't forget to delete the levels!
-    for (int i = 0; i < _levels.size(); i++) {
+    for (unsigned int i = 0; i < _levels.size(); i++) {
         delete _levels[i];
     }
 }
@@ -102,14 +102,14 @@ void MainGame::gameLoop() {
     _camera.setScale(CAMERA_SCALE);
 
     // Start our previousTicks variable
-    float previousTicks = SDL_GetTicks();
+    float previousTicks = (float)SDL_GetTicks();
 
     // Main loop
     while (_gameState == GameState::PLAY) {
         fpsLimiter.beginFrame();
 
         // Calculate the frameTime in milliseconds
-        float newTicks = SDL_GetTicks();
+        float newTicks = (float)SDL_GetTicks();
         float frameTime = newTicks - previousTicks;
         previousTicks = newTicks; // Store newTicks in previousTicks so we can use it next frame
         // Get the total delta time
@@ -197,7 +197,7 @@ void MainGame::drawGame() {
     _firstSpriteBatch.begin();
 
     // Draw tiles with camera culling.
-    for (int i = 0; i < _levels[_currentLevel]->_tiles.size(); i++) {
+    for (unsigned int i = 0; i < _levels[_currentLevel]->_tiles.size(); i++) {
         if (_camera.isBoxInView(_levels[_currentLevel]->_tiles[i]->getPosition(), tileDimensions)) {
             _levels[_currentLevel]->_tiles[i]->draw(_firstSpriteBatch);
         }
