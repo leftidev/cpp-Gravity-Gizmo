@@ -1,6 +1,6 @@
 Gravity Gizmo
 ----------
-Newest screenshot
+Latest screenshot
 -----------------------
 ![alt tag](https://cloud.githubusercontent.com/assets/5671281/5285761/40c7b384-7b27-11e4-9be8-29472368741a.png)
 What?
@@ -22,13 +22,13 @@ Project:
 
 How to download?
 ----------------
-I will occasionally upload a most current version of the game.
+I will occasionally upload a most latest version of the game.
 You have to download the game binary, assets and required .dll's. I bundled them all in one 563KB .zip file.
-This .zip file contains the executable in the bin folder.
+This .zip file contains the executable in the bin directory.
 
 - Navigate to the folder "bin" on top of the site
-- Click the file "gravity_gizmo.zip"
-- On the right, click the button named "Raw"
+  1. Right click the file "gravity_gizmo.zip" and "Save link as.." OR
+  2. Click the file "gravity_gizmo.zip", and on the right click the button labeled "Raw"
 - This downloads the .zip file
 
 NOTE: Currently only tested on Windows!
