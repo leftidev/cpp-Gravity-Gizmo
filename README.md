@@ -27,8 +27,7 @@ You have to download the game binary, assets and required .dll's. I bundled them
 This .zip file contains the executable in the bin directory.
 
 - Navigate to the folder "bin" on top of the site
-  1. Right click the file "gravity_gizmo.zip" and "Save link as.." OR
-  2. Click the file "gravity_gizmo.zip", and on the right click the button labeled "Raw"
+  1. Click the file "gravity_gizmo.zip", and on the right click the button labeled "Raw"
 - This downloads the .zip file
 
 NOTE: Currently only tested on Windows!
