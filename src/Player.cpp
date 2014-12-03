@@ -13,7 +13,7 @@ Player::~Player() {
 }
 
 void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera) {
-    textureID = GEngine::ResourceManager::getTexture("Textures/gizmo.png").id;
+    textureID = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo.png").id;
 
     width = 40.0f;
     height = 40.0f;

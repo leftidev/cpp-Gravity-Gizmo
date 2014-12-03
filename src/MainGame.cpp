@@ -61,7 +61,7 @@ void MainGame::initSystems() {
 
 void MainGame::initLevel() {
     // Initialize level 1
-    _levels.push_back(new Level("Levels/level1.txt"));
+    _levels.push_back(new Level("../assets/Levels/level1.txt"));
     _currentLevel = 0;
 
     // Initialize the player
