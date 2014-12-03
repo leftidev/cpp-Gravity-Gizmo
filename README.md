@@ -15,9 +15,20 @@ Project:
 - Uses GEngine from cpp-GEngine
 - Under development
 
+How to download?
+----------------
+I will occasionally upload a current-progress version of the game.
+You have to download the game binary, assets and required .dll's. I bundled them all in one 563KB .zip file.
+This .zip file contains the executable in the bin folder.
+
+- Navigate to the folder "bin" on top of the site
+- Click the file "gravity_gizmo.zip"
+- On the right, click the button named "Raw"
+- This downloads the .zip file
+
 How to play?
 ------------
-Under development..
+Press A, D or Left and Right arrow keys to move. Spacebar to jump.
 
 Other
 -----

@@ -34,6 +34,10 @@ void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::
 }
 
 void Player::update(std::vector<Tile*> tiles, float deltaTime) {
+	// Hacky way of quitting..
+	if (_inputManager->isKeyDown(SDLK_ESCAPE)) {
+		SDL_Quit();
+	}
     // If player has not jumped and presses W
 	if (jumped == false && _inputManager->isKeyDown(SDLK_SPACE) == true) {
         jump();

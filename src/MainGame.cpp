@@ -144,7 +144,6 @@ void MainGame::processInput() {
         switch (evnt.type) {
         case SDL_QUIT:
             _gameState = GameState::EXIT;
-            GEngine::fatalError("oops");
         case SDL_MOUSEMOTION:
             _inputManager.setMouseCoords(float(evnt.motion.x), float(evnt.motion.y));
             break;
