@@ -18,7 +18,7 @@ void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::
     width = 40.0f;
     height = 40.0f;
 
-    runningSpeed = 15.0f;
+    runningSpeed = 20.0f;
 
     _speed.x = 0.0f;
     _speed.y = 0.0f;
@@ -37,8 +37,10 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 	// Hacky way of quitting
 	if (_inputManager->isKeyDown(SDLK_ESCAPE)) {
 		SDL_Quit();
+		exit(69);
 	}
-    // If player has not jumped and presses W
+
+    // If player has not jumped and presses SPACEBAR
 	if (jumped == false && _inputManager->isKeyDown(SDLK_SPACE) == true) {
         jump();
     }
@@ -51,7 +53,7 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 
 	// Move left
 	if (_inputManager->isKeyDown(SDLK_a) || _inputManager->isKeyDown(SDLK_LEFT)) {
-		// Apply smooth acceleration
+		// Apply acceleration
 		_speed.x -= ACCELERATION;
 		if (_speed.x < -MAX_SPEED) {
 			_speed.x = -MAX_SPEED;
@@ -59,21 +61,21 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 	}
 	// Move right
 	else if (_inputManager->isKeyDown(SDLK_d) || _inputManager->isKeyDown(SDLK_RIGHT)) {
-		// Apply smooth acceleration
+		// Apply acceleration
 		_speed.x += ACCELERATION;
 		if (_speed.x > MAX_SPEED) {
 			_speed.x = MAX_SPEED;
 		}
 	}
 	else {
-		// Apply de-acceleration when A isn't pressed
+		// Apply de-acceleration
 		if (_speed.x < 0) {
 			_speed.x += ACCELERATION + ACCELERATION;
 			if (_speed.x >= 0) {
 				_speed.x = 0.0f;
 			}
 		}
-		// Apply de-acceleration when D isn't pressed
+		// Apply de-acceleration
 		else {
 			_speed.x -= ACCELERATION + ACCELERATION;
 			if (_speed.x <= 0) {
@@ -99,7 +101,7 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 }
 
 void Player::jump() {
-    _speed.y = 30.0f;
+    _speed.y = 20.0f;
     inAir = true;
     jumped = true;
 }
