@@ -6,7 +6,7 @@ Newest screenshot
 What?
 -----
 This repo contains Gravity Gizmo. This is a game I originally developed in Python and Pygame.
-The game is under development and going to be re-programmed in C++, using GEngine.
+I am going to re-program the game in C++, using GEngine. NOTE: In very early stages of development.
 
 - GEngine is a 2D game engine, based on SDL2 and OpenGL
 - SDL2 (Simple DirectMedia Layer) is used for handling input, audio, windowing and text
@@ -14,9 +14,11 @@ The game is under development and going to be re-programmed in C++, using GEngin
 
 Project:
 ---------
+- Sidescrolling puzzle platformer, where quick reactions are a must
 - Uses the project from cpp-GEngine/platformer-demo as the basic template
 - Uses GEngine from cpp-GEngine
-- Under development
+- Graphics created in Paint.net
+- In early stages of development
 
 How to download?
 ----------------
