@@ -17,7 +17,7 @@ Project:
 
 How to download?
 ----------------
-I will occasionally upload a current-progress version of the game.
+I will occasionally upload a most current version of the game.
 You have to download the game binary, assets and required .dll's. I bundled them all in one 563KB .zip file.
 This .zip file contains the executable in the bin folder.
 
