@@ -2,22 +2,22 @@ Gravity Gizmo
 ----------
 What?
 -----
-This repo contains Gravity Gizmo. This is a game I originally developed in Python and Pygame,
-but re-programmed in C++, using GEngine.
+This repo contains Gravity Gizmo. This is a game I originally developed in Python and Pygame.
+The game is under development and going to be re-programmed in C++, using GEngine.
 
-- GEngine is a 2D game engine, using SDL2 and OpenGL
+- GEngine is a 2D game engine, based on SDL2 and OpenGL
 - SDL2 (Simple DirectMedia Layer) is used for handling input, audio, windowing and text
-- OpenGL is used for graphics
+- OpenGL is used for rendering graphics
 
 Project:
 ---------
 - Uses the project from cpp-GEngine/platformer-demo as the basic template
 - Uses GEngine from cpp-GEngine
-- Is under progress
+- Under development
 
 How to play?
 ------------
-Under progress..
+Under development..
 
 Other
 -----

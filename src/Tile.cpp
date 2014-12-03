@@ -12,8 +12,8 @@ Tile::~Tile() {
 void Tile::init(int TextureID, glm::fvec2 pos) {
     textureID = TextureID;
 
-    width = 64.0f;
-    height = 64.0f;
+	width = 42.0f;
+	height = 42.0f;
 
     _position = pos;
 

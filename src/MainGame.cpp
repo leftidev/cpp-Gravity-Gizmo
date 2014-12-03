@@ -91,7 +91,7 @@ void MainGame::gameLoop() {
     fpsLimiter.setMaxFPS(3000000.0f);
 
     // Zoom out the camera by 2x
-    const float CAMERA_SCALE = 1.0f / 2.0f;
+    const float CAMERA_SCALE = 1.0f;
     _camera.setScale(CAMERA_SCALE);
 
     // Start our previousTicks variable
