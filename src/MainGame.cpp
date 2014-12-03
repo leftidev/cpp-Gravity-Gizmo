@@ -1,11 +1,5 @@
 /*
-    This is a basic platformer framework.
-
-    - Player can run and jump
-    - Level data(tile map) reading from file
-    - Collisions with tiles
-    - Camera follows the player
-    - Gravity pulls down
+    This is Gravity Gizmo. Under progress.
 */
 
 #include <algorithm>
@@ -30,7 +24,7 @@ MainGame::MainGame() :
 }
 
 MainGame::~MainGame() {
-    // Don't forget to delete the levels!
+    // Delete the levels
     for (unsigned int i = 0; i < _levels.size(); i++) {
         delete _levels[i];
     }
@@ -50,7 +44,7 @@ void MainGame::initSystems() {
     GEngine::init();
 
     // Create our window
-    _window.create("ARPG Experiment?", _screenWidth, _screenHeight, 0);
+    _window.create("Gravity Gizmo", _screenWidth, _screenHeight, 0);
 
     // Black background color
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -59,25 +53,24 @@ void MainGame::initSystems() {
     initShaders();
 
     // Initialize our sprite batch
-    _firstSpriteBatch.init();
+    _mainSpriteBatch.init();
 
     // Set up the camera
     _camera.init(_screenWidth, _screenHeight);
-
 }
 
 void MainGame::initLevel() {
-    // Initialize level 1.
+    // Initialize level 1
     _levels.push_back(new Level("Levels/level1.txt"));
     _currentLevel = 0;
 
-    // Initialize the player.
+    // Initialize the player
     _player = new Player();
     _player->init(_levels[_currentLevel]->getStartPlayerPos(), &_inputManager, &_camera);
 }
 
 void MainGame::initShaders() {
-    // Compile the color shader.
+    // Compile the color shader
     _textureProgram.compileShaders("Shaders/textureShading.vert", "Shaders/textureShading.frag");
     _textureProgram.addAttribute("vertexPosition");
     _textureProgram.addAttribute("vertexColor");
@@ -120,7 +113,7 @@ void MainGame::gameLoop() {
         processInput();
 
         int i = 0; // This counter makes sure we don't spiral to death!
-        // Loop while we still have steps to process.
+        // Loop while we still have steps to process
         while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS) {
             // The deltaTime should be the the smaller of the totalDeltaTime and MAX_DELTA_TIME
             float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
@@ -138,7 +131,7 @@ void MainGame::gameLoop() {
 
         drawGame();
 
-        // End the frame, limit the FPS, and get the current FPS.
+        // End the frame, limit the FPS, and get the current FPS
         _fps = fpsLimiter.endFrame();
         std::cout << _fps << std::endl;
     }
@@ -193,24 +186,24 @@ void MainGame::drawGame() {
 
     const glm::vec2 tileDimensions(_levels[_currentLevel]->_tiles[0]->width);
 
-    // Begin drawing.
-    _firstSpriteBatch.begin();
+    // Begin drawing
+    _mainSpriteBatch.begin();
 
-    // Draw tiles with camera culling.
+    // Draw tiles with camera culling
     for (unsigned int i = 0; i < _levels[_currentLevel]->_tiles.size(); i++) {
         if (_camera.isBoxInView(_levels[_currentLevel]->_tiles[i]->getPosition(), tileDimensions)) {
-            _levels[_currentLevel]->_tiles[i]->draw(_firstSpriteBatch);
+            _levels[_currentLevel]->_tiles[i]->draw(_mainSpriteBatch);
         }
     }
 
-    // Draw player.
-    _player->draw(_firstSpriteBatch);
+    // Draw the player
+    _player->draw(_mainSpriteBatch);
 
     // End sprite batch creation
-    _firstSpriteBatch.end();
+    _mainSpriteBatch.end();
 
     // Render to the screen
-    _firstSpriteBatch.renderBatch();
+    _mainSpriteBatch.renderBatch();
 
     // Unbind the program
     _textureProgram.unuse();

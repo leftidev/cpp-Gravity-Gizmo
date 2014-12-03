@@ -7,6 +7,7 @@
 
 #include "Tile.h"
 
+
 const int TILE_WIDTH = 64;
 
 class Level
@@ -25,6 +26,7 @@ public:
     glm::vec2 getStartPlayerPos() const { return _startPlayerPos; }
 
     std::vector<Tile*> _tiles;
+
 private:
     std::vector<std::string> _levelData;
 

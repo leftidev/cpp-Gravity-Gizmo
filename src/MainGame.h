@@ -10,6 +10,7 @@
 #include "Tile.h"
 #include "Level.h"
 
+
 enum class GameState {
     PLAY,
     EXIT
@@ -20,51 +21,48 @@ public:
     MainGame();
     ~MainGame();
 
-    /// Runs the game
+    // Runs the game
     void run();
 
 private:
-    /// Initializes the core systems
+    // Initializes the core systems
     void initSystems();
 
-    /// Initializes the level and sets up everything
+    // Initializes the level and sets up everything
     void initLevel();
 
-    /// Initializes the shaders
+    // Initializes the shaders
     void initShaders();
 
-    /// Main game loop for the program
+    // Main game loop for the program
     void gameLoop();
 
-    /// Handles input processing
+    // Handles input processing
     void processInput();
 
-    /// Renders the game
+    // Renders the game
     void drawGame();
 
-    /// Member Variables
-    GEngine::Window _window; ///< The game window
+    // Member Variables
+    GEngine::Window _window; // The game window
 
-    GEngine::GLSLProgram _textureProgram; ///< The shader program
+    GEngine::GLSLProgram _textureProgram; // The shader program
 
-    GEngine::InputManager _inputManager; ///< Handles input
+    GEngine::InputManager _inputManager; // Handles input
 
-    GEngine::Camera2D _camera; ///< Main Camera
+    GEngine::Camera2D _camera; // Main camera
 
-    GEngine::SpriteBatch _firstSpriteBatch; ///< Draws all agents
+    GEngine::SpriteBatch _mainSpriteBatch;
 
-    std::vector<Level*> _levels; ///< vector of all levels
+    std::vector<Level*> _levels; // Vector of all levels
+
+	GameState _gameState;
 
     Player* _player;
 
     int _screenWidth, _screenHeight;
-
     float _fps;
-
     int _currentLevel;
-
     int _frameCounter = 0;
-
-    GameState _gameState;
 };
 

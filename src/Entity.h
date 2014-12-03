@@ -22,8 +22,6 @@ public:
 protected:
     bool collideWithTile(int width, int height, Entity* entity);
 
-
-
     int textureID;
 
     glm::fvec2 _position;

@@ -7,6 +7,7 @@
 
 #include "Level.h"
 
+
 Level::Level(const std::string& fileName) {
 
     std::ifstream file;
@@ -29,7 +30,7 @@ Level::Level(const std::string& fileName) {
         _levelData.emplace_back(tmp);
     }    
     
-    // The level is flipped, reverse the vector.
+    // The level is flipped, reverse the vector
     std::reverse(_levelData.begin(), _levelData.end());
 
     // Render all the tiles
@@ -41,47 +42,38 @@ Level::Level(const std::string& fileName) {
             // Process the tile
             switch (tile) {
                 case 'B':
-                case 'R':
-                {
+                case 'R': {
                     Tile* temp = new Tile();
                     temp->init(GEngine::ResourceManager::getTexture("Textures/red_bricks.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH));
                     _tiles.push_back(temp);
-                }
-                    break;
-                case 'G':
-                {
+                } break;
+                case 'G': {
                     Tile* temp = new Tile();
                     temp->init(GEngine::ResourceManager::getTexture("Textures/glass.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH));
                     _tiles.push_back(temp);
-                }
-                    break;
-                case 'L':
-                {
+                } break;
+                case 'L': {
                     Tile* temp = new Tile();
                     temp->init(GEngine::ResourceManager::getTexture("Textures/light_bricks.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH));
                     _tiles.push_back(temp);
-                }
-                    break;
-                case '@':
-                    _startPlayerPos.x = (float)x * (float)TILE_WIDTH;
+                } break;
+				case '@': {
+					_startPlayerPos.x = (float)x * (float)TILE_WIDTH;
 					_startPlayerPos.y = (float)y * (float)TILE_WIDTH;
-                    break;
+				} break;
                 case '.':
                     break;
-                default:
-                    std::printf("Unexpected symbol %c at (%d,%d)", tile, x, y);
-                    break;
+				default: {
+					std::printf("Unexpected symbol %c at (%d,%d)", tile, x, y);
+				} break;
             }
         }
     }
-
-
-
 }
 
 Level::~Level()
 {
-    // Don't forget to delete the tiles!
+    // Delete the tiles
     for (unsigned int i = 0; i < _tiles.size(); i++) {
         delete _tiles[i];
     }
