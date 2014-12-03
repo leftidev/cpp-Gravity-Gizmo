@@ -15,9 +15,11 @@ I am going to re-program the game in C++, using GEngine. NOTE: In very early sta
 Project:
 ---------
 - Sidescrolling puzzle platformer, where quick reactions are a must
-- Uses the project from cpp-GEngine/platformer-demo as the basic template
-- Uses GEngine from cpp-GEngine
 - Graphics created in Paint.net
+
+- Uses GEngine from cpp-GEngine
+- Uses the project from cpp-GEngine/platformer-demo as the basic template
+
 - In early stages of development
 
 How to download?
@@ -30,6 +32,8 @@ This .zip file contains the executable in the bin folder.
 - Click the file "gravity_gizmo.zip"
 - On the right, click the button named "Raw"
 - This downloads the .zip file
+
+NOTE: Currently only tested on Windows!
 
 How to play?
 ------------
