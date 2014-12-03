@@ -6,6 +6,10 @@
 #include "Entity.h"
 #include "Tile.h"
 
+const float ACCELERATION = 0.05f;
+
+const float MAX_SPEED = 10.0f;
+
 
 class Player : public Entity {
 public:

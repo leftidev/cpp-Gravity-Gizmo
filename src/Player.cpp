@@ -34,7 +34,7 @@ void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::
 }
 
 void Player::update(std::vector<Tile*> tiles, float deltaTime) {
-	// Hacky way of quitting..
+	// Hacky way of quitting
 	if (_inputManager->isKeyDown(SDLK_ESCAPE)) {
 		SDL_Quit();
 	}
@@ -49,17 +49,38 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
         _speed.y -= 0.80f * deltaTime;
     }
 
-    // Move left
+	// Move left
 	if (_inputManager->isKeyDown(SDLK_a) || _inputManager->isKeyDown(SDLK_LEFT)) {
-        _speed.x = -runningSpeed;
-    }
-    // Move right
+		// Apply smooth acceleration
+		_speed.x -= ACCELERATION;
+		if (_speed.x < -MAX_SPEED) {
+			_speed.x = -MAX_SPEED;
+		}
+	}
+	// Move right
 	else if (_inputManager->isKeyDown(SDLK_d) || _inputManager->isKeyDown(SDLK_RIGHT)) {
-        _speed.x = runningSpeed;
-    }
-    else {
-        _speed.x = 0.0f;
-    }
+		// Apply smooth acceleration
+		_speed.x += ACCELERATION;
+		if (_speed.x > MAX_SPEED) {
+			_speed.x = MAX_SPEED;
+		}
+	}
+	else {
+		// Apply de-acceleration when A isn't pressed
+		if (_speed.x < 0) {
+			_speed.x += ACCELERATION + ACCELERATION;
+			if (_speed.x >= 0) {
+				_speed.x = 0.0f;
+			}
+		}
+		// Apply de-acceleration when D isn't pressed
+		else {
+			_speed.x -= ACCELERATION + ACCELERATION;
+			if (_speed.x <= 0) {
+				_speed.x = 0.0f;
+			}
+		}
+	}
 
     // Move on Y-axis
     _position.y += _speed.y * deltaTime;

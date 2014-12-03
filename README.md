@@ -16,10 +16,8 @@ Project:
 ---------
 - Sidescrolling puzzle platformer, where quick reactions are a must
 - Graphics created in Paint.net
-
 - Uses GEngine from cpp-GEngine
 - Uses the project from cpp-GEngine/platformer-demo as the basic template
-
 - In early stages of development
 
 How to download?
