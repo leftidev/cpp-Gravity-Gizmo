@@ -34,6 +34,7 @@ void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::
 
 	inAir = true;
 	jumped = false;
+	canDoubleJump = false;
 	normalGravity = true;
 	upsideDown = false;
 	direction == "right";
@@ -65,12 +66,6 @@ void Player::draw(GEngine::SpriteBatch& _spriteBatch) {
 }
 
 void Player::update(std::vector<Tile*> tiles, float deltaTime) {
-	// Hacky way of quitting
-	if (_inputManager->isKeyDown(SDLK_ESCAPE)) {
-		SDL_Quit();
-		exit(69);
-	}
-
 	// Apply bend gravity, if player presses W or UP arrow and normalGravity
 	if ((_inputManager->isKeyDown(SDLK_w) == true || _inputManager->isKeyDown(SDLK_UP) == true) && normalGravity) {
 		applyGravityBend();
@@ -80,9 +75,17 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 		applyGravityBend();
 	}
 
-    // Apply jump, if player has not jumped and presses SPACEBAR
-	if (jumped == false && _inputManager->isKeyDown(SDLK_SPACE) == true) {
-        applyJump();
+    // SPACEBAR
+	if (_inputManager->isKeyPressed(SDLK_SPACE) == true) {
+		if (!jumped) {
+			// Normal jumping
+			applyJump();
+		}
+		else {
+			// Double jumping
+			applyDoubleJump();
+		}
+
     }
 
     // Player is in air, apply gravity
@@ -145,12 +148,25 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 void Player::applyJump() {
 	inAir = true;
 	jumped = true;
+	canDoubleJump = true;
 
 	if (normalGravity) {
-		_speed.y = 20.0f;
+		_speed.y = JUMP_SPEED;
 	}
 	else {
-		_speed.y = -20.0f;
+		_speed.y = -JUMP_SPEED;
+	}
+}
+
+void Player::applyDoubleJump() {
+	if (canDoubleJump) {
+		canDoubleJump = false;
+		if (normalGravity) {
+			_speed.y = JUMP_SPEED;
+		}
+		else {
+			_speed.y = -JUMP_SPEED;
+		}
 	}
 }
 

@@ -9,6 +9,7 @@
 
 const float ACCELERATION = 0.05f;
 const float MAX_SPEED = 10.0f;
+const float JUMP_SPEED = 15.0f;
 
 class Player : public Entity {
 public:
@@ -22,16 +23,16 @@ public:
     void update(std::vector<Tile*> tiles, float deltaTime);
 
     void applyJump();
-
+	void applyDoubleJump();
 	void applyGravityBend();
-
     void applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles);
 
 	std::string direction;
-	bool upsideDown;
 
+	bool upsideDown;
 	bool inAir;
     bool jumped;
+	bool canDoubleJump;
 	bool normalGravity;
 
 	float runningSpeed;

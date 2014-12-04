@@ -122,6 +122,12 @@ void MainGame::gameLoop() {
 
         _inputManager.update();
 
+		// Quit the game when ESCAPE is pressed
+		if (_inputManager.isKeyDown(SDLK_ESCAPE)) {
+			SDL_Quit();
+			exit(69);
+		}
+
         processInput();
 
         int i = 0; // This counter makes sure we don't spiral to death!
