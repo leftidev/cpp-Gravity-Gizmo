@@ -6,10 +6,9 @@
 #include "Entity.h"
 #include "Tile.h"
 
+
 const float ACCELERATION = 0.05f;
-
 const float MAX_SPEED = 10.0f;
-
 
 class Player : public Entity {
 public:
@@ -20,15 +19,18 @@ public:
 
     void update(std::vector<Tile*> tiles, float deltaTime);
 
-    void jump();
+    void applyJump();
 
-    void collide(glm::fvec2(speed), std::vector<Tile*> tiles);
+	void applyGravityBend();
 
-    float runningSpeed;
+    void applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles);
 
-    bool inAir = true;
+	bool inAir;
+    bool jumped;
+	bool normalGravity;
 
-    bool jumped = false;
+	float runningSpeed;
+	float gravity_acceleration = 0.80f;
 
 private:
     GEngine::InputManager* _inputManager;

@@ -31,6 +31,10 @@ void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::
     _color.g = 255;
     _color.b = 255;
     _color.a = 255;
+
+	inAir = true;
+	jumped = false;
+	normalGravity = true;
 }
 
 void Player::update(std::vector<Tile*> tiles, float deltaTime) {
@@ -40,15 +44,24 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 		exit(69);
 	}
 
-    // If player has not jumped and presses SPACEBAR
+	// Apply bend gravity, if player presses W or UP arrow and normalGravity
+	if ((_inputManager->isKeyDown(SDLK_w) == true || _inputManager->isKeyDown(SDLK_UP) == true) && normalGravity) {
+		applyGravityBend();
+	}
+	// Apply bend gravity, if player presses S or DOWN arrow and !normalGravity
+	if ((_inputManager->isKeyDown(SDLK_s) == true || _inputManager->isKeyDown(SDLK_DOWN) == true) && !normalGravity) {
+		applyGravityBend();
+	}
+
+    // Apply jump, if player has not jumped and presses SPACEBAR
 	if (jumped == false && _inputManager->isKeyDown(SDLK_SPACE) == true) {
-        jump();
+        applyJump();
     }
 
     // Player is in air, apply gravity
     if (inAir) {
         jumped = true;
-        _speed.y -= 0.80f * deltaTime;
+		_speed.y -= gravity_acceleration * deltaTime;
     }
 
 	// Move left
@@ -91,23 +104,45 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
     inAir = true;
 
     // Check collisions on Y-axis
-    collide(glm::fvec2(0.0f, _speed.y), tiles);
+    applyCollisions(glm::fvec2(0.0f, _speed.y), tiles);
 
     // Move on X-axis
     _position.x += _speed.x * deltaTime;
 
     // Check collisions on X-axis
-    collide(glm::fvec2(_speed.x, 0.0f), tiles);
+    applyCollisions(glm::fvec2(_speed.x, 0.0f), tiles);
 }
 
-void Player::jump() {
-    _speed.y = 20.0f;
-    inAir = true;
-    jumped = true;
+void Player::applyJump() {
+	if (normalGravity) {
+		_speed.y = 20.0f;
+		inAir = true;
+		jumped = true;
+	}
+	else {
+		_speed.y = -20.0f;
+		inAir = true;
+		jumped = true;
+	}
+}
+
+void Player::applyGravityBend() {
+	if (normalGravity) {
+		if (!inAir && gravity_acceleration > 0) {
+			gravity_acceleration *= -1;
+			normalGravity = false;
+		}
+	}
+	else {
+		if (!inAir && gravity_acceleration < 0) {
+			gravity_acceleration *= -1;
+			normalGravity = true;
+		}
+	}
 }
 
 // Collisions
-void Player::collide(glm::fvec2(speed), std::vector<Tile*> tiles) {
+void Player::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles) {
 
     // Collide with level tiles
 	for (unsigned int i = 0; i < tiles.size(); i++) {
@@ -121,19 +156,36 @@ void Player::collide(glm::fvec2(speed), std::vector<Tile*> tiles) {
                 _position.x = tiles[i]->getPosition().x + tiles[i]->width;
             }
 
-            // Collide from below
-            if (speed.y > 0) {
-                _speed.y = 0;
-                _position.y = tiles[i]->getPosition().y - height;
-                inAir = true;
-            }
-            // Collide from above
-            else if (speed.y < 0) {
-                _speed.y = 0;
-                _position.y = tiles[i]->getPosition().y + tiles[i]->height;
-                inAir = false;
-                jumped = false;
-            }
+			if (normalGravity) {
+				// Collide from below
+				if (speed.y > 0) {
+					_speed.y = 0;
+					_position.y = tiles[i]->getPosition().y - height;
+					inAir = true;
+				}
+				// Collide from above
+				else if (speed.y < 0) {
+					_speed.y = 0;
+					_position.y = tiles[i]->getPosition().y + tiles[i]->height;
+					inAir = false;
+					jumped = false;
+				}
+			}
+			else {
+				// Collide from below
+				if (speed.y > 0) {
+					_speed.y = 0;
+					_position.y = tiles[i]->getPosition().y - height;
+					inAir = false;
+					jumped = false;
+				}
+				// Collide from above
+				else if (speed.y < 0) {
+					_speed.y = 0;
+					_position.y = tiles[i]->getPosition().y + tiles[i]->height;
+					inAir = true;
+				}
+			}
         }
     }
 }
