@@ -34,7 +34,7 @@ NOTE: Currently only tested on Windows!
 
 How to play?
 ------------
-Press A, D or Left and Right arrow keys to move. Spacebar to jump.
+Press A, D or Left, Right arrow keys to move. Spacebar to jump.
 
 Other
 -----

@@ -69,7 +69,7 @@
   <ItemGroup>
     <None Include="..\LICENSE" />
     <None Include="..\README.md" />
-    <None Include="PropertySheet.props" />
+    <None Include="Debug.props" />
     <None Include="Release.props" />
     <None Include="Shaders\textureShading.frag" />
     <None Include="Shaders\textureShading.vert" />
