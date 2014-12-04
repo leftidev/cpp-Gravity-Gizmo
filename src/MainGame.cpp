@@ -28,6 +28,10 @@ MainGame::~MainGame() {
     for (unsigned int i = 0; i < _levels.size(); i++) {
         delete _levels[i];
     }
+	// Delete the enemies
+	for (unsigned int i = 0; i < _enemies.size(); i++) {
+		delete _enemies[i];
+	}
 }
 
 void MainGame::run() {
@@ -66,6 +70,15 @@ void MainGame::initLevel() {
     // Initialize the player
     _player = new Player();
     _player->init(_levels[_currentLevel]->getStartPlayerPos(), &_inputManager, &_camera);
+
+	// Add the enemies
+	const std::vector<glm::vec2>& enemyPositions = _levels[_currentLevel]->getEnemyStartPositions();
+	const std::vector<int>& enemyTextureIDs = _levels[_currentLevel]->getEnemyTextureIDs();
+	const std::vector<glm::fvec2>& enemyVelocities = _levels[_currentLevel]->getEnemyVelocities();
+	for (unsigned int i = 0; i < enemyPositions.size(); i++) {
+		_enemies.push_back(new Enemy);
+		_enemies.back()->init(enemyTextureIDs[i], enemyVelocities[i], enemyPositions[i]);
+	}
 }
 
 void MainGame::initShaders() {
@@ -183,16 +196,24 @@ void MainGame::drawGame() {
     glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
 
     const glm::vec2 tileDimensions(42.0f);
+	const glm::vec2 enemyDimensions(78.0f);
 
     // Begin drawing
     _mainSpriteBatch.begin();
 
-    // Draw tiles with camera culling
+    // Draw tiles
     for (unsigned int i = 0; i < _levels[_currentLevel]->_tiles.size(); i++) {
         if (_camera.isBoxInView(_levels[_currentLevel]->_tiles[i]->getPosition(), tileDimensions)) {
             _levels[_currentLevel]->_tiles[i]->draw(_mainSpriteBatch);
         }
     }
+
+	// Draw the enemies
+	for (unsigned int i = 0; i < _enemies.size(); i++) {
+		if (_camera.isBoxInView(_enemies[i]->getPosition(), enemyDimensions)) {
+			_enemies[i]->draw(_mainSpriteBatch);
+		}
+	}
 
     // Draw the player
     _player->draw(_mainSpriteBatch);

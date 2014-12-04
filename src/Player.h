@@ -40,6 +40,7 @@ public:
 	int textureID2;
 	int textureID3;
 	int textureID4;
+	int textureID5;
 
 private:
     GEngine::InputManager* _inputManager;

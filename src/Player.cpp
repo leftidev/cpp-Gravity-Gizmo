@@ -13,27 +13,24 @@ Player::~Player() {
 }
 
 void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera) {
-    textureID = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_right.png").id;
-	textureID2 = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_left.png").id;
-	textureID3 = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_right_reverse.png").id;
-	textureID4 = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_left_reverse.png").id;
+	textureID = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_right.png").id;
+	textureID2 = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_right.png").id;
+	textureID3 = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_left.png").id;
+	textureID4 = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_right_reverse.png").id;
+	textureID5 = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_left_reverse.png").id;
 
     width = 40.0f;
     height = 40.0f;
 
     runningSpeed = 20.0f;
 
-    _speed.x = 0.0f;
-    _speed.y = 0.0f;
+	_speed = glm::fvec2(0.0f, 0.0f);
 
     _position = pos;
     _inputManager = inputManager;
     _camera = camera;
 
-    _color.r = 255;
-    _color.g = 255;
-    _color.b = 255;
-    _color.a = 255;
+	_color = GEngine::ColorRGBA8(255, 255, 255, 255);
 
 	inAir = true;
 	jumped = false;
@@ -51,21 +48,20 @@ void Player::draw(GEngine::SpriteBatch& _spriteBatch) {
 	destRect.z = width;
 	destRect.w = height;
 
-	_spriteBatch.draw(destRect, uvRect, textureID, 0.0f, _color);
-
 	if (upsideDown && direction == "right") {
-		_spriteBatch.draw(destRect, uvRect, textureID3, 0.0f, _color);
+		textureID = textureID4;
 	}
 	else if (!upsideDown && direction == "right"){
-		_spriteBatch.draw(destRect, uvRect, textureID, 0.0f, _color);
+		textureID = textureID2;
 	}
 	else if (upsideDown && direction == "left") {
-		_spriteBatch.draw(destRect, uvRect, textureID4, 0.0f, _color);
+		textureID = textureID5;
 	}
 	else if (!upsideDown && direction == "left"){
-		_spriteBatch.draw(destRect, uvRect, textureID2, 0.0f, _color);
+		textureID = textureID3;
 	}
 
+	_spriteBatch.draw(destRect, uvRect, textureID, 0.0f, _color);
 }
 
 void Player::update(std::vector<Tile*> tiles, float deltaTime) {
@@ -116,14 +112,14 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 	else {
 		// Apply de-acceleration
 		if (_speed.x < 0) {
-			_speed.x += ACCELERATION + ACCELERATION;
+			_speed.x += ACCELERATION * 2;
 			if (_speed.x >= 0) {
 				_speed.x = 0.0f;
 			}
 		}
 		// Apply de-acceleration
 		else {
-			_speed.x -= ACCELERATION + ACCELERATION;
+			_speed.x -= ACCELERATION * 2;
 			if (_speed.x <= 0) {
 				_speed.x = 0.0f;
 			}

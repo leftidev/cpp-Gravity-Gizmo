@@ -60,6 +60,11 @@ Level::Level(const std::string& fileName) {
 					_startPlayerPos.x = (float)x * (float)TILE_WIDTH;
 					_startPlayerPos.y = (float)y * (float)TILE_WIDTH;
 				} break;
+				case 'E': {
+					_enemyTextureIDs.emplace_back(GEngine::ResourceManager::getTexture("../assets/Textures/enemy_black_78x78.png").id);
+					_enemyStartPositions.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
+					_enemyVelocities.emplace_back(10.0f, 0.0f);
+				} break;
                 case '.':
                     break;
 				default: {

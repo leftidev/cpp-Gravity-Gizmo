@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Tile.h"
 #include "Level.h"
+#include "Enemy.h"
 
 
 enum class GameState {
@@ -59,6 +60,8 @@ private:
 	GameState _gameState;
 
     Player* _player;
+
+	std::vector<Enemy*> _enemies; // Vector of all enemies
 
     int _screenWidth, _screenHeight;
     float _fps;
