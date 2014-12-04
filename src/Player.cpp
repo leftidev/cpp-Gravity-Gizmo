@@ -13,7 +13,10 @@ Player::~Player() {
 }
 
 void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera) {
-    textureID = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo.png").id;
+    textureID = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_right.png").id;
+	textureID2 = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_left.png").id;
+	textureID3 = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_right_reverse.png").id;
+	textureID4 = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_left_reverse.png").id;
 
     width = 40.0f;
     height = 40.0f;
@@ -35,6 +38,34 @@ void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::
 	inAir = true;
 	jumped = false;
 	normalGravity = true;
+	upsideDown = false;
+	direction == "right";
+}
+
+void Player::draw(GEngine::SpriteBatch& _spriteBatch) {
+	const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
+
+	glm::vec4 destRect;
+	destRect.x = _position.x;
+	destRect.y = _position.y;
+	destRect.z = width;
+	destRect.w = height;
+
+	_spriteBatch.draw(destRect, uvRect, textureID, 0.0f, _color);
+
+	if (upsideDown && direction == "right") {
+		_spriteBatch.draw(destRect, uvRect, textureID3, 0.0f, _color);
+	}
+	else if (!upsideDown && direction == "right"){
+		_spriteBatch.draw(destRect, uvRect, textureID, 0.0f, _color);
+	}
+	else if (upsideDown && direction == "left") {
+		_spriteBatch.draw(destRect, uvRect, textureID4, 0.0f, _color);
+	}
+	else if (!upsideDown && direction == "left"){
+		_spriteBatch.draw(destRect, uvRect, textureID2, 0.0f, _color);
+	}
+
 }
 
 void Player::update(std::vector<Tile*> tiles, float deltaTime) {
@@ -66,6 +97,7 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 
 	// Move left
 	if (_inputManager->isKeyDown(SDLK_a) || _inputManager->isKeyDown(SDLK_LEFT)) {
+		direction = "left";
 		// Apply acceleration
 		_speed.x -= ACCELERATION;
 		if (_speed.x < -MAX_SPEED) {
@@ -74,6 +106,7 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 	}
 	// Move right
 	else if (_inputManager->isKeyDown(SDLK_d) || _inputManager->isKeyDown(SDLK_RIGHT)) {
+		direction = "right";
 		// Apply acceleration
 		_speed.x += ACCELERATION;
 		if (_speed.x > MAX_SPEED) {
@@ -114,27 +147,28 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 }
 
 void Player::applyJump() {
+	inAir = true;
+	jumped = true;
+
 	if (normalGravity) {
 		_speed.y = 20.0f;
-		inAir = true;
-		jumped = true;
 	}
 	else {
 		_speed.y = -20.0f;
-		inAir = true;
-		jumped = true;
 	}
 }
 
 void Player::applyGravityBend() {
 	if (normalGravity) {
 		if (!inAir && gravity_acceleration > 0) {
+			upsideDown = true;
 			gravity_acceleration *= -1;
 			normalGravity = false;
 		}
 	}
 	else {
 		if (!inAir && gravity_acceleration < 0) {
+			upsideDown = false;
 			gravity_acceleration *= -1;
 			normalGravity = true;
 		}

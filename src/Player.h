@@ -17,6 +17,8 @@ public:
 
     void init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera);
 
+	void draw(GEngine::SpriteBatch& _spriteBatch);
+
     void update(std::vector<Tile*> tiles, float deltaTime);
 
     void applyJump();
@@ -25,12 +27,19 @@ public:
 
     void applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles);
 
+	std::string direction;
+	bool upsideDown;
+
 	bool inAir;
     bool jumped;
 	bool normalGravity;
 
 	float runningSpeed;
 	float gravity_acceleration = 0.80f;
+
+	int textureID2;
+	int textureID3;
+	int textureID4;
 
 private:
     GEngine::InputManager* _inputManager;
