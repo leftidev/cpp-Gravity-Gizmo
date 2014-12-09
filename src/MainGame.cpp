@@ -64,7 +64,7 @@ void MainGame::initSystems() {
 
 void MainGame::initLevel() {
     // Initialize level 1
-    _levels.push_back(new Level("../assets/Levels/level1.txt"));
+    _levels.push_back(new Level("../assets/Levels/level5.txt"));
     _currentLevel = 0;
 
     // Initialize the player
@@ -100,7 +100,7 @@ void MainGame::gameLoop() {
 
     // Used to cap the FPS
     GEngine::FpsLimiter fpsLimiter;
-    fpsLimiter.setMaxFPS(3000000.0f);
+    fpsLimiter.setMaxFPS(60.0f);
 
     // Zoom out the camera by 2x
     const float CAMERA_SCALE = 1.0f;
@@ -120,7 +120,7 @@ void MainGame::gameLoop() {
         // Get the total delta time
         float totalDeltaTime = frameTime / DESIRED_FRAMETIME;
 
-        _inputManager.update();
+
 
 		// Quit the game when ESCAPE is pressed
 		if (_inputManager.isKeyDown(SDLK_ESCAPE)) {
@@ -128,14 +128,14 @@ void MainGame::gameLoop() {
 			exit(69);
 		}
 
-        processInput();
-
         int i = 0; // This counter makes sure we don't spiral to death!
         // Loop while we still have steps to process
         while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS) {
             // The deltaTime should be the the smaller of the totalDeltaTime and MAX_DELTA_TIME
             float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
             // Update all physics here and pass in deltaTime
+            _inputManager.update();
+            processInput();
             _player->update(_levels[_currentLevel]->_tiles, deltaTime);
             // Since we just took a step that is length deltaTime, subtract from totalDeltaTime
             totalDeltaTime -= deltaTime;

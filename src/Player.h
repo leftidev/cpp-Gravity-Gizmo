@@ -7,7 +7,7 @@
 #include "Tile.h"
 
 
-const float ACCELERATION = 0.05f;
+const float ACCELERATION = 0.50f;
 const float MAX_SPEED = 10.0f;
 const float JUMP_SPEED = 15.0f;
 

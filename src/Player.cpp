@@ -4,6 +4,7 @@
 
 #include <iostream>
 
+
 Player::Player() {
     // Empty
 }
@@ -67,24 +68,26 @@ void Player::draw(GEngine::SpriteBatch& _spriteBatch) {
 
 void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 	// Apply bend gravity, if player presses W or UP arrow and normalGravity
-	if ((_inputManager->isKeyDown(SDLK_w) == true || _inputManager->isKeyDown(SDLK_UP) == true) && normalGravity) {
+	if ((_inputManager->isKeyDown(SDLK_w) || _inputManager->isKeyDown(SDLK_UP)) && normalGravity) {
 		applyGravityBend();
 	}
 	// Apply bend gravity, if player presses S or DOWN arrow and !normalGravity
-	if ((_inputManager->isKeyDown(SDLK_s) == true || _inputManager->isKeyDown(SDLK_DOWN) == true) && !normalGravity) {
+	if ((_inputManager->isKeyDown(SDLK_s) || _inputManager->isKeyDown(SDLK_DOWN)) && !normalGravity) {
 		applyGravityBend();
 	}
-
     // SPACEBAR
-    if(_inputManager->isKeyPressed(SDLK_SPACE) == true) {
+    if(_inputManager->isKeyPressed(SDLK_SPACE)) {
+        if(jumped) {
+            // Double jumping
+            applyDoubleJump();
+        }
+    }
+    // SPACEBAR
+    if(_inputManager->isKeyDown(SDLK_SPACE)) {
 		if (!jumped) {
 			// Normal jumping
 			applyJump();
 		}
-        else {
-            // Double jumping
-            applyDoubleJump();
-        }
     }
 
     // Player is in air, apply gravity
@@ -158,15 +161,16 @@ void Player::applyJump() {
 }
 
 void Player::applyDoubleJump() {
-	if (canDoubleJump) {
-		canDoubleJump = false;
-		if (normalGravity) {
-			_speed.y = JUMP_SPEED;
-		}
-		else {
-			_speed.y = -JUMP_SPEED;
-		}
-	}
+    if(canDoubleJump) {
+        canDoubleJump = false;
+        if(normalGravity) {
+            _speed.y = JUMP_SPEED;
+        }
+        else {
+            _speed.y = -JUMP_SPEED;
+        }
+    }
+
 }
 
 void Player::applyGravityBend() {
@@ -214,6 +218,7 @@ void Player::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles) {
 					_position.y = tiles[i]->getPosition().y + tiles[i]->height;
 					inAir = false;
 					jumped = false;
+                    canDoubleJump = false;
 				}
 			}
 			else {
@@ -223,6 +228,7 @@ void Player::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles) {
 					_position.y = tiles[i]->getPosition().y - height;
 					inAir = false;
 					jumped = false;
+                    canDoubleJump = false;
 				}
 				// Collide from above
 				else if (speed.y < 0) {
