@@ -76,16 +76,15 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 	}
 
     // SPACEBAR
-	if (_inputManager->isKeyPressed(SDLK_SPACE) == true) {
+    if(_inputManager->isKeyPressed(SDLK_SPACE) == true) {
 		if (!jumped) {
 			// Normal jumping
 			applyJump();
 		}
-		else {
-			// Double jumping
-			applyDoubleJump();
-		}
-
+        else {
+            // Double jumping
+            applyDoubleJump();
+        }
     }
 
     // Player is in air, apply gravity
