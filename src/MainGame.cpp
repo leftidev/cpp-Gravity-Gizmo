@@ -64,7 +64,7 @@ void MainGame::initSystems() {
 
 void MainGame::initLevel() {
     // Initialize level 1
-    _levels.push_back(new Level("../assets/Levels/level4.txt"));
+    _levels.push_back(new Level("../assets/Levels/level3.txt"));
     _currentLevel = 0;
 
     // Initialize the player
@@ -149,7 +149,7 @@ void MainGame::gameLoop() {
 
         // End the frame, limit the FPS, and get the current FPS
         _fps = fpsLimiter.endFrame();
-        //std::cout << _fps << std::endl;
+        std::cout << _fps << std::endl;
     }
 }
 
