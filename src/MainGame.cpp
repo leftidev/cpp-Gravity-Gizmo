@@ -64,7 +64,7 @@ void MainGame::initSystems() {
 
 void MainGame::initLevel() {
     // Initialize level 1
-    _levels.push_back(new Level("../assets/Levels/level5.txt"));
+    _levels.push_back(new Level("../assets/Levels/level4.txt"));
     _currentLevel = 0;
 
     // Initialize the player
@@ -120,8 +120,6 @@ void MainGame::gameLoop() {
         // Get the total delta time
         float totalDeltaTime = frameTime / DESIRED_FRAMETIME;
 
-
-
 		// Quit the game when ESCAPE is pressed
 		if (_inputManager.isKeyDown(SDLK_ESCAPE)) {
 			SDL_Quit();
@@ -151,7 +149,7 @@ void MainGame::gameLoop() {
 
         // End the frame, limit the FPS, and get the current FPS
         _fps = fpsLimiter.endFrame();
-        std::cout << _fps << std::endl;
+        //std::cout << _fps << std::endl;
     }
 }
 
