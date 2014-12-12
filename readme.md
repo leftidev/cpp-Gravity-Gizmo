@@ -34,7 +34,7 @@ NOTE: Currently only tested on Windows!
 
 How to play?
 ------------
-- W, S or Up, Down arrow to bend gravity
+- W, S or Up, Down arrow to reverse gravity
 - A, D or Left, Right arrow to move
 - Space to jump, space again to double-jump
 

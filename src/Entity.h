@@ -15,6 +15,7 @@ public:
 
     void draw(GEngine::SpriteBatch& _spriteBatch);
     glm::fvec2 getPosition() const { return _position; }
+	void setPosition(glm::fvec2 position) { _position = position; }
 
     float width;
     float height;

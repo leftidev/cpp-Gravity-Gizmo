@@ -7,7 +7,9 @@
 #include "Tile.h"
 
 
-const float ACCELERATION = 0.50f;
+class Level;
+
+const float ACCELERATION = 0.70f;
 const float MAX_MOVE_SPEED = 10.0f;
 const float JUMP_SPEED = 15.0f;
 
@@ -19,6 +21,7 @@ public:
     void init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera);
 	void draw(GEngine::SpriteBatch& _spriteBatch);
     void update(std::vector<Tile*> tiles, float deltaTime);
+	void death();
 	void applyHorizontalMovement();
     void applyJump();
 	void applyDoubleJump();
@@ -45,5 +48,7 @@ public:
 private:
     GEngine::InputManager* _inputManager; // Handle for the input manager
     GEngine::Camera2D* _camera; // Handle for the camera
+
+	glm::fvec2 _playerStartPos;
 };
 

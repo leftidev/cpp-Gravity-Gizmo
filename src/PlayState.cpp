@@ -113,6 +113,9 @@ void PlayState::update(float deltaTime) {
 	if (_inputManager.isKeyPressed(SDLK_2)) {
 		glClearColor(0.5f, 0.5f, 0.5f, 1.f);
 	}
+	if (_inputManager.isKeyPressed(SDLK_F1)) {
+		_player->death();
+	}
 
 	_player->update(_levels[_currentLevel]->_tiles, deltaTime);
 }

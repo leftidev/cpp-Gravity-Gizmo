@@ -22,6 +22,8 @@ void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::
 	_speed = glm::fvec2(0.0f, 0.0f);
     _position = pos;
 
+	_playerStartPos = pos;
+
     _inputManager = inputManager;
     _camera = camera;
 	_color = GEngine::ColorRGBA8(255, 255, 255, 255);
@@ -106,6 +108,10 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 
     // Check collisions on X-axis
     applyCollisions(glm::fvec2(_speed.x, 0.0f), tiles);
+}
+
+void Player::death() {
+	setPosition(_playerStartPos);
 }
 
 void Player::applyHorizontalMovement() {
