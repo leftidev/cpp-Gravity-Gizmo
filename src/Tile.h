@@ -12,15 +12,18 @@ public:
     Tile();
     ~Tile();
 
-    void init(int TextureID, glm::vec2 pos, TileType type);
-	void draw(GEngine::SpriteBatch& _spriteBatch);
-	glm::fvec2 getPosition() const { return _position; }
+    void init(int textureID, glm::vec2 pos, TileType Type);
+	void draw(GEngine::SpriteBatch& spriteBatch);
+	glm::fvec2 getPosition() const { return m_position; }
 
 	float width;
 	float height;
-	int textureID;
-	glm::fvec2 _position;
-	GEngine::ColorRGBA8 _color;
-	TileType _type;
+
+	TileType type;
+
+private:
+	int m_textureID;
+	glm::fvec2 m_position;
+	GEngine::ColorRGBA8 m_color;
 };
 

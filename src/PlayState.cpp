@@ -10,19 +10,18 @@
 
 
 PlayState::PlayState(GEngine::StateManager& stateMachine, GEngine::Window& window, GEngine::InputManager& inputManager) :
-	GameState(stateMachine, window, inputManager),
-	_player(nullptr) {
+	GameState(stateMachine, window, inputManager) {
 	std::cout << "GameState::PlayState initialized" << std::endl;
 }
 
 PlayState::~PlayState() {
 	// Delete the levels
-	for (unsigned int i = 0; i < _levels.size(); i++) {
-		delete _levels[i];
+	for (unsigned int i = 0; i < m_levels.size(); i++) {
+		delete m_levels[i];
 	}
 	// Delete the enemies
-	for (unsigned int i = 0; i < _enemies.size(); i++) {
-		delete _enemies[i];
+	for (unsigned int i = 0; i < m_enemies.size(); i++) {
+		delete m_enemies[i];
 	}
 }
 
@@ -31,7 +30,7 @@ void PlayState::init() {
 	initShaders();
 
 	// Initialize the sprite batch
-	_spriteBatch.init();
+	m_spriteBatch.init();
 
 	// Set up the camera
 	_camera.init(1024, 768);
@@ -47,29 +46,29 @@ void PlayState::init() {
 
 void PlayState::initShaders() {
 	// Compile the color shader
-	_textureProgram.compileShaders("../assets/shaders/textureShading.vert", "../assets/shaders/textureShading.frag");
-	_textureProgram.addAttribute("vertexPosition");
-	_textureProgram.addAttribute("vertexColor");
-	_textureProgram.addAttribute("vertexUV");
-	_textureProgram.linkShaders();
+	m_textureProgram.compileShaders("../assets/shaders/textureShading.vert", "../assets/shaders/textureShading.frag");
+	m_textureProgram.addAttribute("vertexPosition");
+	m_textureProgram.addAttribute("vertexColor");
+	m_textureProgram.addAttribute("vertexUV");
+	m_textureProgram.linkShaders();
 }
 
 void PlayState::initLevel() {
 	// Initialize level 1
-	_levels.push_back(new Level("../assets/levels/level03.txt"));
-	_currentLevel = 0;
+	m_levels.push_back(new Level("../assets/levels/level03.txt"));
+	m_currentLevel = 0;
 
 	// Initialize the player
-	_player = new Player();
-	_player->init(_levels[_currentLevel]->getStartPlayerPos(), &_inputManager, &_camera);
+	m_player = new Player();
+	m_player->init(m_levels[m_currentLevel]->startPlayerPos, &_inputManager, &_camera);
 
 	// Add the enemies
-	const std::vector<glm::vec2>& enemyPositions = _levels[_currentLevel]->getEnemyStartPositions();
-	const std::vector<int>& enemyTextureIDs = _levels[_currentLevel]->getEnemyTextureIDs();
-	const std::vector<glm::fvec2>& enemyVelocities = _levels[_currentLevel]->getEnemyVelocities();
+	const std::vector<glm::vec2>& enemyPositions = m_levels[m_currentLevel]->enemyStartPositions;
+	const std::vector<int>& enemyTextureIDs = m_levels[m_currentLevel]->enemyTextureIDs;
+	const std::vector<glm::fvec2>& enemyVelocities = m_levels[m_currentLevel]->enemyVelocities;
 	for (unsigned int i = 0; i < enemyPositions.size(); i++) {
-		_enemies.push_back(new Enemy);
-		_enemies.back()->init(enemyTextureIDs[i], enemyVelocities[i], enemyPositions[i]);
+		m_enemies.push_back(new Enemy);
+		m_enemies.back()->init(enemyTextureIDs[i], enemyVelocities[i], enemyPositions[i]);
 	}
 }
 
@@ -114,20 +113,20 @@ void PlayState::update(float deltaTime) {
 		glClearColor(0.5f, 0.5f, 0.5f, 1.f);
 	}
 	if (_inputManager.isKeyPressed(SDLK_F1)) {
-		_player->respawnAt(_player->_playerStartPos);
+		m_player->respawnAt(m_player->playerStartPos);
 	}
 
-	_player->update(_levels[_currentLevel]->_tiles, _enemies, deltaTime);
+	m_player->update(m_levels[m_currentLevel]->tiles, m_enemies, deltaTime);
 
 	// Player dies when going out of level bounds
-	if (_player->getPosition().y < -400 || _player->getPosition().y > _levels[_currentLevel]->levelHeight + 400) {
-		_player->respawnAt(_player->_playerStartPos);
+	if (m_player->getPosition().y < -400 || m_player->getPosition().y > m_levels[m_currentLevel]->levelHeight + 400) {
+		m_player->respawnAt(m_player->playerStartPos);
 	}
 }
 
 void PlayState::updateCamera() {
 	// Make sure the camera is bound to the player position
-	_camera.setPosition(_player->getPosition());
+	_camera.setPosition(m_player->getPosition());
 	_camera.update();
 }
 
@@ -138,50 +137,50 @@ void PlayState::draw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Enable shaders
-	_textureProgram.use();
+	m_textureProgram.use();
 
 	glActiveTexture(GL_TEXTURE0);
 
 	// Make sure the shader uses texture 0
-	GLint textureUniform = _textureProgram.getUniformLocation("mySampler");
+	GLint textureUniform = m_textureProgram.getUniformLocation("mySampler");
 	glUniform1i(textureUniform, 0);
 
 	// Grab the camera matrix
 	glm::mat4 projectionMatrix = _camera.getCameraMatrix();
-	GLint pUniform = _textureProgram.getUniformLocation("P");
+	GLint pUniform = m_textureProgram.getUniformLocation("P");
 	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
 
 	const glm::vec2 tileDimensions(42.0f);
 	const glm::vec2 enemyDimensions(78.0f);
 
 	// Begin drawing
-	_spriteBatch.begin();
+	m_spriteBatch.begin();
 
 	// Draw tiles
-	for (unsigned int i = 0; i < _levels[_currentLevel]->_tiles.size(); i++) {
-		if (_camera.isBoxInView(_levels[_currentLevel]->_tiles[i]->getPosition(), tileDimensions)) {
-			_levels[_currentLevel]->_tiles[i]->draw(_spriteBatch);
+	for (unsigned int i = 0; i < m_levels[m_currentLevel]->tiles.size(); i++) {
+		if (_camera.isBoxInView(m_levels[m_currentLevel]->tiles[i]->getPosition(), tileDimensions)) {
+			m_levels[m_currentLevel]->tiles[i]->draw(m_spriteBatch);
 		}
 	}
 
 	// Draw the enemies
-	for (unsigned int i = 0; i < _enemies.size(); i++) {
-		if (_camera.isBoxInView(_enemies[i]->getPosition(), enemyDimensions)) {
-			_enemies[i]->draw(_spriteBatch);
+	for (unsigned int i = 0; i < m_enemies.size(); i++) {
+		if (_camera.isBoxInView(m_enemies[i]->getPosition(), enemyDimensions)) {
+			m_enemies[i]->draw(m_spriteBatch);
 		}
 	}
 
 	// Draw the player
-	_player->draw(_spriteBatch);
+	m_player->draw(m_spriteBatch);
 
 	// End sprite batch creation
-	_spriteBatch.end();
+	m_spriteBatch.end();
 
 	// Render to the screen
-	_spriteBatch.renderBatch();
+	m_spriteBatch.renderBatch();
 
 	// Disable shaders
-	_textureProgram.unuse();
+	m_textureProgram.unuse();
 
 	// Swap the backbuffer and draw everything to the screen
 	_window.swapBuffer();

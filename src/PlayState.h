@@ -24,12 +24,12 @@ public:
 	void draw() override;
 
 private:
-	GEngine::SpriteBatch _spriteBatch; // Draws all sprites
-	GEngine::GLSLProgram _textureProgram; // The shader program
-	std::vector<Level*> _levels; // All levels
-	std::vector<Enemy*> _enemies; // All enemies
+	GEngine::SpriteBatch m_spriteBatch; // Draws all sprites
+	GEngine::GLSLProgram m_textureProgram; // The shader program
+	std::vector<Level*> m_levels; // All levels
+	std::vector<Enemy*> m_enemies; // All enemies
 
-	Player* _player;
-	int _currentLevel;
+	Player* m_player = nullptr;
+	int m_currentLevel;
 };
 

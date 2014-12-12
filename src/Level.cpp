@@ -26,80 +26,80 @@ Level::Level(const std::string& fileName) {
 
     // Read the level data
     while (std::getline(file, tmp)) {
-        _levelData.emplace_back(tmp);
+        levelData.emplace_back(tmp);
     }    
 
 	// Level height in pixels
-	levelHeight = _levelData.size() * TILE_WIDTH;
+	levelHeight = levelData.size() * TILE_WIDTH;
 	// Level width in pixels
-	levelWidth = _levelData[1].size() * TILE_WIDTH;
+	levelWidth = levelData[0].size() * TILE_WIDTH;
 
 	std::cout << "Level height: " << levelHeight << ", width: " << levelWidth << std::endl;
 
     // The level is flipped, reverse the vector
-    std::reverse(_levelData.begin(), _levelData.end());
+    std::reverse(levelData.begin(), levelData.end());
 
     // Render all the tiles
-    for (unsigned int y = 0; y < _levelData.size(); y++) {
-        for (unsigned int x = 0; x < _levelData[y].size(); x++) {
+    for (unsigned int y = 0; y < levelData.size(); y++) {
+        for (unsigned int x = 0; x < levelData[y].size(); x++) {
             // Grab the tile
-            char tile = _levelData[y][x];
+            char tile = levelData[y][x];
 
             // Process the tile
             switch (tile) {
                 case 'R': {
                     Tile* temp = new Tile();
 					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/rock_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::SOLID);
-                    _tiles.push_back(temp);
+                    tiles.push_back(temp);
                 } break;
 				case '#': {
                     Tile* temp = new Tile();
 					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/grass_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::SOLID);
-                    _tiles.push_back(temp);
+                    tiles.push_back(temp);
                 } break;
                 case 'I': {
                     Tile* temp = new Tile();
 					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/ice_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::SOLID);
-                    _tiles.push_back(temp);
+                    tiles.push_back(temp);
                 } break;
                 case 'S': {
                     Tile* temp = new Tile();
                     temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/spike_bot_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::KILL);
-                    _tiles.push_back(temp);
+                    tiles.push_back(temp);
                 } break;
                 case 's': {
                     Tile* temp = new Tile();
 					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/spike_top_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::KILL);
-                    _tiles.push_back(temp);
+                    tiles.push_back(temp);
                 } break;
                 case 'L': {
                     Tile* temp = new Tile();
 					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/spike_top_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::KILL);
-                    _tiles.push_back(temp);
+                    tiles.push_back(temp);
                 } break;
                 case 'l': {
                     Tile* temp = new Tile();
 					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/spike_bot_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::KILL);
-                    _tiles.push_back(temp);
+                    tiles.push_back(temp);
                 } break;
                 case 'X': {
                     Tile* temp = new Tile();
 					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/disappearing_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::SOLID);
-                    _tiles.push_back(temp);
+                    tiles.push_back(temp);
                 } break;
                 case '*': {
                     Tile* temp = new Tile();
 					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/exit_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::SOLID);
-                    _tiles.push_back(temp);
+                    tiles.push_back(temp);
                 } break;
 				case '@': {
-					_startPlayerPos.x = (float)x * (float)TILE_WIDTH;
-					_startPlayerPos.y = (float)y * (float)TILE_WIDTH;
+					startPlayerPos.x = (float)x * (float)TILE_WIDTH;
+					startPlayerPos.y = (float)y * (float)TILE_WIDTH;
 				} break;
 				case 'E': {
-					_enemyTextureIDs.emplace_back(GEngine::ResourceManager::getTexture("../assets/Textures/enemy_black_78x78.png").id);
-					_enemyStartPositions.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
-					_enemyVelocities.emplace_back(10.0f, 0.0f);
+					enemyTextureIDs.emplace_back(GEngine::ResourceManager::getTexture("../assets/Textures/enemy_black_78x78.png").id);
+					enemyStartPositions.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
+					enemyVelocities.emplace_back(10.0f, 0.0f);
 				} break;
                 case '.':
                     break;
@@ -114,7 +114,7 @@ Level::Level(const std::string& fileName) {
 Level::~Level()
 {
     // Delete the tiles
-    for (unsigned int i = 0; i < _tiles.size(); i++) {
-        delete _tiles[i];
+    for (unsigned int i = 0; i < tiles.size(); i++) {
+        delete tiles[i];
     }
 }

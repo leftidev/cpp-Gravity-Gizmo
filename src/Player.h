@@ -8,10 +8,6 @@
 #include "Enemy.h"
 
 
-const float ACCELERATION = 0.70f;
-const float MAX_MOVE_SPEED = 10.0f;
-const float JUMP_SPEED = 15.0f;
-
 class Player : public Entity {
 public:
     Player();
@@ -21,19 +17,19 @@ public:
 	void draw(GEngine::SpriteBatch& _spriteBatch);
 	void update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float deltaTime);
 	void respawnAt(glm::vec2 respawnPos);
-	void applyHorizontalMovement();
+	void updateHorizontalMovement();
     void applyJump();
 	void applyDoubleJump();
 	void applyGravityBend();
 	void applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles, std::vector<Enemy*> enemies);
 
-	std::string direction;
+	std::string direction = "right";
 
-	bool upsideDown; // Sprite flipping variable
-	bool inAir;	// Player falling
-    bool jumped; // Player has jumped
-	bool canDoubleJump; // Player can double jump
-	bool normalGravity; // Gravity direction
+	bool upsideDown = false;	// Sprite flipping variable
+	bool inAir = true;			// Player falling
+    bool jumped = false;		// Player has jumped
+	bool canDoubleJump = false; // Player can double jump
+	bool normalGravity = true;	// Gravity direction
 	float gravityAcceleration = 0.80f; // Gravity velocity
 	// For flipping the player sprite
 	// NOTE: This is a hacky way of doing it (be sure to refactor)
@@ -42,10 +38,14 @@ public:
 	int textureID4;
 	int textureID5;
 
-	glm::fvec2 _playerStartPos;
+	const float ACCELERATION = 0.70f;
+	const float MAX_MOVE_SPEED = 10.0f;
+	const float JUMP_SPEED = 15.0f;
+
+	glm::fvec2 playerStartPos;
 
 private:
-    GEngine::InputManager* _inputManager; // Handle for the input manager
-    GEngine::Camera2D* _camera; // Handle for the camera
+    GEngine::InputManager* m_inputManager; // Handle for the input manager
+    GEngine::Camera2D* m_camera; // Handle for the camera
 };
 

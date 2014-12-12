@@ -19,23 +19,17 @@ public:
     void draw();
 
     // Getters
-    int getWidth() const { return _levelData[0].size(); }
-    int getHeight() const { return _levelData.size(); }
-    const std::vector<std::string>& getLevelData() const { return _levelData; }
-    glm::vec2 getStartPlayerPos() const { return _startPlayerPos; }
-	const std::vector<int>& getEnemyTextureIDs() const { return _enemyTextureIDs; }
-	const std::vector<glm::vec2>& getEnemyStartPositions() const { return _enemyStartPositions; }
-	const std::vector<glm::fvec2>& getEnemyVelocities() const { return _enemyVelocities; }
-
-    std::vector<Tile*> _tiles;
+    int getWidth() const { return levelData[0].size(); }
+    int getHeight() const { return levelData.size(); }
 
 	int levelWidth;
 	int levelHeight;
-private:
-    std::vector<std::string> _levelData;
-    glm::vec2 _startPlayerPos;
-	std::vector<int> _enemyTextureIDs;
-	std::vector<glm::vec2> _enemyStartPositions;
-	std::vector<glm::fvec2> _enemyVelocities;
+
+	std::vector<std::string> levelData;
+	std::vector<Tile*> tiles;
+	glm::vec2 startPlayerPos;
+	std::vector<int> enemyTextureIDs;
+	std::vector<glm::vec2> enemyStartPositions;
+	std::vector<glm::fvec2> enemyVelocities;
 };
 

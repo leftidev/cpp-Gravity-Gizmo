@@ -8,16 +8,16 @@ Entity::Entity() { }
 
 Entity::~Entity() { }
 
-void Entity::draw(GEngine::SpriteBatch& _spriteBatch) {
+void Entity::draw(GEngine::SpriteBatch& spriteBatch) {
     const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
 
     glm::vec4 destRect;
-    destRect.x = _position.x;
-    destRect.y = _position.y;
+    destRect.x = m_position.x;
+    destRect.y = m_position.y;
     destRect.z = width;
     destRect.w = height;
 
-    _spriteBatch.draw(destRect, uvRect, textureID, 0.0f, _color);
+	spriteBatch.draw(destRect, uvRect, m_textureID, 0.0f, m_color);
 }
 
 // AABB (Axis Aligned Bounding Box) collision
@@ -27,7 +27,7 @@ bool Entity::collideWithTile(int width, int height, Tile* tile) {
 	const float MIN_DISTANCE_Y = height / 2.0f + tile->height / 2.0f;
 
     // Vector from center of agent to center of tile
-	glm::vec2 distVec = (_position + glm::vec2(width / 2, height / 2)) - (tile->getPosition() + glm::vec2(tile->width / 2, tile->height / 2));
+	glm::vec2 distVec = (m_position + glm::vec2(width / 2, height / 2)) - (tile->getPosition() + glm::vec2(tile->width / 2, tile->height / 2));
 
     // Get the depth of the collision
     float xDepth = MIN_DISTANCE_X - abs(distVec.x);
@@ -46,7 +46,7 @@ bool Entity::collideWithEntity(int width, int height, Entity* entity) {
 	const float MIN_DISTANCE_Y = height / 2.0f + entity->height / 2.0f;
 	
 	// Vector from center of agent to center of tile
-	glm::vec2 distVec = (_position + glm::vec2(width / 2, height / 2)) - (entity->getPosition() + glm::vec2(entity->width / 2, entity->height / 2));
+	glm::vec2 distVec = (m_position + glm::vec2(width / 2, height / 2)) - (entity->getPosition() + glm::vec2(entity->width / 2, entity->height / 2));
 
 	// Get the depth of the collision
 	float xDepth = MIN_DISTANCE_X - abs(distVec.x);
