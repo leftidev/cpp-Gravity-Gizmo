@@ -5,6 +5,7 @@
 
 #include "Entity.h"
 #include "Tile.h"
+#include "Enemy.h"
 
 
 const float ACCELERATION = 0.70f;
@@ -18,13 +19,13 @@ public:
 
     void init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera);
 	void draw(GEngine::SpriteBatch& _spriteBatch);
-    void update(std::vector<Tile*> tiles, float deltaTime);
+	void update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float deltaTime);
 	void respawnAt(glm::vec2 respawnPos);
 	void applyHorizontalMovement();
     void applyJump();
 	void applyDoubleJump();
 	void applyGravityBend();
-    void applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles);
+	void applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles, std::vector<Enemy*> enemies);
 
 	std::string direction;
 

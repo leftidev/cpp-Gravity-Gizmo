@@ -19,13 +19,14 @@ public:
 
     float width;
     float height;
-
+	glm::fvec2 _position;
 protected:
     bool collideWithTile(int width, int height, Tile* tile);
+	bool collideWithEntity(int width, int height, Entity* entity);
 
     int textureID;
 
-    glm::fvec2 _position;
+
     GEngine::ColorRGBA8 _color;
     glm::fvec2 _speed;
 };

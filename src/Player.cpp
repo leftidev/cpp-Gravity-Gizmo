@@ -61,7 +61,7 @@ void Player::draw(GEngine::SpriteBatch& _spriteBatch) {
 	_spriteBatch.draw(destRect, uvRect, textureID, 0.0f, _color);
 }
 
-void Player::update(std::vector<Tile*> tiles, float deltaTime) {
+void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float deltaTime) {
 	// Apply bend gravity, if player presses W or UP arrow and the gravity is normal
 	if ((_inputManager->isKeyDown(SDLK_w) || _inputManager->isKeyDown(SDLK_UP)) && normalGravity) {
 		applyGravityBend();
@@ -101,13 +101,13 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
     inAir = true;
 
     // Check collisions on Y-axis
-    applyCollisions(glm::fvec2(0.0f, _speed.y), tiles);
+    applyCollisions(glm::fvec2(0.0f, _speed.y), tiles, enemies);
 
     // Move on X-axis
     _position.x += _speed.x * deltaTime;
 
     // Check collisions on X-axis
-    applyCollisions(glm::fvec2(_speed.x, 0.0f), tiles);
+	applyCollisions(glm::fvec2(_speed.x, 0.0f), tiles, enemies);
 }
 
 // TODO: Add freeze for some time, so player doesn't accidentally move fatally when respawning
@@ -203,11 +203,11 @@ void Player::applyGravityBend() {
 }
 
 // Collisions
-void Player::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles) {
+void Player::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles, std::vector<Enemy*> enemies) {
 
-    // Collide with level tiles
+	// Collide with level tiles
 	for (unsigned int i = 0; i < tiles.size(); i++) {
-        if (collideWithTile((int)width, (int)height, tiles[i])) {
+		if (collideWithTile((int)width, (int)height, tiles[i])) {
 			if (tiles[i]->_type == SOLID) {
 				// Collide from left
 				if (speed.x > 0) {
@@ -254,6 +254,12 @@ void Player::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles) {
 			if (tiles[i]->_type == KILL) {
 				respawnAt(_playerStartPos);
 			}
-        }
-    }
+		}
+	}
+	// Collide with enemies
+	for (unsigned int i = 0; i < enemies.size(); i++) {
+		if (collideWithEntity((int)width, (int)height, enemies[i])) {
+			respawnAt(_playerStartPos);
+		}
+	}
 }
