@@ -110,10 +110,11 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
     applyCollisions(glm::fvec2(_speed.x, 0.0f), tiles);
 }
 
-void Player::death() {
+// TODO: Add freeze for some time, so player doesn't accidentally move fatally when respawning
+void Player::respawnAt(glm::vec2 respawnPos) {
 	_speed.x = 0;
 	_speed.y = 0;
-	setPosition(_playerStartPos);
+	setPosition(respawnPos);
 	if (!normalGravity) {
 		upsideDown = false;
 		gravityAcceleration *= -1;

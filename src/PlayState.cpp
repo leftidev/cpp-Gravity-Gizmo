@@ -114,15 +114,15 @@ void PlayState::update(float deltaTime) {
 		glClearColor(0.5f, 0.5f, 0.5f, 1.f);
 	}
 	if (_inputManager.isKeyPressed(SDLK_F1)) {
-		_player->death();
+		_player->respawnAt(_player->_playerStartPos);
 	}
 
 	_player->update(_levels[_currentLevel]->_tiles, deltaTime);
 
+	// Player dies when going out of level bounds
 	if (_player->getPosition().y < -400 || _player->getPosition().y > _levels[_currentLevel]->levelHeight + 400) {
-		_player->death();
+		_player->respawnAt(_player->_playerStartPos);
 	}
-	std::cout << _player->getPosition().y << std::endl;
 }
 
 void PlayState::updateCamera() {

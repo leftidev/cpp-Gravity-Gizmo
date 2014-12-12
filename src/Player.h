@@ -19,7 +19,7 @@ public:
     void init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera);
 	void draw(GEngine::SpriteBatch& _spriteBatch);
     void update(std::vector<Tile*> tiles, float deltaTime);
-	void death();
+	void respawnAt(glm::vec2 respawnPos);
 	void applyHorizontalMovement();
     void applyJump();
 	void applyDoubleJump();
@@ -41,10 +41,10 @@ public:
 	int textureID4;
 	int textureID5;
 
+	glm::fvec2 _playerStartPos;
+
 private:
     GEngine::InputManager* _inputManager; // Handle for the input manager
     GEngine::Camera2D* _camera; // Handle for the camera
-
-	glm::fvec2 _playerStartPos;
 };
 
