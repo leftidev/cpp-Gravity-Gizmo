@@ -56,7 +56,7 @@ void PlayState::initShaders() {
 
 void PlayState::initLevel() {
 	// Initialize level 1
-	_levels.push_back(new Level("../assets/levels/level12.txt"));
+	_levels.push_back(new Level("../assets/levels/level06.txt"));
 	_currentLevel = 0;
 
 	// Initialize the player
@@ -118,6 +118,11 @@ void PlayState::update(float deltaTime) {
 	}
 
 	_player->update(_levels[_currentLevel]->_tiles, deltaTime);
+
+	if (_player->getPosition().y < -400 || _player->getPosition().y > _levels[_currentLevel]->levelHeight + 400) {
+		_player->death();
+	}
+	std::cout << _player->getPosition().y << std::endl;
 }
 
 void PlayState::updateCamera() {

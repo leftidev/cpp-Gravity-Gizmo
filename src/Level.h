@@ -29,6 +29,8 @@ public:
 
     std::vector<Tile*> _tiles;
 
+	int levelWidth;
+	int levelHeight;
 private:
     std::vector<std::string> _levelData;
     glm::vec2 _startPlayerPos;

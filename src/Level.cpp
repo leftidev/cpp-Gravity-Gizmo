@@ -28,7 +28,14 @@ Level::Level(const std::string& fileName) {
     while (std::getline(file, tmp)) {
         _levelData.emplace_back(tmp);
     }    
-    
+
+	// Level height in pixels
+	levelHeight = _levelData.size() * TILE_WIDTH;
+	// Level width in pixels
+	levelWidth = _levelData[1].size() * TILE_WIDTH;
+
+	std::cout << "Level height: " << levelHeight << ", width: " << levelWidth << std::endl;
+
     // The level is flipped, reverse the vector
     std::reverse(_levelData.begin(), _levelData.end());
 

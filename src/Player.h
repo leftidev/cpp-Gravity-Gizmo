@@ -7,8 +7,6 @@
 #include "Tile.h"
 
 
-class Level;
-
 const float ACCELERATION = 0.70f;
 const float MAX_MOVE_SPEED = 10.0f;
 const float JUMP_SPEED = 15.0f;
@@ -35,9 +33,7 @@ public:
     bool jumped; // Player has jumped
 	bool canDoubleJump; // Player can double jump
 	bool normalGravity; // Gravity direction
-
 	float gravityAcceleration = 0.80f; // Gravity velocity
-
 	// For flipping the player sprite
 	// NOTE: This is a hacky way of doing it (be sure to refactor)
 	int textureID2;

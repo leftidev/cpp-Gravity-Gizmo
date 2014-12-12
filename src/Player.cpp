@@ -111,7 +111,14 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 }
 
 void Player::death() {
+	_speed.x = 0;
+	_speed.y = 0;
 	setPosition(_playerStartPos);
+	if (!normalGravity) {
+		upsideDown = false;
+		gravityAcceleration *= -1;
+		normalGravity = true;
+	}
 }
 
 void Player::applyHorizontalMovement() {
