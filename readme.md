@@ -34,7 +34,9 @@ NOTE: Currently only tested on Windows!
 
 How to play?
 ------------
-Press A, D or Left, Right arrow keys to move. Spacebar to jump.
+- W, S or Up, Down arrow to bend gravity
+- A, D or Left, Right arrow to move
+- Space to jump, space again to double-jump
 
 Other
 -----

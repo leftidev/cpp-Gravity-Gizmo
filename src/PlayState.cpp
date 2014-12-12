@@ -15,7 +15,6 @@ PlayState::PlayState(GEngine::StateManager& stateMachine, GEngine::Window& windo
 	std::cout << "GameState::PlayState initialized" << std::endl;
 }
 
-
 PlayState::~PlayState() {
 	// Delete the levels
 	for (unsigned int i = 0; i < _levels.size(); i++) {
@@ -31,17 +30,19 @@ void PlayState::init() {
 	// Set up the shaders
 	initShaders();
 
-	// Initialize our sprite batch
+	// Initialize the sprite batch
 	_spriteBatch.init();
 
 	// Set up the camera
 	_camera.init(1024, 768);
 
-	// Zoom out the camera by 2x
 	const float CAMERA_SCALE = 1.0f;
 	_camera.setScale(CAMERA_SCALE);
 
 	initLevel();
+
+	// Set black background color
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 void PlayState::initShaders() {
@@ -55,7 +56,7 @@ void PlayState::initShaders() {
 
 void PlayState::initLevel() {
 	// Initialize level 1
-	_levels.push_back(new Level("../assets/levels/level03.txt"));
+	_levels.push_back(new Level("../assets/levels/level12.txt"));
 	_currentLevel = 0;
 
 	// Initialize the player
@@ -174,6 +175,6 @@ void PlayState::draw() {
 	// Disable shaders
 	_textureProgram.unuse();
 
-	// Swap our buffer and draw everything to the screen!
+	// Swap the backbuffer and draw everything to the screen
 	_window.swapBuffer();
 }

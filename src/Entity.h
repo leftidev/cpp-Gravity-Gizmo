@@ -5,16 +5,15 @@
 #include <GEngine/SpriteBatch.h>
 #include <GEngine/ResourceManager.h>
 
+
 class Tile;
 
-class Entity
-{
+class Entity {
 public:
     Entity();
     virtual ~Entity();
 
     void draw(GEngine::SpriteBatch& _spriteBatch);
-
     glm::fvec2 getPosition() const { return _position; }
 
     float width;

@@ -5,13 +5,9 @@
 #include <iostream>
 
 
-Player::Player() {
-    // Empty
-}
+Player::Player() { }
 
-Player::~Player() {
-    // Empty
-}
+Player::~Player() { }
 
 void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera) {
 	textureID = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_right.png").id;
@@ -23,14 +19,11 @@ void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::
     width = 40.0f;
     height = 40.0f;
 
-    runningSpeed = 20.0f;
-
 	_speed = glm::fvec2(0.0f, 0.0f);
-
     _position = pos;
+
     _inputManager = inputManager;
     _camera = camera;
-
 	_color = GEngine::ColorRGBA8(255, 255, 255, 255);
 
 	inAir = true;
@@ -67,22 +60,22 @@ void Player::draw(GEngine::SpriteBatch& _spriteBatch) {
 }
 
 void Player::update(std::vector<Tile*> tiles, float deltaTime) {
-	// Apply bend gravity, if player presses W or UP arrow and normalGravity
+	// Apply bend gravity, if player presses W or UP arrow and the gravity is normal
 	if ((_inputManager->isKeyDown(SDLK_w) || _inputManager->isKeyDown(SDLK_UP)) && normalGravity) {
 		applyGravityBend();
 	}
-	// Apply bend gravity, if player presses S or DOWN arrow and !normalGravity
+	// Apply bend gravity, if player presses S or DOWN arrow and the gravity is reversed
 	if ((_inputManager->isKeyDown(SDLK_s) || _inputManager->isKeyDown(SDLK_DOWN)) && !normalGravity) {
 		applyGravityBend();
 	}
-    // SPACEBAR
+    // Space jumps
     if(_inputManager->isKeyPressed(SDLK_SPACE)) {
         if(jumped) {
             // Double jumping
             applyDoubleJump();
         }
     }
-    // SPACEBAR
+	// Space jumps
     if(_inputManager->isKeyDown(SDLK_SPACE)) {
 		if (!jumped) {
 			// Normal jumping
@@ -96,13 +89,33 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 		_speed.y -= gravityAcceleration * deltaTime;
     }
 
+	// Player movement left or right
+	applyHorizontalMovement();
+
+    // Move on Y-axis
+    _position.y += _speed.y * deltaTime;
+
+    // Assume player is in air, this makes player fall off platform ledges
+    inAir = true;
+
+    // Check collisions on Y-axis
+    applyCollisions(glm::fvec2(0.0f, _speed.y), tiles);
+
+    // Move on X-axis
+    _position.x += _speed.x * deltaTime;
+
+    // Check collisions on X-axis
+    applyCollisions(glm::fvec2(_speed.x, 0.0f), tiles);
+}
+
+void Player::applyHorizontalMovement() {
 	// Move left
 	if (_inputManager->isKeyDown(SDLK_a) || _inputManager->isKeyDown(SDLK_LEFT)) {
 		direction = "left";
 		// Apply acceleration
 		_speed.x -= ACCELERATION;
-		if (_speed.x < -MAX_SPEED) {
-			_speed.x = -MAX_SPEED;
+		if (_speed.x < -MAX_MOVE_SPEED) {
+			_speed.x = -MAX_MOVE_SPEED;
 		}
 	}
 	// Move right
@@ -110,8 +123,8 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 		direction = "right";
 		// Apply acceleration
 		_speed.x += ACCELERATION;
-		if (_speed.x > MAX_SPEED) {
-			_speed.x = MAX_SPEED;
+		if (_speed.x > MAX_MOVE_SPEED) {
+			_speed.x = MAX_MOVE_SPEED;
 		}
 	}
 	else {
@@ -130,21 +143,6 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
 			}
 		}
 	}
-
-    // Move on Y-axis
-    _position.y += _speed.y * deltaTime;
-
-    // Assume player is in air, this makes player fall off platform ledges
-    inAir = true;
-
-    // Check collisions on Y-axis
-    applyCollisions(glm::fvec2(0.0f, _speed.y), tiles);
-
-    // Move on X-axis
-    _position.x += _speed.x * deltaTime;
-
-    // Check collisions on X-axis
-    applyCollisions(glm::fvec2(_speed.x, 0.0f), tiles);
 }
 
 void Player::applyJump() {

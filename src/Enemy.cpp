@@ -1,14 +1,9 @@
 #include "Enemy.h"
 
 
-Enemy::Enemy()
-{
-}
+Enemy::Enemy() { }
 
-
-Enemy::~Enemy()
-{
-}
+Enemy::~Enemy() { }
 
 void Enemy::init(int TextureID, glm::fvec2 speed, glm::vec2 pos) {
 	textureID = TextureID;

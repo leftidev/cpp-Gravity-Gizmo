@@ -11,18 +11,14 @@ class StateManager {
 public:
 	StateManager();
 	~StateManager();
-	// Runs the game
+	// Changes the state
 	void changeState(GameState* gameState);
-	// Input manager update
 	void updateInputManager();
-	// Main game loop for the program
 	void update(float deltaTime);
-	// Handles input processing
 	void processEvents();
-	// Update camera
 	void updateCamera();
-	// Renders the game
 	void draw();
+
 	bool running() { return _running; }
 	void quit() { _running = false; }
 

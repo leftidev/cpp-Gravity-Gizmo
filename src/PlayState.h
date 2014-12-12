@@ -11,8 +11,6 @@
 #include "Enemy.h"
 
 
-class StateManager;
-
 class PlayState : public GEngine::GameState {
 public:
 	PlayState(GEngine::StateManager& stateMachine, GEngine::Window& window, GEngine::InputManager& inputManager);
@@ -28,8 +26,8 @@ public:
 private:
 	GEngine::SpriteBatch _spriteBatch; // Draws all sprites
 	GEngine::GLSLProgram _textureProgram; // The shader program
-	std::vector<Level*> _levels; // vector of all levels
-	std::vector<Enemy*> _enemies; // vector of all enemies
+	std::vector<Level*> _levels; // All levels
+	std::vector<Enemy*> _enemies; // All enemies
 
 	Player* _player;
 	int _currentLevel;

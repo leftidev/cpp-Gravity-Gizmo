@@ -10,8 +10,7 @@
 
 const int TILE_WIDTH = 42;
 
-class Level
-{
+class Level {
 public:
     // Load the level
     Level(const std::string& fileName);

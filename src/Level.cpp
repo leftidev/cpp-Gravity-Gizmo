@@ -20,7 +20,6 @@ Level::Level(const std::string& fileName) {
 
     // Throw away the first string in tmp
     std::string tmp;
-
     file >> tmp;
 
     std::getline(file, tmp); // Throw away the rest of the first line

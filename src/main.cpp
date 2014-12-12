@@ -19,21 +19,25 @@
 const int SCREEN_WIDTH = 1024;
 const int SCREEN_HEIGHT = 768;
 
+// Constants for semi-fixed timestep
+const float DESIRED_FPS = 60.0f; // FPS the game is designed to run at
+const int MAX_PHYSICS_STEPS = 6; // Max number of physics steps per frame
+const float MS_PER_SECOND = 1000; // Number of milliseconds in a second
+const float DESIRED_FRAMETIME = MS_PER_SECOND / DESIRED_FPS; // The desired frame time per frame
+const float MAX_DELTA_TIME = 1.0f; // Maximum size of deltaTime
+
 int main(int argc, char** argv) {
-	// Initialize the game engine
+	// Initialize the game engine (SDL)
 	GEngine::init();
 
 	// Create the window
 	GEngine::Window window;
 	window.create("Gravity Gizmo", SCREEN_WIDTH, SCREEN_HEIGHT, 0);
 
-	// Set black background color
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-	// Initialize the InputManager
+	// Create the InputManager
 	GEngine::InputManager inputManager;
 
-	// Initialize the StateManager
+	// Create the StateManager
 	GEngine::StateManager stateManager;
 	stateManager.changeState(new PlayState(stateManager, window, inputManager));
 
@@ -42,14 +46,7 @@ int main(int argc, char** argv) {
 	fpsLimiter.setMaxFPS(60.0f);
 	float fps;
 
-	// Some helpful constants for semi-fixed timestep
-	const float DESIRED_FPS = 60.0f; // FPS the game is designed to run at
-	const int MAX_PHYSICS_STEPS = 6; // Max number of physics steps per frame
-	const float MS_PER_SECOND = 1000; // Number of milliseconds in a second
-	const float DESIRED_FRAMETIME = MS_PER_SECOND / DESIRED_FPS; // The desired frame time per frame
-	const float MAX_DELTA_TIME = 1.0f; // Maximum size of deltaTime
-
-	// Start our previousTicks variable
+	// Start previousTicks variable
 	float previousTicks = SDL_GetTicks();
 
 	// Main loop
@@ -63,8 +60,8 @@ int main(int argc, char** argv) {
 		// Get the total delta time
 		float totalDeltaTime = frameTime / DESIRED_FRAMETIME;
 
-		int i = 0; // This counter makes sure we don't spiral to death!
-		// Loop while we still have steps to process.
+		int i = 0; // Counter to make sure we don't spiral to death
+		// Loop while we still have steps to process
 		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS) {
 			// The deltaTime should be the the smaller of the totalDeltaTime and MAX_DELTA_TIME
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
@@ -82,11 +79,11 @@ int main(int argc, char** argv) {
 		stateManager.updateCamera();
 		stateManager.draw();
 
-		// End the frame, limit the FPS, and get the current FPS.
+		// Limit the FPS, and get the current FPS
 		fps = fpsLimiter.endFrame();
-		//std::cout << fps << std::endl;
+		std::cout << fps << std::endl;
 	}
-	// Leaving the scope of 'state_machine' will cleanup the engine
+	// Leaving the scope of 'stateManager' will cleanup the engine
 
 	return 0;
 }

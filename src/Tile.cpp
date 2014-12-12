@@ -1,13 +1,9 @@
 #include "Tile.h"
 
 
-Tile::Tile() {
-    // Empty
-}
+Tile::Tile() { }
 
-Tile::~Tile() {
-    // Empty
-}
+Tile::~Tile() { }
 
 void Tile::init(int TextureID, glm::fvec2 pos) {
     textureID = TextureID;
