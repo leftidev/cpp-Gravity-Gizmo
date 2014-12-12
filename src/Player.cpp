@@ -208,46 +208,51 @@ void Player::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles) {
     // Collide with level tiles
 	for (unsigned int i = 0; i < tiles.size(); i++) {
         if (collideWithTile((int)width, (int)height, tiles[i])) {
-            // Collide from left
-            if (speed.x > 0) {
-                _position.x = tiles[i]->getPosition().x - width;
-            }
-            // Collide from right
-            else if (speed.x < 0) {
-                _position.x = tiles[i]->getPosition().x + tiles[i]->width;
-            }
-
-			if (normalGravity) {
-				// Collide from below
-				if (speed.y > 0) {
-					_speed.y = 0;
-					_position.y = tiles[i]->getPosition().y - height;
-					inAir = true;
+			if (tiles[i]->_type == SOLID) {
+				// Collide from left
+				if (speed.x > 0) {
+					_position.x = tiles[i]->getPosition().x - width;
 				}
-				// Collide from above
-				else if (speed.y < 0) {
-					_speed.y = 0;
-					_position.y = tiles[i]->getPosition().y + tiles[i]->height;
-					inAir = false;
-					jumped = false;
-                    canDoubleJump = false;
+				// Collide from right
+				else if (speed.x < 0) {
+					_position.x = tiles[i]->getPosition().x + tiles[i]->width;
+				}
+
+				if (normalGravity) {
+					// Collide from below
+					if (speed.y > 0) {
+						_speed.y = 0;
+						_position.y = tiles[i]->getPosition().y - height;
+						inAir = true;
+					}
+					// Collide from above
+					else if (speed.y < 0) {
+						_speed.y = 0;
+						_position.y = tiles[i]->getPosition().y + tiles[i]->height;
+						inAir = false;
+						jumped = false;
+						canDoubleJump = false;
+					}
+				}
+				else {
+					// Collide from below
+					if (speed.y > 0) {
+						_speed.y = 0;
+						_position.y = tiles[i]->getPosition().y - height;
+						inAir = false;
+						jumped = false;
+						canDoubleJump = false;
+					}
+					// Collide from above
+					else if (speed.y < 0) {
+						_speed.y = 0;
+						_position.y = tiles[i]->getPosition().y + tiles[i]->height;
+						inAir = true;
+					}
 				}
 			}
-			else {
-				// Collide from below
-				if (speed.y > 0) {
-					_speed.y = 0;
-					_position.y = tiles[i]->getPosition().y - height;
-					inAir = false;
-					jumped = false;
-                    canDoubleJump = false;
-				}
-				// Collide from above
-				else if (speed.y < 0) {
-					_speed.y = 0;
-					_position.y = tiles[i]->getPosition().y + tiles[i]->height;
-					inAir = true;
-				}
+			if (tiles[i]->_type == KILL) {
+				respawnAt(_playerStartPos);
 			}
         }
     }

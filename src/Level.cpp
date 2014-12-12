@@ -49,47 +49,47 @@ Level::Level(const std::string& fileName) {
             switch (tile) {
                 case 'R': {
                     Tile* temp = new Tile();
-                    temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/rock_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH));
+					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/rock_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::SOLID);
                     _tiles.push_back(temp);
                 } break;
 				case '#': {
                     Tile* temp = new Tile();
-                    temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/grass_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH));
+					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/grass_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::SOLID);
                     _tiles.push_back(temp);
                 } break;
                 case 'I': {
                     Tile* temp = new Tile();
-                    temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/ice_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH));
+					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/ice_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::SOLID);
                     _tiles.push_back(temp);
                 } break;
                 case 'S': {
                     Tile* temp = new Tile();
-                    temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/spike_bot_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH));
+                    temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/spike_bot_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::KILL);
                     _tiles.push_back(temp);
                 } break;
                 case 's': {
                     Tile* temp = new Tile();
-                    temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/spike_top_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH));
+					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/spike_top_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::KILL);
                     _tiles.push_back(temp);
                 } break;
                 case 'L': {
                     Tile* temp = new Tile();
-                    temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/spike_top_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH));
+					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/spike_top_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::KILL);
                     _tiles.push_back(temp);
                 } break;
                 case 'l': {
                     Tile* temp = new Tile();
-                    temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/spike_bot_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH));
+					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/spike_bot_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::KILL);
                     _tiles.push_back(temp);
                 } break;
                 case 'X': {
                     Tile* temp = new Tile();
-                    temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/disappearing_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH));
+					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/disappearing_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::SOLID);
                     _tiles.push_back(temp);
                 } break;
                 case '*': {
                     Tile* temp = new Tile();
-                    temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/exit_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH));
+					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/exit_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::SOLID);
                     _tiles.push_back(temp);
                 } break;
 				case '@': {

@@ -5,13 +5,14 @@ Tile::Tile() { }
 
 Tile::~Tile() { }
 
-void Tile::init(int TextureID, glm::fvec2 pos) {
+void Tile::init(int TextureID, glm::fvec2 pos, TileType type) {
     textureID = TextureID;
 
 	width = 42.0f;
 	height = 42.0f;
 
     _position = pos;
+	_type = type;
 
     _color.r = 255;
     _color.g = 255;
