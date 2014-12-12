@@ -1,18 +1,17 @@
 #pragma once
-#include "TextureCache.h"
+
 #include <string>
 
-namespace GEngine {
+#include "TextureCache.h"
 
-// This is a way for us to access all our resources, such as
-// Models or textures.
-class ResourceManager
-{
+
+namespace GEngine {
+// This is a way to access all resources, such as models or textures
+class ResourceManager {
 public:
-    static GLTexture getTexture(std::string texturePath);
+	static GLTexture getTexture(std::string texturePath);
 
 private:
-    static TextureCache _textureCache;
+	static TextureCache _textureCache;
 };
-
 }

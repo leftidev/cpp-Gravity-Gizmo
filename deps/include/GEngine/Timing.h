@@ -1,27 +1,26 @@
 #pragma once
 
-namespace GEngine
-{
 
-class FpsLimiter
-{
+namespace GEngine {
+
+class FpsLimiter {
 public:
-    FpsLimiter();
-    void init(float maxFPS);
+	FpsLimiter();
 
-    void setMaxFPS(float maxFPS);
+	void init(float maxFPS);
+	void setMaxFPS(float maxFPS);
+	void beginFrame();
 
-    void beginFrame();
+	// Return the current FPS
+	float endFrame();
 
-    // Return the current FPS.
-    float endFrame();
 private:
-    void calculateFPS();
+	float _fps;
+	float _maxFPS;
+	float _frameTime;
+	unsigned int _startTicks;
 
-    float _fps;
-    float _maxFPS;
-    float _frameTime;
-    unsigned int _startTicks;
+	void calculateFPS();
 };
 
 }

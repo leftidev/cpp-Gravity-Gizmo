@@ -67,8 +67,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="..\LICENSE" />
-    <None Include="..\README.md" />
+    <None Include="..\license" />
+    <None Include="..\readme.md" />
     <None Include="Debug.props" />
     <None Include="Release.props" />
     <None Include="Shaders\textureShading.frag" />
@@ -81,6 +81,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayState.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +90,7 @@
     <ClInclude Include="Level.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayState.h" />
     <ClInclude Include="Tile.h" />
   </ItemGroup>
   <ItemGroup>

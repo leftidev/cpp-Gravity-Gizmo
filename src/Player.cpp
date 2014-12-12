@@ -93,7 +93,7 @@ void Player::update(std::vector<Tile*> tiles, float deltaTime) {
     // Player is in air, apply gravity
     if (inAir) {
         jumped = true;
-		_speed.y -= gravity_acceleration * deltaTime;
+		_speed.y -= gravityAcceleration * deltaTime;
     }
 
 	// Move left
@@ -175,16 +175,16 @@ void Player::applyDoubleJump() {
 
 void Player::applyGravityBend() {
 	if (normalGravity) {
-		if (!inAir && gravity_acceleration > 0) {
+		if (!inAir && gravityAcceleration > 0) {
 			upsideDown = true;
-			gravity_acceleration *= -1;
+			gravityAcceleration *= -1;
 			normalGravity = false;
 		}
 	}
 	else {
-		if (!inAir && gravity_acceleration < 0) {
+		if (!inAir && gravityAcceleration < 0) {
 			upsideDown = false;
-			gravity_acceleration *= -1;
+			gravityAcceleration *= -1;
 			normalGravity = true;
 		}
 	}

@@ -18,6 +18,9 @@
       <AdditionalDependencies>
       </AdditionalDependencies>
     </Lib>
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>

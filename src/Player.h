@@ -36,7 +36,7 @@ public:
 	bool normalGravity;
 
 	float runningSpeed;
-	float gravity_acceleration = 0.80f;
+	float gravityAcceleration = 0.80f;
 
 	int textureID2;
 	int textureID3;
