@@ -62,7 +62,12 @@ void Enemy::applyJump() {
 	inAir = true;
 	jumped = true;
 
-	m_speed.y = JUMP_SPEED;
+	if (type == JUMPING || X_MOVINGJUMPING) {
+		m_speed.y = JUMP_SPEED;
+	}
+	if (type == REVERSEJUMPING) {
+		m_speed.y = -JUMP_SPEED;
+	}
 }
 
 void Enemy::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles) {
@@ -73,10 +78,12 @@ void Enemy::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles) {
 				// Collide from left
 				if (speed.x > 0) {
 					m_position.x = tiles[i]->getPosition().x - width;
+					m_speed.x *= -1;
 				}
 				// Collide from right
 				else if (speed.x < 0) {
 					m_position.x = tiles[i]->getPosition().x + tiles[i]->width;
+					m_speed.x *= -1;
 				}
 
 				if (type == JUMPING || type == X_MOVINGJUMPING) {

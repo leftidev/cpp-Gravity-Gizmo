@@ -55,7 +55,7 @@ void PlayState::initShaders() {
 
 void PlayState::initLevel() {
 	// Initialize level 1
-	m_levels.push_back(new Level("../assets/levels/level03.txt"));
+	m_levels.push_back(new Level("../assets/levels/level15.txt"));
 	m_currentLevel = 0;
 
 	// Initialize the player

@@ -40,7 +40,7 @@ public:
 
 	const float ACCELERATION = 0.70f;
 	const float MAX_MOVE_SPEED = 10.0f;
-	const float JUMP_SPEED = 15.0f;
+	const float JUMP_SPEED = 14.0f;
 
 	glm::fvec2 playerStartPos;
 

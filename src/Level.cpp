@@ -99,8 +99,32 @@ Level::Level(const std::string& fileName) {
 				case 'E': {
 					enemyTextureIDs.emplace_back(GEngine::ResourceManager::getTexture("../assets/Textures/enemy_black_78x78.png").id);
 					enemyStartPositions.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
+					enemyVelocities.emplace_back(7.0f, 0.0f);
+					enemyTypes.emplace_back(EnemyType::X_MOVING);
+				} break;
+				case 'M': {
+					enemyTextureIDs.emplace_back(GEngine::ResourceManager::getTexture("../assets/Textures/enemy_black_78x78.png").id);
+					enemyStartPositions.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
+					enemyVelocities.emplace_back(5.0f, 0.0f);
+					enemyTypes.emplace_back(EnemyType::X_MOVINGJUMPING);
+				} break;
+				case 'J': {
+					enemyTextureIDs.emplace_back(GEngine::ResourceManager::getTexture("../assets/Textures/enemy_black_78x78.png").id);
+					enemyStartPositions.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
 					enemyVelocities.emplace_back(0.0f, 0.0f);
 					enemyTypes.emplace_back(EnemyType::JUMPING);
+				} break;
+				case 'j': {
+					enemyTextureIDs.emplace_back(GEngine::ResourceManager::getTexture("../assets/Textures/enemy_black_78x78.png").id);
+					enemyStartPositions.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
+					enemyVelocities.emplace_back(0.0f, 0.0f);
+					enemyTypes.emplace_back(EnemyType::REVERSEJUMPING);
+				} break;
+				case 'f': {
+					enemyTextureIDs.emplace_back(GEngine::ResourceManager::getTexture("../assets/Textures/enemy_black_78x78.png").id);
+					enemyStartPositions.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
+					enemyVelocities.emplace_back(0.0f, 0.0f);
+					enemyTypes.emplace_back(EnemyType::STILL);
 				} break;
                 case '.':
                     break;

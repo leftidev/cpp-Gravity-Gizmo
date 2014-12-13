@@ -21,8 +21,7 @@ public:
 	void applyJump();
 	void applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles);
 
-	const float MOVE_SPEED = 10.0f;
-	const float JUMP_SPEED = 15.0f;
+	const float JUMP_SPEED = 24.0f;
 
 	bool inAir = true;			// Player falling
 	bool jumped = false;		// Player has jumped

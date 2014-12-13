@@ -169,10 +169,10 @@ void Player::applyDoubleJump() {
     if(canDoubleJump) {
         canDoubleJump = false;
         if(normalGravity) {
-            m_speed.y = JUMP_SPEED;
+            m_speed.y = JUMP_SPEED + 1;
         }
         else {
-            m_speed.y = -JUMP_SPEED;
+            m_speed.y = -JUMP_SPEED - 1;
         }
     }
 
