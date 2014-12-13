@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
 
 	// Used to cap the FPS
 	GEngine::FpsLimiter fpsLimiter;
-	fpsLimiter.setMaxFPS(60.0f);
+	fpsLimiter.setMaxFPS(300.0f);
 	float fps;
 
 	// Start previousTicks variable

@@ -56,7 +56,6 @@ void Enemy::update(std::vector<Tile*> tiles, float deltaTime) {
 		// Check collisions on X-axis
 		applyCollisions(glm::fvec2(m_speed.x, 0.0f), tiles);
 	}
-	std::cout << "what " << std::endl;
 }
 
 void Enemy::applyJump() {
