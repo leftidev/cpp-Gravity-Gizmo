@@ -25,6 +25,7 @@ public:
 
 	std::string direction = "right";
 
+	bool dead = false;
 	bool upsideDown = false;	// Sprite flipping variable
 	bool inAir = true;			// Player falling
     bool jumped = false;		// Player has jumped

@@ -245,14 +245,14 @@ void Player::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles, std::v
 				}
 			}
 			if (tiles[i]->type == KILL) {
-				respawnAt(playerStartPos);
+				dead = true;
 			}
 		}
 	}
 	// Collide with enemies
 	for (unsigned int i = 0; i < enemies.size(); i++) {
 		if (collideWithEntity((int)width, (int)height, enemies[i])) {
-			respawnAt(playerStartPos);
+			dead = true;
 		}
 	}
 }
