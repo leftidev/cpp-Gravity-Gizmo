@@ -39,7 +39,7 @@ public:
 	int textureID3;
 	int textureID4;
 	int textureID5;
-	int deathFlickerFrames = 0;
+	int deathFlickerFrames = 60;
 
 	const float ACCELERATION = 0.70f;
 	const float MAX_MOVE_SPEED = 10.0f;

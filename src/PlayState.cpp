@@ -120,11 +120,11 @@ void PlayState::update(float deltaTime) {
 	m_player->update(m_levels[m_currentLevel]->tiles, m_enemies, deltaTime);
 
 	if (m_player->dead) {
-		m_player->respawnAt(m_player->playerStartPos);
+		_stateMachine.changeState(new PlayState(_stateMachine, _window, _inputManager));
 	}
 	// Player dies when going out of level bounds
 	if (m_player->getPosition().y < -400 || m_player->getPosition().y > m_levels[m_currentLevel]->levelHeight + 400) {
-		m_player->respawnAt(m_player->playerStartPos);
+		_stateMachine.changeState(new PlayState(_stateMachine, _window, _inputManager));
 	}
 
 	for (unsigned int i = 0; i < m_enemies.size(); i++) {
