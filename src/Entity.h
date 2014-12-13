@@ -19,12 +19,12 @@ public:
 
     float width;
     float height;
-
+	GEngine::ColorRGBA8 m_color;
 protected:
     bool collideWithTile(int width, int height, Tile* tile);
 	bool collideWithEntity(int width, int height, Entity* entity);
     int m_textureID;
-    GEngine::ColorRGBA8 m_color;
+
     glm::fvec2 m_speed;
 	glm::fvec2 m_position;
 };

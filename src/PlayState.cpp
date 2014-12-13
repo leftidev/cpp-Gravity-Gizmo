@@ -55,7 +55,7 @@ void PlayState::initShaders() {
 
 void PlayState::initLevel() {
 	// Initialize level 1
-	m_levels.push_back(new Level("../assets/levels/level15.txt"));
+	m_levels.push_back(new Level("../assets/levels/level05.txt"));
 	m_currentLevel = 0;
 
 	// Initialize the player
@@ -120,11 +120,11 @@ void PlayState::update(float deltaTime) {
 	m_player->update(m_levels[m_currentLevel]->tiles, m_enemies, deltaTime);
 
 	if (m_player->dead) {
-		_stateMachine.changeState(new PlayState(_stateMachine, _window, _inputManager));
+		m_player->respawnAt(m_player->playerStartPos);
 	}
 	// Player dies when going out of level bounds
 	if (m_player->getPosition().y < -400 || m_player->getPosition().y > m_levels[m_currentLevel]->levelHeight + 400) {
-		_stateMachine.changeState(new PlayState(_stateMachine, _window, _inputManager));
+		m_player->respawnAt(m_player->playerStartPos);
 	}
 
 	for (unsigned int i = 0; i < m_enemies.size(); i++) {

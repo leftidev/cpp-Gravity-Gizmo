@@ -55,6 +55,11 @@ void Player::draw(GEngine::SpriteBatch& _spriteBatch) {
 }
 
 void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float deltaTime) {
+	if (deathFlickerFrames > 0) {
+		deathFlickerFrames--;
+		applyDeathFlicker();
+	}
+
 	// Apply bend gravity, if player presses W or UP arrow and the gravity is normal
 	if ((m_inputManager->isKeyDown(SDLK_w) || m_inputManager->isKeyDown(SDLK_UP)) && normalGravity) {
 		applyGravityBend();
@@ -75,6 +80,7 @@ void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float
 		if (!jumped) {
 			// Normal jumping
 			applyJump();
+			applyDeathFlicker();
 		}
     }
 
@@ -84,8 +90,10 @@ void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float
 		m_speed.y -= gravityAcceleration * deltaTime;
     }
 
-	// Player movement left or right
-	updateHorizontalMovement();
+	if (deathFlickerFrames == 0) {
+		// Player movement left or right
+		updateHorizontalMovement();
+	}
 
     // Move on Y-axis
     m_position.y += m_speed.y * deltaTime;
@@ -103,8 +111,36 @@ void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float
 	applyCollisions(glm::fvec2(m_speed.x, 0.0f), tiles, enemies);
 }
 
+void Player::applyDeathFlicker() {
+	if (deathFlickerFrames % 20 == 0) {
+		m_color.a = 255;
+	}
+	else if (deathFlickerFrames % 20 == 2) {
+		m_color.a = 188;
+	}
+	else if (deathFlickerFrames % 20 == 4) {
+		m_color.a = 122;
+	}
+	else if (deathFlickerFrames % 20 == 6) {
+		m_color.a = 66;
+	}
+	else if (deathFlickerFrames % 20 == 8) {
+		m_color.a = 0;
+	}
+	else if (deathFlickerFrames % 20 == 10) {
+		m_color.a = 66;
+	}
+	else if (deathFlickerFrames % 20 == 12) {
+		m_color.a = 122;
+	}
+	else if (deathFlickerFrames % 20 == 14) {
+		m_color.a = 188;
+	}
+}
+
 // TODO: Add freeze for some time, so player doesn't accidentally move fatally when respawning
 void Player::respawnAt(glm::vec2 respawnPos) {
+	deathFlickerFrames = 60;
 	m_speed.x = 0;
 	m_speed.y = 0;
 	setPosition(respawnPos);
@@ -245,14 +281,14 @@ void Player::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles, std::v
 				}
 			}
 			if (tiles[i]->type == KILL) {
-				dead = true;
+				respawnAt(playerStartPos);
 			}
 		}
 	}
 	// Collide with enemies
 	for (unsigned int i = 0; i < enemies.size(); i++) {
 		if (collideWithEntity((int)width, (int)height, enemies[i])) {
-			dead = true;
+			respawnAt(playerStartPos);
 		}
 	}
 }

@@ -16,6 +16,7 @@ public:
     void init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera);
 	void draw(GEngine::SpriteBatch& _spriteBatch);
 	void update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float deltaTime);
+	void applyDeathFlicker();
 	void respawnAt(glm::vec2 respawnPos);
 	void updateHorizontalMovement();
     void applyJump();
@@ -38,6 +39,7 @@ public:
 	int textureID3;
 	int textureID4;
 	int textureID5;
+	int deathFlickerFrames = 0;
 
 	const float ACCELERATION = 0.70f;
 	const float MAX_MOVE_SPEED = 10.0f;
