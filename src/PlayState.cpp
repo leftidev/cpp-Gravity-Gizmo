@@ -66,9 +66,10 @@ void PlayState::initLevel() {
 	const std::vector<glm::vec2>& enemyPositions = m_levels[m_currentLevel]->enemyStartPositions;
 	const std::vector<int>& enemyTextureIDs = m_levels[m_currentLevel]->enemyTextureIDs;
 	const std::vector<glm::fvec2>& enemyVelocities = m_levels[m_currentLevel]->enemyVelocities;
+	const std::vector<EnemyType>& enemyTypes = m_levels[m_currentLevel]->enemyTypes;
 	for (unsigned int i = 0; i < enemyPositions.size(); i++) {
 		m_enemies.push_back(new Enemy);
-		m_enemies.back()->init(enemyTextureIDs[i], enemyVelocities[i], enemyPositions[i]);
+		m_enemies.back()->init(enemyTextureIDs[i], enemyVelocities[i], enemyPositions[i], enemyTypes[i]);
 	}
 }
 
@@ -117,6 +118,10 @@ void PlayState::update(float deltaTime) {
 	}
 
 	m_player->update(m_levels[m_currentLevel]->tiles, m_enemies, deltaTime);
+
+	for (unsigned int i = 0; i < m_enemies.size(); i++) {
+		m_enemies[i]->update(m_levels[m_currentLevel]->tiles, deltaTime);
+	}
 
 	// Player dies when going out of level bounds
 	if (m_player->getPosition().y < -400 || m_player->getPosition().y > m_levels[m_currentLevel]->levelHeight + 400) {

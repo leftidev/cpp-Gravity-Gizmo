@@ -99,7 +99,8 @@ Level::Level(const std::string& fileName) {
 				case 'E': {
 					enemyTextureIDs.emplace_back(GEngine::ResourceManager::getTexture("../assets/Textures/enemy_black_78x78.png").id);
 					enemyStartPositions.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
-					enemyVelocities.emplace_back(10.0f, 0.0f);
+					enemyVelocities.emplace_back(0.0f, 0.0f);
+					enemyTypes.emplace_back(EnemyType::JUMPING);
 				} break;
                 case '.':
                     break;

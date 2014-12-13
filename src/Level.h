@@ -6,6 +6,7 @@
 #include <GEngine/SpriteBatch.h>
 
 #include "Tile.h"
+#include "Enemy.h"
 
 
 const int TILE_WIDTH = 42;
@@ -31,5 +32,6 @@ public:
 	std::vector<int> enemyTextureIDs;
 	std::vector<glm::vec2> enemyStartPositions;
 	std::vector<glm::fvec2> enemyVelocities;
+	std::vector<EnemyType> enemyTypes;
 };
 

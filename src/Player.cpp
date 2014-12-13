@@ -202,7 +202,6 @@ void Player::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles, std::v
 	for (unsigned int i = 0; i < tiles.size(); i++) {
 		if (collideWithTile((int)width, (int)height, tiles[i])) {
 			if (tiles[i]->type == SOLID) {
-				std::cout << "collisiioon" << std::endl;
 				// Collide from left
 				if (speed.x > 0) {
 					m_position.x = tiles[i]->getPosition().x - width;

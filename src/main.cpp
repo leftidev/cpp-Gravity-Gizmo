@@ -81,7 +81,7 @@ int main(int argc, char** argv) {
 
 		// Limit the FPS, and get the current FPS
 		fps = fpsLimiter.endFrame();
-		//std::cout << fps << std::endl;
+		std::cout << fps << std::endl;
 	}
 	// Leaving the scope of 'stateManager' will cleanup the engine
 
