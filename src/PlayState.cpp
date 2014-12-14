@@ -173,7 +173,7 @@ void PlayState::draw() {
 
 	// Draw the enemies
 	for (unsigned int i = 0; i < m_enemies.size(); i++) {
-		if (_camera.isBoxInView(m_enemies[i]->getPosition(), tileDimensions)) {
+		if (_camera.isBoxInView(m_enemies[i]->getPosition(), enemyDimensions)) {
 			m_enemies[i]->draw(m_spriteBatch);
 		}
 	}

@@ -122,6 +122,7 @@ void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float
 	for (unsigned int i = 0; i < projectiles.size(); i++) {
 		projectiles[i]->update(tiles, enemies, deltaTime);
 
+		// Projectile hits 
 		if (projectiles[i]->destroyed) {
 			std::cout << "projectile destroyed" << std::endl;
 			projectiles.pop_back();
@@ -132,10 +133,10 @@ void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float
 void Player::shootProjectile() {
 	if (projectiles.size() == 0) {
 		if (direction == "right") {
-			projectiles.push_back(new Projectile(glm::fvec2(5.0f, 0.0f), glm::vec2(m_position)));
+			projectiles.push_back(new Projectile(glm::fvec2(8.0f, 0.0f), glm::vec2(m_position)));
 		}
 		else if (direction == "left") {
-			projectiles.push_back(new Projectile(glm::fvec2(-5.0f, 0.0f), glm::vec2(m_position)));
+			projectiles.push_back(new Projectile(glm::fvec2(-8.0f, 0.0f), glm::vec2(m_position)));
 		}
 	}
 }

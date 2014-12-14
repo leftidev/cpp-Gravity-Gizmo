@@ -2,7 +2,7 @@ Gravity Gizmo
 ----------
 Latest screenshot
 -----------------------
-![alt tag](https://cloud.githubusercontent.com/assets/5671281/5380078/2a2d72d6-809e-11e4-9c45-bc6fa4eec9d0.png)
+![alt tag](https://cloud.githubusercontent.com/assets/5671281/5427464/70204498-83a6-11e4-8042-671a5ce7776c.png)
 What?
 -----
 This repo contains Gravity Gizmo. This is a game I originally developed in Python and Pygame.
@@ -37,6 +37,7 @@ How to play?
 - W, S or Up, Down arrow to reverse gravity
 - A, D or Left, Right arrow to move
 - Space to jump, space again to double-jump
+- Left CTRL to shoot a bubble
 
 Other
 -----
