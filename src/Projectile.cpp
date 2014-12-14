@@ -8,6 +8,8 @@ Projectile::Projectile(glm::fvec2 speed, glm::vec2 pos) {
 	m_position = pos;
 	m_color = GEngine::ColorRGBA8(255, 255, 255, 255);
 
+	startPosition = pos;
+
 	width = 78.0f;
 	height = 78.0f;
 }
@@ -26,7 +28,7 @@ void Projectile::applyCollisions(std::vector<Tile*> tiles, std::vector<Enemy*> e
 	// Collide with level tiles
 	for (unsigned int i = 0; i < tiles.size(); i++) {
 		if (collideWithTile((int)width, (int)height, tiles[i])) {
-			if (tiles[i]->type == SOLID) {
+			if (tiles[i]->type == SOLID | tiles[i]->type == KILL) {
 				destroyed = true;
 			}
 		}

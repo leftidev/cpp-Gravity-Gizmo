@@ -14,5 +14,6 @@ public:
 	void applyCollisions(std::vector<Tile*> tiles, std::vector<Enemy*> enemies);
 
 	bool destroyed = false;
+	glm::vec2 startPosition;
 };
 

@@ -125,16 +125,30 @@ void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float
 		if (projectiles[i]->destroyed) {
 			projectiles.pop_back();
 		}
+		if (projectiles[i]->getPosition().x < projectiles[i]->startPosition.x - PROJECTILE_REACH ||
+			projectiles[i]->getPosition().x > projectiles[i]->startPosition.x + PROJECTILE_REACH) {
+			projectiles.pop_back();
+		}
 	}
 }
 
 void Player::shootProjectile() {
 	if (projectiles.size() == 0) {
-		if (direction == "right") {
-			projectiles.push_back(new Projectile(glm::fvec2(8.0f, 0.0f), glm::vec2(m_position)));
+		if (upsideDown) {
+			if (direction == "right") {
+				projectiles.push_back(new Projectile(glm::fvec2(8.0f, 0.0f), glm::vec2(m_position.x, m_position.y - 40)));
+			}
+			else if (direction == "left") {
+				projectiles.push_back(new Projectile(glm::fvec2(-8.0f, 0.0f), glm::vec2(m_position.x, m_position.y - 40)));
+			}
 		}
-		else if (direction == "left") {
-			projectiles.push_back(new Projectile(glm::fvec2(-8.0f, 0.0f), glm::vec2(m_position)));
+		else {
+			if (direction == "right") {
+				projectiles.push_back(new Projectile(glm::fvec2(8.0f, 0.0f), glm::vec2(m_position)));
+			}
+			else if (direction == "left") {
+				projectiles.push_back(new Projectile(glm::fvec2(-8.0f, 0.0f), glm::vec2(m_position)));
+			}
 		}
 	}
 }
