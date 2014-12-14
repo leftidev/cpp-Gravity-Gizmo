@@ -10,10 +10,11 @@
 #include "Level.h"
 #include "Enemy.h"
 
+class StateManager;
 
 class PlayState : public GEngine::GameState {
 public:
-	PlayState(GEngine::StateManager& stateMachine, GEngine::Window& window, GEngine::InputManager& inputManager);
+	PlayState(GEngine::StateManager& stateMachine, GEngine::Window& window, GEngine::InputManager& inputManager, int currentLevel);
 	~PlayState();
 	void init() override;
 	void initShaders();
@@ -30,6 +31,5 @@ private:
 	std::vector<Enemy*> m_enemies; // All enemies
 
 	Player* m_player = nullptr;
-	int m_currentLevel;
 };
 

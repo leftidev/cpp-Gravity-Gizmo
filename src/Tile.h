@@ -4,7 +4,9 @@
 
 enum TileType {
 	SOLID,
-	KILL
+	KILL,
+	DISAPPEARING,
+	EXIT
 };
 
 class Tile {

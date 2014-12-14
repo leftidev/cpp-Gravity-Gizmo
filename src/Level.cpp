@@ -84,12 +84,12 @@ Level::Level(const std::string& fileName) {
                 } break;
                 case 'X': {
                     Tile* temp = new Tile();
-					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/disappearing_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::SOLID);
+					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/disappearing_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::DISAPPEARING);
                     tiles.push_back(temp);
                 } break;
                 case '*': {
                     Tile* temp = new Tile();
-					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/exit_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::SOLID);
+					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/exit_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::EXIT);
                     tiles.push_back(temp);
                 } break;
 				case '@': {

@@ -279,7 +279,7 @@ void Player::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles, std::v
 	// Collide with level tiles
 	for (unsigned int i = 0; i < tiles.size(); i++) {
 		if (collideWithTile((int)width, (int)height, tiles[i])) {
-			if (tiles[i]->type == SOLID) {
+			if (tiles[i]->type == SOLID || DISAPPEARING) {
 				// Collide from left
 				if (speed.x > 0) {
 					m_position.x = tiles[i]->getPosition().x - width;
@@ -324,6 +324,9 @@ void Player::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles, std::v
 			}
 			if (tiles[i]->type == KILL) {
 				dead = true;
+			}
+			if (tiles[i]->type == EXIT) {
+				finishedLevel = true;
 			}
 		}
 	}
