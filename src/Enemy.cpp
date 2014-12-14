@@ -19,42 +19,41 @@ void Enemy::init(int TextureID, glm::fvec2 speed, glm::vec2 pos, EnemyType enemy
 	height = 78.0f;
 }
 
-void Enemy::update(std::vector<Tile*> tiles, float deltaTime) {
-	if (type == JUMPING || type == REVERSEJUMPING || type == X_MOVINGJUMPING) {
-		if (!jumped && !inAir) {
-			// Normal jumping
-			applyJump();
+void Enemy::update(std::vector<Tile*> tiles, std::vector<Projectile*> projectiles, float deltaTime) {
+	// If bubbled, freeze the enemy
+	if (!bubbled) {
+		if (type == JUMPING || type == REVERSEJUMPING || type == X_MOVINGJUMPING) {
+			if (!jumped && !inAir) {
+				// Normal jumping
+				applyJump();
+			}
+
+			// Player is in air, apply gravity
+			if (inAir) {
+				jumped = true;
+				if (type == JUMPING || type == X_MOVINGJUMPING) {
+					m_speed.y -= gravityAcceleration * deltaTime;
+				}
+				if (type == REVERSEJUMPING) {
+					m_speed.y -= -gravityAcceleration * deltaTime;
+				}
+			}
+
+			// Move on Y-axis
+			m_position.y += m_speed.y * deltaTime;
+
+			// Assume player is in air, this makes player fall off platform ledges
+			inAir = true;
+
+			// Check collisions on Y-axis
+			applyCollisions(glm::fvec2(0.0f, m_speed.y), tiles, projectiles);
 		}
 
-		// Player is in air, apply gravity
-		if (inAir) {
-			jumped = true;
-			if (type == JUMPING || type == X_MOVINGJUMPING) {
-				m_speed.y -= gravityAcceleration * deltaTime;
-			}
-			if (type == REVERSEJUMPING) {
-				m_speed.y -= -gravityAcceleration * deltaTime;
-			}
-		}
-
-		// Move on Y-axis
-		m_position.y += m_speed.y * deltaTime;
-
-		// Assume player is in air, this makes player fall off platform ledges
-		inAir = true;
-
-		// Check collisions on Y-axis
-		applyCollisions(glm::fvec2(0.0f, m_speed.y), tiles);
-
-
-	}
-
-	if (type == X_MOVING || type == X_MOVINGJUMPING) {
 		// Move on X-axis
 		m_position.x += m_speed.x * deltaTime;
 
 		// Check collisions on X-axis
-		applyCollisions(glm::fvec2(m_speed.x, 0.0f), tiles);
+		applyCollisions(glm::fvec2(m_speed.x, 0.0f), tiles, projectiles);
 	}
 }
 
@@ -70,7 +69,7 @@ void Enemy::applyJump() {
 	}
 }
 
-void Enemy::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles) {
+void Enemy::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles, std::vector<Projectile*> projectiles) {
 	// Collide with level tiles
 	for (unsigned int i = 0; i < tiles.size(); i++) {
 		if (collideWithTile((int)width, (int)height, tiles[i])) {

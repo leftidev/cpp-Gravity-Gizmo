@@ -124,7 +124,6 @@ void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float
 
 		// Projectile hits 
 		if (projectiles[i]->destroyed) {
-			std::cout << "projectile destroyed" << std::endl;
 			projectiles.pop_back();
 		}
 	}

@@ -128,7 +128,7 @@ void PlayState::update(float deltaTime) {
 	}
 
 	for (unsigned int i = 0; i < m_enemies.size(); i++) {
-		m_enemies[i]->update(m_levels[m_currentLevel]->tiles, deltaTime);
+		m_enemies[i]->update(m_levels[m_currentLevel]->tiles, m_player->projectiles, deltaTime);
 	}
 }
 

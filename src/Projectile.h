@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Entity.h"
-#include "Enemy.h"
+#include "Tile.h"
 
+class Enemy;
 
 class Projectile : public Entity {
 public:
@@ -10,7 +11,7 @@ public:
 	~Projectile();
 
 	void update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float deltaTime);
-	void applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles, std::vector<Enemy*> enemies);
+	void applyCollisions(std::vector<Tile*> tiles, std::vector<Enemy*> enemies);
 
 	bool destroyed = false;
 };

@@ -1,4 +1,5 @@
 #include "Projectile.h"
+#include "Enemy.h"
 
 
 Projectile::Projectile(glm::fvec2 speed, glm::vec2 pos) {
@@ -18,10 +19,10 @@ void Projectile::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, f
 	m_position.x += m_speed.x * deltaTime;
 
 	// Check collisions on X-axis
-	applyCollisions(glm::fvec2(m_speed.x, 0.0f), tiles, enemies);
+	applyCollisions(tiles, enemies);
 }
 
-void Projectile::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles, std::vector<Enemy*> enemies) {
+void Projectile::applyCollisions(std::vector<Tile*> tiles, std::vector<Enemy*> enemies) {
 	// Collide with level tiles
 	for (unsigned int i = 0; i < tiles.size(); i++) {
 		if (collideWithTile((int)width, (int)height, tiles[i])) {
@@ -34,6 +35,7 @@ void Projectile::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles, st
 	for (unsigned int i = 0; i < enemies.size(); i++) {
 		if (collideWithEntity((int)width, (int)height, enemies[i])) {
 			destroyed = true;
+			enemies[i]->bubbled = true;
 		}
 	}
 }

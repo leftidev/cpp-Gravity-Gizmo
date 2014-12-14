@@ -34,8 +34,13 @@ NOTE: Currently only tested on Windows!
 
 How to play?
 ------------
-- W, S or Up, Down arrow to reverse gravity
-- A, D or Left, Right arrow to move
+Objectives:
+- Bubble up all the enemies in the level, and destroy them by bursting the bubble
+- After destroying all the enemies, get yourself to the exit
+
+Controls:
+- Up, Down arrow to reverse gravity
+- Left, Right arrow to move
 - Space to jump, space again to double-jump
 - Left CTRL to shoot a bubble
 
