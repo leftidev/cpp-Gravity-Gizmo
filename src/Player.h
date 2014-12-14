@@ -15,7 +15,7 @@ public:
     ~Player();
 
 	void init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera);
-	void draw(GEngine::SpriteBatch& _spriteBatch);
+	void draw(GEngine::SpriteBatch& spriteBatch);
 	void update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float deltaTime);
 	void shootProjectile();
 	void applyDeathFlicker();
@@ -50,10 +50,9 @@ public:
 	glm::fvec2 playerStartPos;
 
 	std::vector<Projectile*> projectiles;
+
 private:
     GEngine::InputManager* m_inputManager; // Handle for the input manager
     GEngine::Camera2D* m_camera; // Handle for the camera
-
-
 };
 

@@ -8,7 +8,7 @@
 Player::Player() { }
 
 Player::~Player() {
-	// Delete the levels
+	// Delete the projectiles
 	for (unsigned int i = 0; i < projectiles.size(); i++) {
 		delete projectiles[i];
 	}
@@ -34,7 +34,7 @@ void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::
 	m_color = GEngine::ColorRGBA8(255, 255, 255, 255);
 }
 
-void Player::draw(GEngine::SpriteBatch& _spriteBatch) {
+void Player::draw(GEngine::SpriteBatch& spriteBatch) {
 	const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
 
 	glm::vec4 destRect;
@@ -56,7 +56,7 @@ void Player::draw(GEngine::SpriteBatch& _spriteBatch) {
 		m_textureID = textureID3;
 	}
 
-	_spriteBatch.draw(destRect, uvRect, m_textureID, 0.0f, m_color);
+	spriteBatch.draw(destRect, uvRect, m_textureID, 0.0f, m_color);
 }
 
 void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float deltaTime) {
@@ -88,7 +88,6 @@ void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float
 		if (!jumped) {
 			// Normal jumping
 			applyJump();
-			applyDeathFlicker();
 		}
     }
 
@@ -317,7 +316,14 @@ void Player::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles, std::v
 	// Collide with enemies
 	for (unsigned int i = 0; i < enemies.size(); i++) {
 		if (collideWithEntity((int)width, (int)height, enemies[i])) {
-			dead = true;
+			if (enemies[i]->bubbled) {
+				// Destroy the enemy
+				enemies[i]->destroyed = true;
+				std::cout << "destroy ze enemy" << std::endl;
+			}
+			else {
+				dead = true;
+			}
 		}
 	}
 }

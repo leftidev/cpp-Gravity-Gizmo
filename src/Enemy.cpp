@@ -9,6 +9,8 @@ Enemy::~Enemy() { }
 
 void Enemy::init(int TextureID, glm::fvec2 speed, glm::vec2 pos, EnemyType enemyType) {
 	m_textureID = TextureID;
+	textureID2 = GEngine::ResourceManager::getTexture("../assets/textures/pacified_enemy_104x104.png").id;
+
 	m_speed = speed;
 	m_position = pos;
 	m_color = GEngine::ColorRGBA8(255, 255, 255, 255);
@@ -17,6 +19,26 @@ void Enemy::init(int TextureID, glm::fvec2 speed, glm::vec2 pos, EnemyType enemy
 
 	width = 78.0f;
 	height = 78.0f;
+}
+
+void Enemy::draw(GEngine::SpriteBatch& spriteBatch) {
+	const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
+
+	glm::vec4 destRect;
+	destRect.x = m_position.x;
+	destRect.y = m_position.y;
+	destRect.z = width;
+	destRect.w = height;
+
+	if (bubbled) {
+		m_textureID = textureID2;
+		destRect.x = m_position.x - 13.0f;
+		destRect.y = m_position.y - 13.0f;;
+		width = 104;
+		height = 104;
+	}
+
+	spriteBatch.draw(destRect, uvRect, m_textureID, 0.0f, m_color);
 }
 
 void Enemy::update(std::vector<Tile*> tiles, std::vector<Projectile*> projectiles, float deltaTime) {
@@ -48,12 +70,13 @@ void Enemy::update(std::vector<Tile*> tiles, std::vector<Projectile*> projectile
 			// Check collisions on Y-axis
 			applyCollisions(glm::fvec2(0.0f, m_speed.y), tiles, projectiles);
 		}
+		if (type == X_MOVING || type == X_MOVINGJUMPING) {
+			// Move on X-axis
+			m_position.x += m_speed.x * deltaTime;
 
-		// Move on X-axis
-		m_position.x += m_speed.x * deltaTime;
-
-		// Check collisions on X-axis
-		applyCollisions(glm::fvec2(m_speed.x, 0.0f), tiles, projectiles);
+			// Check collisions on X-axis
+			applyCollisions(glm::fvec2(m_speed.x, 0.0f), tiles, projectiles);
+		}
 	}
 }
 

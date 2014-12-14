@@ -23,6 +23,8 @@ PlayState::~PlayState() {
 	for (unsigned int i = 0; i < m_enemies.size(); i++) {
 		delete m_enemies[i];
 	}
+	// Delete the player
+	delete m_player;
 }
 
 void PlayState::init() {
@@ -55,7 +57,7 @@ void PlayState::initShaders() {
 
 void PlayState::initLevel() {
 	// Initialize level 1
-	m_levels.push_back(new Level("../assets/levels/level05.txt"));
+	m_levels.push_back(new Level("../assets/levels/level03.txt"));
 	m_currentLevel = 0;
 
 	// Initialize the player
@@ -129,6 +131,10 @@ void PlayState::update(float deltaTime) {
 
 	for (unsigned int i = 0; i < m_enemies.size(); i++) {
 		m_enemies[i]->update(m_levels[m_currentLevel]->tiles, m_player->projectiles, deltaTime);
+
+		if (m_enemies[i]->destroyed) {
+			m_enemies.erase(m_enemies.begin() + i);
+		}
 	}
 }
 
