@@ -173,13 +173,18 @@ void PlayState::draw() {
 
 	// Draw the enemies
 	for (unsigned int i = 0; i < m_enemies.size(); i++) {
-		if (_camera.isBoxInView(m_enemies[i]->getPosition(), enemyDimensions)) {
+		if (_camera.isBoxInView(m_enemies[i]->getPosition(), tileDimensions)) {
 			m_enemies[i]->draw(m_spriteBatch);
 		}
 	}
 
 	// Draw the player
 	m_player->draw(m_spriteBatch);
+
+	for (unsigned int i = 0; i < m_player->projectiles.size(); i++) {
+		m_player->projectiles[i]->draw(m_spriteBatch);
+	}
+
 
 	// End sprite batch creation
 	m_spriteBatch.end();

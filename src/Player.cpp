@@ -7,7 +7,12 @@
 
 Player::Player() { }
 
-Player::~Player() { }
+Player::~Player() {
+	// Delete the levels
+	for (unsigned int i = 0; i < projectiles.size(); i++) {
+		delete projectiles[i];
+	}
+}
 
 void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera) {
 	m_textureID = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_right.png").id;
@@ -59,7 +64,10 @@ void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float
 		deathFlickerFrames--;
 		applyDeathFlicker();
 	}
-
+	// Shoot projectile
+	if (m_inputManager->isKeyPressed(SDLK_LCTRL)) {
+		shootProjectile();
+	}
 	// Apply bend gravity, if player presses W or UP arrow and the gravity is normal
 	if ((m_inputManager->isKeyDown(SDLK_w) || m_inputManager->isKeyDown(SDLK_UP)) && normalGravity) {
 		applyGravityBend();
@@ -109,6 +117,27 @@ void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float
 
     // Check collisions on X-axis
 	applyCollisions(glm::fvec2(m_speed.x, 0.0f), tiles, enemies);
+
+	// Update projectiles
+	for (unsigned int i = 0; i < projectiles.size(); i++) {
+		projectiles[i]->update(tiles, enemies, deltaTime);
+
+		if (projectiles[i]->destroyed) {
+			std::cout << "projectile destroyed" << std::endl;
+			projectiles.pop_back();
+		}
+	}
+}
+
+void Player::shootProjectile() {
+	if (projectiles.size() == 0) {
+		if (direction == "right") {
+			projectiles.push_back(new Projectile(glm::fvec2(5.0f, 0.0f), glm::vec2(m_position)));
+		}
+		else if (direction == "left") {
+			projectiles.push_back(new Projectile(glm::fvec2(-5.0f, 0.0f), glm::vec2(m_position)));
+		}
+	}
 }
 
 void Player::applyDeathFlicker() {
