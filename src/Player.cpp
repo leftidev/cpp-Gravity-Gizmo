@@ -136,18 +136,18 @@ void Player::shootProjectile() {
 	if (projectiles.size() == 0) {
 		if (upsideDown) {
 			if (direction == "right") {
-				projectiles.push_back(new Projectile(glm::fvec2(8.0f, 0.0f), glm::vec2(m_position.x, m_position.y - 40)));
+				projectiles.push_back(new Projectile(glm::fvec2(11.0f, 0.0f), glm::vec2(m_position.x + 42, m_position.y)));
 			}
 			else if (direction == "left") {
-				projectiles.push_back(new Projectile(glm::fvec2(-8.0f, 0.0f), glm::vec2(m_position.x, m_position.y - 40)));
+				projectiles.push_back(new Projectile(glm::fvec2(-11.0f, 0.0f), glm::vec2(m_position.x - 42, m_position.y)));
 			}
 		}
 		else {
 			if (direction == "right") {
-				projectiles.push_back(new Projectile(glm::fvec2(8.0f, 0.0f), glm::vec2(m_position)));
+				projectiles.push_back(new Projectile(glm::fvec2(11.0f, 0.0f), glm::vec2(m_position.x + 42, m_position.y)));
 			}
 			else if (direction == "left") {
-				projectiles.push_back(new Projectile(glm::fvec2(-8.0f, 0.0f), glm::vec2(m_position)));
+				projectiles.push_back(new Projectile(glm::fvec2(-11.0f, 0.0f), glm::vec2(m_position.x - 42, m_position.y)));
 			}
 		}
 	}

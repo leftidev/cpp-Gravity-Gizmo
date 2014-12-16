@@ -96,7 +96,7 @@ void Enemy::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles, std::ve
 	// Collide with level tiles
 	for (unsigned int i = 0; i < tiles.size(); i++) {
 		if (collideWithTile((int)width, (int)height, tiles[i])) {
-			if (tiles[i]->type == SOLID) {
+			if (tiles[i]->type == SOLID || tiles[i]->type == DISAPPEARING) {
 				// Collide from left
 				if (speed.x > 0) {
 					m_position.x = tiles[i]->getPosition().x - width;

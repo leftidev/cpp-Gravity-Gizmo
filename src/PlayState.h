@@ -27,7 +27,7 @@ public:
 private:
 	GEngine::SpriteBatch m_spriteBatch; // Draws all sprites
 	GEngine::GLSLProgram m_textureProgram; // The shader program
-	std::vector<Level*> m_levels; // All levels
+	Level* m_currentLevel; // The level
 	std::vector<Enemy*> m_enemies; // All enemies
 
 	Player* m_player = nullptr;

@@ -15,16 +15,15 @@ PlayState::PlayState(GEngine::StateManager& stateMachine, GEngine::Window& windo
 }
 
 PlayState::~PlayState() {
-	// Delete the levels
-	for (unsigned int i = 0; i < m_levels.size(); i++) {
-		delete m_levels[i];
-	}
 	// Delete the enemies
 	for (unsigned int i = 0; i < m_enemies.size(); i++) {
 		delete m_enemies[i];
 	}
 	// Delete the player
 	delete m_player;
+
+	// Delete the level
+	delete m_currentLevel;
 }
 
 void PlayState::init() {
@@ -58,31 +57,61 @@ void PlayState::initShaders() {
 void PlayState::initLevel() {
 	// Initialize level 1
 	if (m_currentLevel == 1) {
-		m_levels.push_back(new Level("../assets/levels/level01.txt"));
+		m_currentLevel.push_back(new Level("../assets/levels/level01.txt"));
 	}
 	else if (m_currentLevel == 2) {
-		m_levels.push_back(new Level("../assets/levels/level02.txt"));
+		m_currentLevel = new Level("../assets/levels/level02.txt");
 	}
 	else if (m_currentLevel == 3) {
-		m_levels.push_back(new Level("../assets/levels/level03.txt"));
+		m_currentLevel.push_back(new Level("../assets/levels/level03.txt"));
 	}
 	else if (m_currentLevel == 4) {
-		m_levels.push_back(new Level("../assets/levels/level04.txt"));
+		m_currentLevel.push_back(new Level("../assets/levels/level04.txt"));
 	}
 	else if (m_currentLevel == 5) {
-		m_levels.push_back(new Level("../assets/levels/level05.txt"));
+		m_currentLevel.push_back(new Level("../assets/levels/level05.txt"));
+	}
+	else if (m_currentLevel == 6) {
+		m_currentLevel.push_back(new Level("../assets/levels/level06.txt"));
+	}
+	else if (m_currentLevel == 7) {
+		m_currentLevel.push_back(new Level("../assets/levels/level07.txt"));
+	}
+	else if (m_currentLevel == 8) {
+		m_currentLevel.push_back(new Level("../assets/levels/level08.txt"));
+	}
+	else if (m_currentLevel == 9) {
+		m_currentLevel.push_back(new Level("../assets/levels/level09.txt"));
+	}
+	else if (m_currentLevel == 10) {
+		m_currentLevel.push_back(new Level("../assets/levels/level10.txt"));
+	}
+	else if (m_currentLevel == 11) {
+		m_currentLevel.push_back(new Level("../assets/levels/level11.txt"));
+	}
+	else if (m_currentLevel == 12) {
+		m_currentLevel.push_back(new Level("../assets/levels/level12.txt"));
+	}
+	else if (m_currentLevel == 13) {
+		m_currentLevel.push_back(new Level("../assets/levels/level13.txt"));
+	}
+	else if (m_currentLevel == 14) {
+		m_currentLevel.push_back(new Level("../assets/levels/level14.txt"));
+	}
+	else if (m_currentLevel == 15) {
+		m_currentLevel.push_back(new Level("../assets/levels/level15.txt"));
 	}
 
 
 	// Initialize the player
 	m_player = new Player();
-	m_player->init(m_levels[0]->startPlayerPos, &m_inputManager, &m_camera);
+	m_player->init(m_currentLevel[0]->startPlayerPos, &m_inputManager, &m_camera);
 
 	// Add the enemies
-	const std::vector<glm::vec2>& enemyPositions = m_levels[0]->enemyStartPositions;
-	const std::vector<int>& enemyTextureIDs = m_levels[0]->enemyTextureIDs;
-	const std::vector<glm::fvec2>& enemyVelocities = m_levels[0]->enemyVelocities;
-	const std::vector<EnemyType>& enemyTypes = m_levels[0]->enemyTypes;
+	const std::vector<glm::vec2>& enemyPositions = m_currentLevel[0]->enemyStartPositions;
+	const std::vector<int>& enemyTextureIDs = m_currentLevel[0]->enemyTextureIDs;
+	const std::vector<glm::fvec2>& enemyVelocities = m_currentLevel[0]->enemyVelocities;
+	const std::vector<EnemyType>& enemyTypes = m_currentLevel[0]->enemyTypes;
 	for (unsigned int i = 0; i < enemyPositions.size(); i++) {
 		m_enemies.push_back(new Enemy);
 		m_enemies.back()->init(enemyTextureIDs[i], enemyVelocities[i], enemyPositions[i], enemyTypes[i]);
@@ -133,13 +162,13 @@ void PlayState::update(float deltaTime) {
 		m_player->respawnAt(m_player->playerStartPos);
 	}
 
-	m_player->update(m_levels[0]->tiles, m_enemies, deltaTime);
+	m_player->update(m_currentLevel[0]->tiles, m_enemies, deltaTime);
 
 	if (m_player->dead) {
 		m_stateMachine.changeState(new PlayState(m_stateMachine, m_window, m_inputManager, m_currentLevel));
 	}
 	// Player dies when going out of level bounds
-	if (m_player->getPosition().y < -400 || m_player->getPosition().y > m_levels[0]->levelHeight + 400) {
+	if (m_player->getPosition().y < -400 || m_player->getPosition().y > m_currentLevel[0]->levelHeight + 400) {
 		m_stateMachine.changeState(new PlayState(m_stateMachine, m_window, m_inputManager, m_currentLevel));
 	}
 	if (m_player->finishedLevel) {
@@ -147,16 +176,16 @@ void PlayState::update(float deltaTime) {
 	}
 
 	for (unsigned int i = 0; i < m_enemies.size(); i++) {
-		m_enemies[i]->update(m_levels[0]->tiles, m_player->projectiles, deltaTime);
+		m_enemies[i]->update(m_currentLevel[0]->tiles, m_player->projectiles, deltaTime);
 
 		if (m_enemies[i]->destroyed) {
 			m_enemies.erase(m_enemies.begin() + i);
 		}
 	}
 	if (m_enemies.empty()) {
-		for (unsigned int i = 0; i < m_levels[0]->tiles.size(); i++) {
-			if (m_levels[0]->tiles[i]->type == DISAPPEARING) {
-				m_levels[0]->tiles.erase(m_levels[0]->tiles.begin() + i);
+		for (unsigned int i = 0; i < m_currentLevel[0]->tiles.size(); i++) {
+			if (m_currentLevel[0]->tiles[i]->type == DISAPPEARING) {
+				m_currentLevel[0]->tiles.erase(m_currentLevel[0]->tiles.begin() + i);
 			}
 		}
 	}
@@ -195,9 +224,9 @@ void PlayState::draw() {
 	m_spriteBatch.begin();
 
 	// Draw tiles
-	for (unsigned int i = 0; i < m_levels[0]->tiles.size(); i++) {
-		if (m_camera.isBoxInView(m_levels[0]->tiles[i]->getPosition(), tileDimensions)) {
-			m_levels[0]->tiles[i]->draw(m_spriteBatch);
+	for (unsigned int i = 0; i < m_currentLevel[0]->tiles.size(); i++) {
+		if (m_camera.isBoxInView(m_currentLevel[0]->tiles[i]->getPosition(), tileDimensions)) {
+			m_currentLevel[0]->tiles[i]->draw(m_spriteBatch);
 		}
 	}
 

@@ -45,7 +45,7 @@ public:
 	int deathFlickerFrames = 60;
 	
 	const int PROJECTILE_REACH = 400;
-	const float ACCELERATION = 0.70f;
+	const float ACCELERATION = 0.40f;
 	const float MAX_MOVE_SPEED = 10.0f;
 	const float JUMP_SPEED = 14.0f;
 
