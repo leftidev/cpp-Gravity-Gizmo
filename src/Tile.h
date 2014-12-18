@@ -5,6 +5,7 @@
 enum TileType {
 	SOLID,
 	KILL,
+	KILLREVERSE,
 	DISAPPEARING,
 	EXIT
 };
@@ -22,9 +23,11 @@ public:
 	float height;
 
 	TileType type;
+	bool playerDiedOnThisTile = false;
 
 private:
 	int m_textureID;
+	int m_textureID2;
 	glm::fvec2 m_position;
 	GEngine::ColorRGBA8 m_color;
 };

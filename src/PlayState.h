@@ -16,6 +16,7 @@ class PlayState : public GEngine::GameState {
 public:
 	PlayState(GEngine::StateManager& stateMachine, GEngine::Window& window, GEngine::InputManager& inputManager, int currentLevel);
 	~PlayState();
+	void restart();
 	void init() override;
 	void initShaders();
 	void initLevel();
@@ -23,13 +24,13 @@ public:
 	void update(float deltaTime) override;
 	void updateCamera() override;
 	void draw() override;
-
+	bool addDisappearingBlock = false;
 private:
 	GEngine::SpriteBatch m_spriteBatch; // Draws all sprites
 	GEngine::GLSLProgram m_textureProgram; // The shader program
-	Level* m_level; // The level
-	std::vector<Enemy*> m_enemies; // All enemies
 
+	std::vector<Enemy*> m_enemies; // All enemies
 	Player* m_player = nullptr;
+	Level* m_level = nullptr;
 };
 

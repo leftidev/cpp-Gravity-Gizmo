@@ -322,8 +322,9 @@ void Player::applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles, std::v
 					}
 				}
 			}
-			if (tiles[i]->type == KILL) {
+			if (tiles[i]->type == KILL || tiles[i]->type == KILLREVERSE) {
 				dead = true;
+				tiles[i]->playerDiedOnThisTile = true;
 			}
 			if (tiles[i]->type == EXIT) {
 				finishedLevel = true;

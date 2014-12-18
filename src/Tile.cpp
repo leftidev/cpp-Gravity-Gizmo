@@ -7,6 +7,12 @@ Tile::~Tile() { }
 
 void Tile::init(int textureID, glm::fvec2 pos, TileType Type) {
     m_textureID = textureID;
+	if (Type == KILLREVERSE) {
+		m_textureID2 = GEngine::ResourceManager::getTexture("../assets/textures/spike_blood_top_52x52.png").id;
+	}
+	else {
+		m_textureID2 = GEngine::ResourceManager::getTexture("../assets/textures/spike_blood_bot_52x52.png").id;
+	}
 
 	width = 42.0f;
 	height = 42.0f;
@@ -28,6 +34,10 @@ void Tile::draw(GEngine::SpriteBatch& spriteBatch) {
 	destRect.y = m_position.y;
 	destRect.z = width;
 	destRect.w = height;
+
+	if (playerDiedOnThisTile) {
+		m_textureID = m_textureID2;
+	}
 
 	spriteBatch.draw(destRect, uvRect, m_textureID, 0.0f, m_color);
 }

@@ -33,5 +33,6 @@ public:
 	std::vector<glm::vec2> enemyStartPositions;
 	std::vector<glm::fvec2> enemyVelocities;
 	std::vector<EnemyType> enemyTypes;
+	std::vector<glm::vec2> disappearBlockStartPos;
 };
 

@@ -26,6 +26,39 @@ PlayState::~PlayState() {
 	delete m_level;
 }
 
+void PlayState::restart() {
+	m_player->respawnAt(m_player->playerStartPos);
+
+	// Clear enemies from the vector
+	if (!m_enemies.empty()) {
+		m_enemies.clear();
+	}
+	// If DISAPPEARING blocks have disappeared..
+	for (unsigned int i = 0; i < m_level->tiles.size(); i++) {
+		if (m_level->tiles[i]->type != TileType::DISAPPEARING) {
+			addDisappearingBlock = true;
+		}
+	}
+	// .. add the blocks again
+	if (addDisappearingBlock) {
+		const std::vector<glm::vec2>& disappearBlockPositions = m_level->disappearBlockStartPos;
+		for (unsigned int i = 0; i < disappearBlockPositions.size(); i++) {
+			m_level->tiles.push_back(new Tile);
+			m_level->tiles.back()->init(GEngine::ResourceManager::getTexture("../assets/Textures/disappearing_block_52x52.png").id, disappearBlockPositions[i], TileType::DISAPPEARING);
+		}
+	}
+
+	// Add the enemies again to the vector
+	const std::vector<glm::vec2>& enemyPositions = m_level->enemyStartPositions;
+	const std::vector<int>& enemyTextureIDs = m_level->enemyTextureIDs;
+	const std::vector<glm::fvec2>& enemyVelocities = m_level->enemyVelocities;
+	const std::vector<EnemyType>& enemyTypes = m_level->enemyTypes;
+	for (unsigned int i = 0; i < enemyPositions.size(); i++) {
+		m_enemies.push_back(new Enemy);
+		m_enemies.back()->init(enemyTextureIDs[i], enemyVelocities[i], enemyPositions[i], enemyTypes[i]);
+	}
+}
+
 void PlayState::init() {
 	// Set up the shaders
 	initShaders();
@@ -164,11 +197,12 @@ void PlayState::update(float deltaTime) {
 	m_player->update(m_level->tiles, m_enemies, deltaTime);
 
 	if (m_player->dead) {
-		m_stateMachine.changeState(new PlayState(m_stateMachine, m_window, m_inputManager, m_currentLevel));
+		m_player->dead = false;
+		restart();
 	}
 	// Player dies when going out of level bounds
 	if (m_player->getPosition().y < -400 || m_player->getPosition().y > m_level->levelHeight + 400) {
-		m_stateMachine.changeState(new PlayState(m_stateMachine, m_window, m_inputManager, m_currentLevel));
+		restart();
 	}
 	if (m_player->finishedLevel) {
 		m_stateMachine.changeState(new PlayState(m_stateMachine, m_window, m_inputManager, m_currentLevel + 1));
@@ -228,7 +262,6 @@ void PlayState::draw() {
 			m_level->tiles[i]->draw(m_spriteBatch);
 		}
 	}
-
 	// Draw the enemies
 	for (unsigned int i = 0; i < m_enemies.size(); i++) {
 		if (m_camera.isBoxInView(m_enemies[i]->getPosition(), enemyDimensions)) {

@@ -69,12 +69,12 @@ Level::Level(const std::string& fileName) {
                 } break;
                 case 's': {
                     Tile* temp = new Tile();
-					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/spike_top_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::KILL);
+					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/spike_top_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::KILLREVERSE);
                     tiles.push_back(temp);
                 } break;
                 case 'L': {
                     Tile* temp = new Tile();
-					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/spike_top_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::KILL);
+					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/spike_top_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::KILLREVERSE);
                     tiles.push_back(temp);
                 } break;
                 case 'l': {
@@ -85,7 +85,8 @@ Level::Level(const std::string& fileName) {
                 case 'X': {
                     Tile* temp = new Tile();
 					temp->init(GEngine::ResourceManager::getTexture("../assets/Textures/disappearing_block_52x52.png").id, glm::fvec2(x * TILE_WIDTH, y * TILE_WIDTH), TileType::DISAPPEARING);
-                    tiles.push_back(temp);
+					disappearBlockStartPos.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
+					tiles.push_back(temp);
                 } break;
                 case '*': {
                     Tile* temp = new Tile();
