@@ -32,6 +32,8 @@ void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::
     m_inputManager = inputManager;
     m_camera = camera;
 	m_color = GEngine::ColorRGBA8(255, 255, 255, 255);
+
+	flickerTimer.start();
 }
 
 void Player::draw(GEngine::SpriteBatch& spriteBatch) {
@@ -60,8 +62,7 @@ void Player::draw(GEngine::SpriteBatch& spriteBatch) {
 }
 
 void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float deltaTime) {
-	if (deathFlickerFrames > 0) {
-		deathFlickerFrames--;
+	if (timeSinceFlickerStarted < 0.70f) {
 		applyDeathFlicker();
 	}
 	// Shoot projectile
@@ -97,7 +98,7 @@ void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float
 		m_speed.y -= gravityAcceleration * deltaTime;
     }
 
-	if (deathFlickerFrames == 0) {
+	if (timeSinceFlickerStarted >= 0.5f) {
 		// Player movement left or right
 		updateHorizontalMovement();
 	}
@@ -130,6 +131,11 @@ void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float
 			projectiles.pop_back();
 		}
 	}
+	if (dead) {
+		flickerTimer.start();
+	}
+
+	timeSinceFlickerStarted = flickerTimer.getTicks() / 1000.f;
 }
 
 void Player::shootProjectile() {
@@ -154,29 +160,44 @@ void Player::shootProjectile() {
 }
 
 void Player::applyDeathFlicker() {
-	if (deathFlickerFrames % 20 == 0) {
+	if (timeSinceFlickerStarted <= 0.05f) {
 		m_color.a = 255;
 	}
-	else if (deathFlickerFrames % 20 == 2) {
-		m_color.a = 188;
+	else if (timeSinceFlickerStarted > 0.05f && timeSinceFlickerStarted <= 0.1f) {
+		m_color.a = 128;
 	}
-	else if (deathFlickerFrames % 20 == 4) {
-		m_color.a = 122;
-	}
-	else if (deathFlickerFrames % 20 == 6) {
-		m_color.a = 66;
-	}
-	else if (deathFlickerFrames % 20 == 8) {
+	else if (timeSinceFlickerStarted > 0.1f && timeSinceFlickerStarted <= 0.15f) {
 		m_color.a = 0;
 	}
-	else if (deathFlickerFrames % 20 == 10) {
-		m_color.a = 66;
+	else if (timeSinceFlickerStarted > 0.15f && timeSinceFlickerStarted <= 0.2f) {
+		m_color.a = 128;
 	}
-	else if (deathFlickerFrames % 20 == 12) {
-		m_color.a = 122;
+	else if (timeSinceFlickerStarted > 0.2f && timeSinceFlickerStarted <= 0.25f) {
+		m_color.a = 255;
 	}
-	else if (deathFlickerFrames % 20 == 14) {
-		m_color.a = 188;
+	else if (timeSinceFlickerStarted > 0.25f && timeSinceFlickerStarted <= 0.3f) {
+		m_color.a = 128;
+	}
+	else if (timeSinceFlickerStarted > 0.3f && timeSinceFlickerStarted <= 0.35f) {
+		m_color.a = 0;
+	}
+	else if (timeSinceFlickerStarted > 0.35f && timeSinceFlickerStarted <= 0.4f) {
+		m_color.a = 128;
+	}
+	else if (timeSinceFlickerStarted > 0.4f && timeSinceFlickerStarted <= 0.45f) {
+		m_color.a = 255;
+	}
+	else if (timeSinceFlickerStarted > 0.45f && timeSinceFlickerStarted <= 0.5f) {
+		m_color.a = 128;
+	}
+	else if (timeSinceFlickerStarted > 0.5f && timeSinceFlickerStarted <= 0.55f) {
+		m_color.a = 0;
+	}
+	else if (timeSinceFlickerStarted > 0.55f && timeSinceFlickerStarted <= 0.6f) {
+		m_color.a = 128;
+	}
+	else if (timeSinceFlickerStarted > 0.6f) {
+		m_color.a = 255;
 	}
 }
 

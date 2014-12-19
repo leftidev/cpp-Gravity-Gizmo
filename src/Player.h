@@ -2,6 +2,7 @@
 
 #include <GEngine/InputManager.h>
 #include <GEngine/Camera2D.h>
+#include <GEngine/Timing.h>
 
 #include "Entity.h"
 #include "Tile.h"
@@ -52,6 +53,10 @@ public:
 	glm::fvec2 playerStartPos;
 
 	std::vector<Projectile*> projectiles;
+
+	GEngine::Timer flickerTimer;
+
+	float timeSinceFlickerStarted = 0.0f;
 
 private:
     GEngine::InputManager* m_inputManager; // Handle for the input manager

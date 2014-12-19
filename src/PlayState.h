@@ -35,17 +35,17 @@ private:
 	GEngine::SpriteBatch m_spriteBatch;
 	GEngine::SpriteBatch m_hudSpriteBatch;
 	GEngine::ShaderProgram m_shaderProgram;
-	std::vector<GEngine::Shader> m_shaders;
 	GEngine::Camera2D m_hudCamera;
-
+	GEngine::Timer m_levelTimer;
 	GEngine::SpriteFont* m_spriteFont;
 
+	std::vector<GEngine::Shader> m_shaders;
 	std::vector<Enemy*> m_enemies; // All enemies
 	Player* m_player = nullptr;
 	Level* m_level = nullptr;
 
 	float timeSinceLevelStart = 0;
 	float newTime = 0;
-	GEngine::Timer m_levelTimer;
+
 };
 

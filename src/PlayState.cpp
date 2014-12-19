@@ -219,7 +219,7 @@ void PlayState::update(float deltaTime) {
 	}
 	// Player dies when going out of level bounds
 	if (m_player->getPosition().y < -400 || m_player->getPosition().y > m_level->levelHeight + 400) {
-		restart();
+		m_player->dead = true;
 	}
 	if (m_player->finishedLevel) {
 		m_stateMachine.changeState(new PlayState(m_stateMachine, m_window, m_inputManager, m_currentLevel + 1));
@@ -239,7 +239,7 @@ void PlayState::update(float deltaTime) {
 			}
 		}
 	}
-	timeSinceLevelStart = m_levelTimer.get_ticks() / 1000.f;
+	timeSinceLevelStart = m_levelTimer.getTicks() / 1000.f;
 }
 
 void PlayState::updateCamera() {
