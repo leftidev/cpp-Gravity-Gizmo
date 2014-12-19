@@ -122,7 +122,7 @@ void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float
 		projectiles[i]->update(tiles, enemies, deltaTime);
 
 		// Projectile hits 
-		if (projectiles[i]->destroyed) {
+		if (projectiles[i]->destroyed || dead) {
 			projectiles.pop_back();
 		}
 		if (projectiles[i]->getPosition().x < projectiles[i]->startPosition.x - PROJECTILE_REACH ||

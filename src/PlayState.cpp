@@ -263,7 +263,7 @@ void PlayState::drawHud() {
 	m_spriteFont->draw(m_hudSpriteBatch, buffer, glm::vec2(4, 0), glm::vec2(0.5), 0.0f, GEngine::ColorRGBA8(255, 255, 255, 255), GEngine::Justification::LEFT);
 
 	// Zombies left
-	sprintf_s(buffer, "Time: %.2f", timeSinceLevelStart);
+	sprintf_s(buffer, "Time: %.2f s.", timeSinceLevelStart);
 	m_spriteFont->draw(m_hudSpriteBatch, buffer, glm::vec2(4, 768 - 36),
 		glm::vec2(0.5), 0.0f, GEngine::ColorRGBA8(255, 255, 255, 255), GEngine::Justification::LEFT);
 
