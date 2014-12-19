@@ -5,6 +5,8 @@
 #include <GEngine/SpriteBatch.h>
 #include <GEngine/Shader.h>
 #include <GEngine/ShaderProgram.h>
+#include <GEngine/SpriteFont.h>
+#include <GEngine/Timing.h>
 
 #include "Player.h"
 #include "Tile.h"
@@ -25,15 +27,25 @@ public:
 	void processEvents() override;
 	void update(float deltaTime) override;
 	void updateCamera() override;
+	void drawHud();
 	void draw() override;
 	bool addDisappearingBlock = false;
+
 private:
-	GEngine::SpriteBatch m_spriteBatch; // Draws all sprites
-	GEngine::ShaderProgram m_shaderProgram; // The shader program
+	GEngine::SpriteBatch m_spriteBatch;
+	GEngine::SpriteBatch m_hudSpriteBatch;
+	GEngine::ShaderProgram m_shaderProgram;
 	std::vector<GEngine::Shader> m_shaders;
+	GEngine::Camera2D m_hudCamera;
+
+	GEngine::SpriteFont* m_spriteFont;
 
 	std::vector<Enemy*> m_enemies; // All enemies
 	Player* m_player = nullptr;
 	Level* m_level = nullptr;
+
+	float timeSinceLevelStart = 0;
+	float newTime = 0;
+	GEngine::Timer m_levelTimer;
 };
 

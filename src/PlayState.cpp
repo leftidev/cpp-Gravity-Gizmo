@@ -57,6 +57,9 @@ void PlayState::restart() {
 		m_enemies.push_back(new Enemy);
 		m_enemies.back()->init(enemyTextureIDs[i], enemyVelocities[i], enemyPositions[i], enemyTypes[i]);
 	}
+
+	// Restart the timer
+	m_levelTimer.start();
 }
 
 void PlayState::init() {
@@ -65,9 +68,16 @@ void PlayState::init() {
 
 	// Initialize the sprite batch
 	m_spriteBatch.init();
+	m_hudSpriteBatch.init();
+
+	// Initialize sprite font
+	m_spriteFont = new GEngine::SpriteFont("../assets/fonts/centurygothic.ttf", 64);
 
 	// Set up the camera
 	m_camera.init(1024, 768);
+
+	m_hudCamera.init(1024, 768);
+	m_hudCamera.setPosition(glm::vec2(1024 / 2, 768 / 2));
 
 	const float CAMERA_SCALE = 1.0f;
 	m_camera.setScale(CAMERA_SCALE);
@@ -76,14 +86,20 @@ void PlayState::init() {
 
 	// Set black background color
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	// Start the timer
+	m_levelTimer.start();
 }
 
 void PlayState::loadShaders() {
+	// Create and compile the shaders
 	m_shaders.push_back(GEngine::Shader("../assets/shaders/textureShading.vert", GL_VERTEX_SHADER));
 	m_shaders.push_back(GEngine::Shader("../assets/shaders/textureShading.frag", GL_FRAGMENT_SHADER));
+	// Add attributes to shaders
 	m_shaderProgram.addAttribute("vertexPosition");
 	m_shaderProgram.addAttribute("vertexColor");
 	m_shaderProgram.addAttribute("vertexUV");
+	// Link the shaders
 	m_shaderProgram.linkShaders(m_shaders);
 }
 
@@ -192,6 +208,7 @@ void PlayState::update(float deltaTime) {
 	}
 	if (m_inputManager.isKeyPressed(SDLK_F1)) {
 		m_player->respawnAt(m_player->playerStartPos);
+		timeSinceLevelStart = 0.0f;
 	}
 
 	m_player->update(m_level->tiles, m_enemies, deltaTime);
@@ -222,12 +239,36 @@ void PlayState::update(float deltaTime) {
 			}
 		}
 	}
+	timeSinceLevelStart = m_levelTimer.get_ticks() / 1000.f;
 }
 
 void PlayState::updateCamera() {
 	// Make sure the camera is bound to the player position
 	m_camera.setPosition(m_player->getPosition());
 	m_camera.update();
+	m_hudCamera.update();
+}
+
+void PlayState::drawHud() {
+	char buffer[256];
+
+	glm::mat4 projectionMatrix = m_hudCamera.getCameraMatrix();
+	GLint pUniform = m_shaderProgram.getUniformLocation("P");
+	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
+
+	m_hudSpriteBatch.begin();
+
+	// Humans left
+	sprintf_s(buffer, "Enemies: %d", m_enemies.size());
+	m_spriteFont->draw(m_hudSpriteBatch, buffer, glm::vec2(4, 0), glm::vec2(0.5), 0.0f, GEngine::ColorRGBA8(255, 255, 255, 255), GEngine::Justification::LEFT);
+
+	// Zombies left
+	sprintf_s(buffer, "Time: %.2f", timeSinceLevelStart);
+	m_spriteFont->draw(m_hudSpriteBatch, buffer, glm::vec2(4, 768 - 36),
+		glm::vec2(0.5), 0.0f, GEngine::ColorRGBA8(255, 255, 255, 255), GEngine::Justification::LEFT);
+
+	m_hudSpriteBatch.end();
+	m_hudSpriteBatch.renderBatch();
 }
 
 void PlayState::draw() {
@@ -281,6 +322,9 @@ void PlayState::draw() {
 
 	// Render to the screen
 	m_spriteBatch.renderBatch();
+
+	// Draw the heads up display
+	drawHud();
 
 	// Disable shaders
 	m_shaderProgram.disable();
