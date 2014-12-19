@@ -61,7 +61,7 @@ void PlayState::restart() {
 
 void PlayState::init() {
 	// Set up the shaders
-	initShaders();
+	loadShaders();
 
 	// Initialize the sprite batch
 	m_spriteBatch.init();
@@ -78,13 +78,13 @@ void PlayState::init() {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
-void PlayState::initShaders() {
-	// Compile the color shader
-	m_textureProgram.compileShaders("../assets/shaders/textureShading.vert", "../assets/shaders/textureShading.frag");
-	m_textureProgram.addAttribute("vertexPosition");
-	m_textureProgram.addAttribute("vertexColor");
-	m_textureProgram.addAttribute("vertexUV");
-	m_textureProgram.linkShaders();
+void PlayState::loadShaders() {
+	m_shaders.push_back(GEngine::Shader("../assets/shaders/textureShading.vert", GL_VERTEX_SHADER));
+	m_shaders.push_back(GEngine::Shader("../assets/shaders/textureShading.frag", GL_FRAGMENT_SHADER));
+	m_shaderProgram.addAttribute("vertexPosition");
+	m_shaderProgram.addAttribute("vertexColor");
+	m_shaderProgram.addAttribute("vertexUV");
+	m_shaderProgram.linkShaders(m_shaders);
 }
 
 void PlayState::initLevel() {
@@ -237,17 +237,17 @@ void PlayState::draw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Enable shaders
-	m_textureProgram.use();
+	m_shaderProgram.enable();
 
 	glActiveTexture(GL_TEXTURE0);
 
 	// Make sure the shader uses texture 0
-	GLint textureUniform = m_textureProgram.getUniformLocation("mySampler");
+	GLint textureUniform = m_shaderProgram.getUniformLocation("mySampler");
 	glUniform1i(textureUniform, 0);
 
 	// Grab the camera matrix
 	glm::mat4 projectionMatrix = m_camera.getCameraMatrix();
-	GLint pUniform = m_textureProgram.getUniformLocation("P");
+	GLint pUniform = m_shaderProgram.getUniformLocation("P");
 	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
 
 	const glm::vec2 tileDimensions(42.0f);
@@ -276,7 +276,6 @@ void PlayState::draw() {
 		m_player->projectiles[i]->draw(m_spriteBatch);
 	}
 
-
 	// End sprite batch creation
 	m_spriteBatch.end();
 
@@ -284,7 +283,7 @@ void PlayState::draw() {
 	m_spriteBatch.renderBatch();
 
 	// Disable shaders
-	m_textureProgram.unuse();
+	m_shaderProgram.disable();
 
 	// Swap the backbuffer and draw everything to the screen
 	m_window.swapBuffer();

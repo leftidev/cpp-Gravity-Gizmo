@@ -3,12 +3,14 @@
 #include <GEngine/GameState.h>
 #include <GEngine/InputManager.h>
 #include <GEngine/SpriteBatch.h>
-#include <GEngine/GLSLProgram.h>
+#include <GEngine/Shader.h>
+#include <GEngine/ShaderProgram.h>
 
 #include "Player.h"
 #include "Tile.h"
 #include "Level.h"
 #include "Enemy.h"
+
 
 class StateManager;
 
@@ -18,7 +20,7 @@ public:
 	~PlayState();
 	void restart();
 	void init() override;
-	void initShaders();
+	void loadShaders();
 	void initLevel();
 	void processEvents() override;
 	void update(float deltaTime) override;
@@ -27,7 +29,8 @@ public:
 	bool addDisappearingBlock = false;
 private:
 	GEngine::SpriteBatch m_spriteBatch; // Draws all sprites
-	GEngine::GLSLProgram m_textureProgram; // The shader program
+	GEngine::ShaderProgram m_shaderProgram; // The shader program
+	std::vector<GEngine::Shader> m_shaders;
 
 	std::vector<Enemy*> m_enemies; // All enemies
 	Player* m_player = nullptr;
