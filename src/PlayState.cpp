@@ -66,6 +66,8 @@ void PlayState::init() {
 	// Set up the shaders
 	loadShaders();
 
+	m_audioEngine.init();
+
 	// Initialize the sprite batch
 	m_spriteBatch.init();
 	m_hudSpriteBatch.init();
@@ -89,6 +91,10 @@ void PlayState::init() {
 
 	// Start the timer
 	m_levelTimer.start();
+
+	// Load and play music
+	music = m_audioEngine.loadMusic("../assets/musics/music_1.ogg");
+	music.play(-1);
 }
 
 void PlayState::loadShaders() {
@@ -153,7 +159,7 @@ void PlayState::initLevel() {
 
 	// Initialize the player
 	m_player = new Player();
-	m_player->init(m_level->startPlayerPos, &m_inputManager, &m_camera);
+	m_player->init(m_level->startPlayerPos, &m_inputManager, &m_camera, &m_audioEngine);
 
 	// Add the enemies
 	const std::vector<glm::vec2>& enemyPositions = m_level->enemyStartPositions;
@@ -164,6 +170,8 @@ void PlayState::initLevel() {
 		m_enemies.push_back(new Enemy);
 		m_enemies.back()->init(enemyTextureIDs[i], enemyVelocities[i], enemyPositions[i], enemyTypes[i]);
 	}
+
+
 }
 
 void PlayState::processEvents() {
@@ -272,6 +280,12 @@ void PlayState::drawHud() {
 }
 
 void PlayState::draw() {
+	if (m_player->upsideDown) {
+		glClearColor(0.15f, 0.0f, 0.0f, 1.0f);
+	} else {
+		glClearColor(0.0f, 0.0f, 0.15f, 1.0f);
+	}
+
 	// Set the base depth to 1.0
 	glClearDepth(1.0);
 	// Clear the color and depth buffer

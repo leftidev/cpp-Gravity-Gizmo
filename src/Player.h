@@ -3,6 +3,7 @@
 #include <GEngine/InputManager.h>
 #include <GEngine/Camera2D.h>
 #include <GEngine/Timing.h>
+#include <GEngine/AudioEngine.h>
 
 #include "Entity.h"
 #include "Tile.h"
@@ -15,7 +16,7 @@ public:
     Player();
     ~Player();
 
-	void init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera);
+	void init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera, GEngine::AudioEngine* audioEngine);
 	void draw(GEngine::SpriteBatch& spriteBatch);
 	void update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float deltaTime);
 	void shootProjectile();
@@ -61,5 +62,12 @@ public:
 private:
     GEngine::InputManager* m_inputManager; // Handle for the input manager
     GEngine::Camera2D* m_camera; // Handle for the camera
+
+	GEngine::SoundEffect m_jumpSound;
+	GEngine::SoundEffect m_doubleJumpSound;
+	GEngine::SoundEffect m_normalGravitySound;
+	GEngine::SoundEffect m_reverseGravitySound;
+	GEngine::SoundEffect m_shootBubbleSound;
+	GEngine::SoundEffect m_bubbleHitSound;
 };
 

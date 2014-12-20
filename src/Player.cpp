@@ -14,7 +14,7 @@ Player::~Player() {
 	}
 }
 
-void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera) {
+void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera, GEngine::AudioEngine* audioEngine) {
 	m_textureID = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_right.png").id;
 	textureID2 = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_right.png").id;
 	textureID3 = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_left.png").id;
@@ -33,6 +33,13 @@ void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::
     m_camera = camera;
 	m_color = GEngine::ColorRGBA8(255, 255, 255, 255);
 
+	m_jumpSound = audioEngine->loadSoundEffect("../assets/sounds/jump_sound.ogg");
+	m_doubleJumpSound = audioEngine->loadSoundEffect("../assets/sounds/double_jump_sound.ogg");
+	m_normalGravitySound = audioEngine->loadSoundEffect("../assets/sounds/normal_gravity_sound.ogg");
+	m_reverseGravitySound = audioEngine->loadSoundEffect("../assets/sounds/reverse_gravity_sound.ogg");
+	m_shootBubbleSound = audioEngine->loadSoundEffect("../assets/sounds/shoot_sound.ogg");
+	m_bubbleHitSound = audioEngine->loadSoundEffect("../assets/sounds/shoot_hit_sound.ogg");
+	
 	flickerTimer.start();
 }
 
@@ -92,19 +99,19 @@ void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float
 		}
     }
 
-    // Player is in air, apply gravity
-    if (inAir) {
-        jumped = true;
-		m_speed.y -= gravityAcceleration * deltaTime;
-    }
-
 	if (timeSinceFlickerStarted >= 0.5f) {
+		// Player is in air, apply gravity
+		if (inAir) {
+			jumped = true;
+			m_speed.y -= gravityAcceleration * deltaTime;
+		}
+
 		// Player movement left or right
 		updateHorizontalMovement();
-	}
 
-    // Move on Y-axis
-    m_position.y += m_speed.y * deltaTime;
+		// Move on Y-axis
+		m_position.y += m_speed.y * deltaTime;
+	}
 
     // Assume player is in air, this makes player fall off platform ledges
     inAir = true;
@@ -124,11 +131,13 @@ void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float
 
 		// Projectile hits 
 		if (projectiles[i]->destroyed || dead) {
-			projectiles.pop_back();
+			m_bubbleHitSound.play();
+			projectiles.clear();
 		}
 		if (projectiles[i]->getPosition().x < projectiles[i]->startPosition.x - PROJECTILE_REACH ||
 			projectiles[i]->getPosition().x > projectiles[i]->startPosition.x + PROJECTILE_REACH) {
-			projectiles.pop_back();
+			m_bubbleHitSound.play();
+			projectiles.clear();
 		}
 	}
 	if (dead) {
@@ -140,6 +149,8 @@ void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float
 
 void Player::shootProjectile() {
 	if (projectiles.size() == 0) {
+		m_shootBubbleSound.play();
+
 		if (upsideDown) {
 			if (direction == "right") {
 				projectiles.push_back(new Projectile(glm::fvec2(11.0f, 0.0f), glm::vec2(m_position.x + 42, m_position.y)));
@@ -252,6 +263,8 @@ void Player::updateHorizontalMovement() {
 }
 
 void Player::applyJump() {
+	m_jumpSound.play();
+
 	inAir = true;
 	jumped = true;
 	canDoubleJump = true;
@@ -266,6 +279,8 @@ void Player::applyJump() {
 
 void Player::applyDoubleJump() {
     if(canDoubleJump) {
+		m_doubleJumpSound.play();
+
         canDoubleJump = false;
         if(normalGravity) {
             m_speed.y = JUMP_SPEED + 1;
@@ -280,6 +295,8 @@ void Player::applyDoubleJump() {
 void Player::applyGravityBend() {
 	if (normalGravity) {
 		if (!inAir && gravityAcceleration > 0) {
+			m_reverseGravitySound.play();
+
 			upsideDown = true;
 			gravityAcceleration *= -1;
 			normalGravity = false;
@@ -287,6 +304,8 @@ void Player::applyGravityBend() {
 	}
 	else {
 		if (!inAir && gravityAcceleration < 0) {
+			m_normalGravitySound.play();
+
 			upsideDown = false;
 			gravityAcceleration *= -1;
 			normalGravity = true;

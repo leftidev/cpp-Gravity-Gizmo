@@ -7,6 +7,7 @@
 #include <GEngine/ShaderProgram.h>
 #include <GEngine/SpriteFont.h>
 #include <GEngine/Timing.h>
+#include <GEngine/AudioEngine.h>
 
 #include "Player.h"
 #include "Tile.h"
@@ -32,13 +33,14 @@ public:
 	bool addDisappearingBlock = false;
 
 private:
+	GEngine::AudioEngine m_audioEngine;
 	GEngine::SpriteBatch m_spriteBatch;
 	GEngine::SpriteBatch m_hudSpriteBatch;
 	GEngine::ShaderProgram m_shaderProgram;
 	GEngine::Camera2D m_hudCamera;
 	GEngine::Timer m_levelTimer;
 	GEngine::SpriteFont* m_spriteFont;
-
+	GEngine::Music music;
 	std::vector<GEngine::Shader> m_shaders;
 	std::vector<Enemy*> m_enemies; // All enemies
 	Player* m_player = nullptr;
