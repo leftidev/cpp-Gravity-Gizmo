@@ -7,7 +7,9 @@
 #include <GEngine/ShaderProgram.h>
 #include <GEngine/SpriteFont.h>
 #include <GEngine/Timing.h>
-#include <GEngine/soundManager.h>
+#include <GEngine/SoundManager.h>
+#include <GEngine/ParticleEngine2D.h>
+#include <GEngine/ParticleBatch2D.h>
 
 #include "Player.h"
 #include "Tile.h"
@@ -28,6 +30,7 @@ public:
 	void processEvents() override;
 	void update(float deltaTime) override;
 	void updateCamera() override;
+	void addBlood(const glm::vec2& position, int numParticles);
 	void drawHud();
 	void draw() override;
 	bool addDisappearingBlock = false;
@@ -40,7 +43,10 @@ private:
 	GEngine::Camera2D m_hudCamera;
 	GEngine::Timer m_levelTimer;
 	GEngine::SpriteFont* m_spriteFont;
-	GEngine::Music music;
+	GEngine::Music m_music;
+	GEngine::ParticleEngine2D m_particleEngine;
+	GEngine::ParticleBatch2D* m_bloodParticleBatch;
+
 	std::vector<GEngine::Shader> m_shaders;
 	std::vector<Enemy*> m_enemies; // All enemies
 	Player* m_player = nullptr;

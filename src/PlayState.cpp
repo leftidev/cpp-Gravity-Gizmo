@@ -1,7 +1,10 @@
 #include <iostream>
+#include <random>
+#include <ctime>
 
 #include <SDL/SDL.h>
 #include <GL/glew.h>
+#include <glm/gtx/rotate_vector.hpp>
 
 #include <GEngine/StateManager.h>
 #include <GEngine/Window.h>
@@ -89,6 +92,11 @@ void PlayState::init() {
 	// Set black background color
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+	// Initialize particles
+	m_bloodParticleBatch = new GEngine::ParticleBatch2D;
+	m_bloodParticleBatch->init(1000, 0.05f, GEngine::ResourceManager::getTexture("../assets/textures/circle.png"));
+	m_particleEngine.addParticleBatch(m_bloodParticleBatch);
+
 	// Start the timer
 	m_levelTimer.start();
 }
@@ -168,8 +176,8 @@ void PlayState::initLevel() {
 	}
 
 	// Load and play music
-	music = m_soundManager.loadMusic("../assets/musics/music_1.ogg");
-	music.play(-1);
+	m_music = m_soundManager.loadMusic("../assets/musics/music_1.ogg");
+	m_music.play(-1);
 }
 
 void PlayState::processEvents() {
@@ -217,11 +225,15 @@ void PlayState::update(float deltaTime) {
 		timeSinceLevelStart = 0.0f;
 	}
 
+	m_particleEngine.update(deltaTime);
+
 	m_player->update(m_level->tiles, m_enemies, deltaTime);
 
 	if (m_player->dead) {
 		m_player->dead = false;
 		restart();
+		// Add blood
+		addBlood(m_player->getPosition(), 5);
 	}
 	// Player dies when going out of level bounds
 	if (m_player->getPosition().y < -400 || m_player->getPosition().y > m_level->levelHeight + 400) {
@@ -253,6 +265,18 @@ void PlayState::updateCamera() {
 	m_camera.setPosition(m_player->getPosition());
 	m_camera.update();
 	m_hudCamera.update();
+}
+
+void PlayState::addBlood(const glm::vec2& position, int numParticles) {
+	static std::mt19937 randEngine(time(nullptr));
+	static std::uniform_real_distribution<float> randAngle(0.0f, 360.0f);
+
+	glm::vec2 vel(2.0f, 0.0f);
+	GEngine::ColorRGBA8 col(255, 0, 0, 255);
+
+	for (int i = 0; i < numParticles; i++) {
+		m_bloodParticleBatch->addParticle(position, glm::rotate(vel, randAngle(randEngine)), col, 10.0f);
+	}
 }
 
 void PlayState::drawHud() {
@@ -334,6 +358,9 @@ void PlayState::draw() {
 
 	// Render to the screen
 	m_spriteBatch.renderBatch();
+
+	// Render the particles
+	m_particleEngine.draw(&m_spriteBatch);
 
 	// Draw the heads up display
 	drawHud();
