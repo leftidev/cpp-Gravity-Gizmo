@@ -265,18 +265,6 @@ void PlayState::updateCamera() {
 	m_hudCamera.update();
 }
 
-void PlayState::addBlood(const glm::vec2& position, int numParticles) {
-	static std::mt19937 randEngine(time(nullptr));
-	static std::uniform_real_distribution<float> randAngle(0.0f, 360.0f);
-
-	glm::vec2 vel(0.2f, 0.0f);
-	GEngine::ColorRGBA8 col(255, 255, 255, 255);
-
-	for (int i = 0; i < numParticles; i++) {
-		m_smokeParticleBatch->addParticle(glm::fvec2((position.x + 5) + i * 1.0f, position.y - 6.0f), glm::rotate(vel, randAngle(randEngine)), col, 7.0f);
-	}
-}
-
 void PlayState::drawHud() {
 	char buffer[256];
 

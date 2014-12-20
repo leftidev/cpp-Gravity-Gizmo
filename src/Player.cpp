@@ -110,7 +110,7 @@ void Player::update(GEngine::ParticleBatch2D* smokeParticleBatch, std::vector<Ti
 		}
 
 		// Player movement left or right
-		updateHorizontalMovement();
+		updateHorizontalMovement(smokeParticleBatch);
 
 		// Move on Y-axis
 		m_position.y += m_speed.y * deltaTime;
@@ -150,15 +150,14 @@ void Player::update(GEngine::ParticleBatch2D* smokeParticleBatch, std::vector<Ti
 	timeSinceFlickerStarted = flickerTimer.getTicks() / 1000.f;
 }
 
-void Player::addSmoke(GEngine::ParticleBatch2D* smokeParticleBatch, const glm::vec2& position, int numParticles) {
+void Player::addSmoke(float lifeTime, GEngine::ParticleBatch2D* smokeParticleBatch, const glm::vec2& position, int numParticles, glm::vec2 vel) {
 	static std::mt19937 randEngine(time(nullptr));
 	static std::uniform_real_distribution<float> randAngle(0.0f, 360.0f);
 
-	glm::vec2 vel(0.2f, 0.0f);
 	GEngine::ColorRGBA8 col(255, 255, 255, 255);
 
 	for (int i = 0; i < numParticles; i++) {
-		smokeParticleBatch->addParticle(glm::fvec2((position.x + 4) + i * 0.6f, position.y), glm::rotate(vel, randAngle(randEngine)), col, 5.0f);
+		smokeParticleBatch->addParticle(lifeTime, glm::fvec2((position.x + 4) + i * 0.6f, position.y), glm::rotate(vel, randAngle(randEngine)), col, 5.0f);
 	}
 }
 
@@ -240,9 +239,17 @@ void Player::respawnAt(glm::vec2 respawnPos) {
 	}
 }
 
-void Player::updateHorizontalMovement() {
+void Player::updateHorizontalMovement(GEngine::ParticleBatch2D* smokeParticleBatch) {
 	// Move left
 	if (m_inputManager->isKeyDown(SDLK_a) || m_inputManager->isKeyDown(SDLK_LEFT)) {
+		if (!inAir) {
+			if (normalGravity) {
+				addSmoke(0.2f, smokeParticleBatch, glm::fvec2(getPosition().x + 30.0f, getPosition().y), 3, glm::vec2(0.3f, 0.8f));
+			}
+			else {
+				addSmoke(0.2f, smokeParticleBatch, glm::fvec2(getPosition().x + 30.0f, getPosition().y + 35), 3, glm::vec2(0.3f, 0.8f));
+			}
+		}
 		direction = "left";
 		// Apply acceleration
 		m_speed.x -= ACCELERATION;
@@ -252,6 +259,14 @@ void Player::updateHorizontalMovement() {
 	}
 	// Move right
 	else if (m_inputManager->isKeyDown(SDLK_d) || m_inputManager->isKeyDown(SDLK_RIGHT)) {
+		if (!inAir) {
+			if (normalGravity) {
+				addSmoke(0.2f, smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y), 3, glm::vec2(-0.3f, 0.8f));
+			}
+			else {
+				addSmoke(0.2f, smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 35), 3, glm::vec2(0.3f, 0.8f));
+			}
+		}
 		direction = "right";
 		// Apply acceleration
 		m_speed.x += ACCELERATION;
@@ -280,17 +295,16 @@ void Player::updateHorizontalMovement() {
 void Player::applyJump(GEngine::ParticleBatch2D* smokeParticleBatch) {
 	m_jumpSound.play();
 
-
 	inAir = true;
 	jumped = true;
 	canDoubleJump = true;
 
 	if (normalGravity) {
-		addSmoke(smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 5), 50);
+		addSmoke(1.0f, smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 5), 50, glm::vec2(0.2f, 0.0f));
 		m_speed.y = JUMP_SPEED;
 	}
 	else {
-		addSmoke(smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 30), 50);
+		addSmoke(1.0f, smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 30), 50, glm::vec2(0.2f, 0.0f));
 		m_speed.y = -JUMP_SPEED;
 	}
 }
@@ -301,11 +315,11 @@ void Player::applyDoubleJump(GEngine::ParticleBatch2D* smokeParticleBatch) {
 
         canDoubleJump = false;
         if(normalGravity) {
-			addSmoke(smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 5), 50);
+			addSmoke(1.0f, smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 5), 50, glm::vec2(0.2f, 0.0f));
             m_speed.y = JUMP_SPEED + 1;
         }
         else {
-			addSmoke(smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 30), 50);
+			addSmoke(1.0f, smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 30), 50, glm::vec2(0.2f, 0.0f));
             m_speed.y = -JUMP_SPEED - 1;
         }
     }

@@ -31,7 +31,6 @@
 
 #include "Vertex.h"
 
-
 namespace GEngine {
 
     class GLTexture;
