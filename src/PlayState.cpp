@@ -96,7 +96,7 @@ void PlayState::init() {
 	m_smokeParticleBatch = new GEngine::ParticleBatch2D;
 	m_bubbleParticleBatch = new GEngine::ParticleBatch2D;
 	m_smokeParticleBatch->init(1000, 0.025f, GEngine::ResourceManager::getTexture("../assets/textures/smoke_particle.png"));
-	m_bubbleParticleBatch->init(1000, 0.1f, GEngine::ResourceManager::getTexture("../assets/textures/bubble_particle.png"));
+	m_bubbleParticleBatch->init(1000, 0.1f, GEngine::ResourceManager::getTexture("../assets/textures/bubble_particle_32x32.png"));
 	m_particleEngine.addParticleBatch(m_smokeParticleBatch);
 	m_particleEngine.addParticleBatch(m_bubbleParticleBatch);
 

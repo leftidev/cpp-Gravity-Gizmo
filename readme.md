@@ -2,7 +2,7 @@ Gravity Gizmo
 ----------
 Latest screenshot
 -----------------------
-![alt tag](https://cloud.githubusercontent.com/assets/5671281/5515630/04c29582-887b-11e4-9305-8b276dde3506.png)
+![alt tag](https://cloud.githubusercontent.com/assets/5671281/5515783/32bf080a-8883-11e4-83df-809cda6b2e76.png)
 What?
 -----
 This repo contains Gravity Gizmo. This is a game I originally developed in Python and Pygame.

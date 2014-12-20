@@ -3,7 +3,7 @@
 
 
 Projectile::Projectile(glm::fvec2 speed, glm::vec2 pos) {
-	m_textureID = GEngine::ResourceManager::getTexture("../assets/textures/bubble_78x78.png").id;
+	m_textureID = GEngine::ResourceManager::getTexture("../assets/textures/bubble_transparent.png").id;
 	m_speed = speed;
 	m_position = pos;
 	m_color = GEngine::ColorRGBA8(255, 255, 255, 255);

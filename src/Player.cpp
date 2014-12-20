@@ -132,10 +132,10 @@ void Player::update(GEngine::ParticleBatch2D* smokeParticleBatch, GEngine::Parti
 	for (unsigned int i = 0; i < projectiles.size(); i++) {
 		projectiles[i]->update(tiles, enemies, deltaTime);
 		if (direction == "right") {
-			addBubbles(2.0f, bubbleParticleBatch, glm::fvec2(projectiles.back()->getPosition().x, projectiles.back()->getPosition().y + 12.5f), 1, glm::vec2(0.0f, 1.5f));
+			addBubbles(2.0f, bubbleParticleBatch, glm::fvec2(projectiles.back()->getPosition().x - 15.0f, projectiles.back()->getPosition().y + 12.5f), 1, glm::vec2(0.0f, 1.5f));
 		}
 		else if (direction == "left") {
-			addBubbles(2.0f, bubbleParticleBatch, glm::fvec2(projectiles.back()->getPosition().x + 15.0f, projectiles.back()->getPosition().y + 12.5f), 1, glm::vec2(0.0f, 1.5f));
+			addBubbles(2.0f, bubbleParticleBatch, glm::fvec2(projectiles.back()->getPosition().x + 40.0f, projectiles.back()->getPosition().y + 12.5f), 1, glm::vec2(0.0f, 1.5f));
 		}
 		// Projectile hits 
 		if (projectiles[i]->destroyed || dead) {
@@ -173,7 +173,7 @@ void Player::addBubbles(float lifeTime, GEngine::ParticleBatch2D* bubbleParticle
 	GEngine::ColorRGBA8 col(255, 255, 255, 255);
 
 	for (int i = 0; i < numParticles; i++) {
-		bubbleParticleBatch->addParticle(lifeTime, glm::fvec2(position.x, position.y), glm::rotate(vel, randAngle(randEngine)), col, 15.0f);
+		bubbleParticleBatch->addParticle(lifeTime, glm::fvec2(position.x, position.y), glm::rotate(vel, randAngle(randEngine)), col, 12.0f);
 	}
 }
 
