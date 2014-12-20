@@ -158,7 +158,7 @@ void Player::addSmoke(GEngine::ParticleBatch2D* smokeParticleBatch, const glm::v
 	GEngine::ColorRGBA8 col(255, 255, 255, 255);
 
 	for (int i = 0; i < numParticles; i++) {
-		smokeParticleBatch->addParticle(glm::fvec2((position.x + 5) + i * 1.0f, position.y), glm::rotate(vel, randAngle(randEngine)), col, 7.0f);
+		smokeParticleBatch->addParticle(glm::fvec2((position.x + 4) + i * 0.6f, position.y), glm::rotate(vel, randAngle(randEngine)), col, 5.0f);
 	}
 }
 
@@ -286,11 +286,11 @@ void Player::applyJump(GEngine::ParticleBatch2D* smokeParticleBatch) {
 	canDoubleJump = true;
 
 	if (normalGravity) {
-		addSmoke(smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 5), 30);
+		addSmoke(smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 5), 50);
 		m_speed.y = JUMP_SPEED;
 	}
 	else {
-		addSmoke(smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 30), 30);
+		addSmoke(smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 30), 50);
 		m_speed.y = -JUMP_SPEED;
 	}
 }
@@ -301,11 +301,11 @@ void Player::applyDoubleJump(GEngine::ParticleBatch2D* smokeParticleBatch) {
 
         canDoubleJump = false;
         if(normalGravity) {
-			addSmoke(smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 5), 30);
+			addSmoke(smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 5), 50);
             m_speed.y = JUMP_SPEED + 1;
         }
         else {
-			addSmoke(smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 30), 30);
+			addSmoke(smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 30), 50);
             m_speed.y = -JUMP_SPEED - 1;
         }
     }

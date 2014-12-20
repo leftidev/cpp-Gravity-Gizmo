@@ -2,7 +2,7 @@ Gravity Gizmo
 ----------
 Latest screenshot
 -----------------------
-![alt tag](https://cloud.githubusercontent.com/assets/5671281/5427464/70204498-83a6-11e4-8042-671a5ce7776c.png)
+![alt tag](https://cloud.githubusercontent.com/assets/5671281/5514419/b0794414-883c-11e4-93d9-a56b46e8d840.png)
 What?
 -----
 This repo contains Gravity Gizmo. This is a game I originally developed in Python and Pygame.
@@ -36,7 +36,7 @@ How to play?
 ------------
 Objectives:
 - Bubble up all the enemies in the level, and destroy them by bursting the bubble
-- After destroying all the enemies, get yourself to the exit
+- After destroying all the enemies, run to the exit
 
 Controls:
 - Up, Down arrow to reverse gravity
