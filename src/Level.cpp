@@ -116,7 +116,7 @@ Level::Level(const std::string& fileName) {
 					enemyTypes.emplace_back(EnemyType::JUMPING);
 				} break;
 				case 'j': {
-					enemyTextureIDs.emplace_back(GEngine::ResourceManager::getTexture("../assets/Textures/enemy_black_78x78.png").id);
+					enemyTextureIDs.emplace_back(GEngine::ResourceManager::getTexture("../assets/Textures/enemy_black_rev_78x78.png").id);
 					enemyStartPositions.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
 					enemyVelocities.emplace_back(0.0f, 0.0f);
 					enemyTypes.emplace_back(EnemyType::REVERSEJUMPING);

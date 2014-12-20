@@ -28,7 +28,7 @@ void Projectile::applyCollisions(std::vector<Tile*> tiles, std::vector<Enemy*> e
 	// Collide with level tiles
 	for (unsigned int i = 0; i < tiles.size(); i++) {
 		if (collideWithTile((int)width, (int)height, tiles[i])) {
-			if (tiles[i]->type == SOLID | tiles[i]->type == KILL || tiles[i]->type == KILLREVERSE) {
+			if (tiles[i]->type == SOLID | tiles[i]->type == KILL || tiles[i]->type == KILLREVERSE || tiles[i]->type == DISAPPEARING) {
 				destroyed = true;
 			}
 		}

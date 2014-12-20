@@ -10,6 +10,7 @@ Enemy::~Enemy() { }
 void Enemy::init(int TextureID, glm::fvec2 speed, glm::vec2 pos, EnemyType enemyType) {
 	m_textureID = TextureID;
 	textureID2 = GEngine::ResourceManager::getTexture("../assets/textures/pacified_enemy_104x104.png").id;
+	textureID3 = GEngine::ResourceManager::getTexture("../assets/textures/pacified_enemy_rev_104x104.png").id;
 
 	m_speed = speed;
 	m_position = pos;
@@ -31,11 +32,17 @@ void Enemy::draw(GEngine::SpriteBatch& spriteBatch) {
 	destRect.w = height;
 
 	if (bubbled) {
-		m_textureID = textureID2;
 		destRect.x = m_position.x - 13.0f;
 		destRect.y = m_position.y - 13.0f;;
 		width = 104;
 		height = 104;
+
+		if (type == EnemyType::STILL || type == EnemyType::X_MOVING || type == EnemyType::JUMPING || type == EnemyType::X_MOVINGJUMPING) {
+			m_textureID = textureID2;
+		}
+		if (type == EnemyType::REVERSEJUMPING) {
+			m_textureID = textureID3;
+		}
 	}
 
 	spriteBatch.draw(destRect, uvRect, m_textureID, 0.0f, m_color);

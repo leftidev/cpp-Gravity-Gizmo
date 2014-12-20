@@ -32,6 +32,7 @@ public:
 	bool normalGravity = true;	// Gravity direction
 	float gravityAcceleration = 0.80f; // Gravity velocity
 	int textureID2;
+	int textureID3;
 
 	EnemyType type;
 };

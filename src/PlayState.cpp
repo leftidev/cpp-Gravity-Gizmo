@@ -277,14 +277,18 @@ void PlayState::drawHud() {
 
 	m_hudSpriteBatch.begin();
 
-	// Humans left
-	sprintf_s(buffer, "Enemies: %d", m_enemies.size());
-	m_spriteFont->draw(m_hudSpriteBatch, buffer, glm::vec2(4, 0), glm::vec2(0.5), 0.0f, GEngine::ColorRGBA8(255, 255, 255, 255), GEngine::Justification::LEFT);
+	// Level number
+	sprintf_s(buffer, "Level %i", m_currentLevel);
+	m_spriteFont->draw(m_hudSpriteBatch, buffer, glm::vec2(4, 768 - 36), glm::vec2(0.5), 0.0f, GEngine::ColorRGBA8(255, 255, 255, 255), GEngine::Justification::LEFT);
 
-	// Zombies left
+	// Time elapsed
 	sprintf_s(buffer, "Time: %.2f s.", timeSinceLevelStart);
-	m_spriteFont->draw(m_hudSpriteBatch, buffer, glm::vec2(4, 768 - 36),
-		glm::vec2(0.5), 0.0f, GEngine::ColorRGBA8(255, 255, 255, 255), GEngine::Justification::LEFT);
+	m_spriteFont->draw(m_hudSpriteBatch, buffer, glm::vec2(1024 / 2, 768 - 36),
+		glm::vec2(0.5), 0.0f, GEngine::ColorRGBA8(255, 255, 255, 255), GEngine::Justification::MIDDLE);
+
+	// Enemies left
+	sprintf_s(buffer, "Enemies: %d", m_enemies.size());
+	m_spriteFont->draw(m_hudSpriteBatch, buffer, glm::vec2(1024, 768 - 36), glm::vec2(0.5), 0.0f, GEngine::ColorRGBA8(255, 255, 255, 255), GEngine::Justification::RIGHT);
 
 	m_hudSpriteBatch.end();
 	m_hudSpriteBatch.renderBatch();
