@@ -28,7 +28,7 @@ public:
 	void updateHorizontalMovement(GEngine::ParticleBatch2D* smokeParticleBatch);
 	void applyJump(GEngine::ParticleBatch2D* smokeParticleBatch);
 	void applyDoubleJump(GEngine::ParticleBatch2D* smokeParticleBatch);
-	void applyGravityBend();
+	void applyGravityBend(GEngine::ParticleBatch2D* smokeParticleBatch);
 	void applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles, std::vector<Enemy*> enemies);
 
 	std::string direction = "right";

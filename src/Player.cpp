@@ -81,11 +81,11 @@ void Player::update(GEngine::ParticleBatch2D* smokeParticleBatch, std::vector<Ti
 	}
 	// Apply bend gravity, if player presses W or UP arrow and the gravity is normal
 	if ((m_inputManager->isKeyDown(SDLK_w) || m_inputManager->isKeyDown(SDLK_UP)) && normalGravity) {
-		applyGravityBend();
+		applyGravityBend(smokeParticleBatch);
 	}
 	// Apply bend gravity, if player presses S or DOWN arrow and the gravity is reversed
 	if ((m_inputManager->isKeyDown(SDLK_s) || m_inputManager->isKeyDown(SDLK_DOWN)) && !normalGravity) {
-		applyGravityBend();
+		applyGravityBend(smokeParticleBatch);
 	}
     // Space jumps
     if(m_inputManager->isKeyPressed(SDLK_SPACE)) {
@@ -244,10 +244,10 @@ void Player::updateHorizontalMovement(GEngine::ParticleBatch2D* smokeParticleBat
 	if (m_inputManager->isKeyDown(SDLK_a) || m_inputManager->isKeyDown(SDLK_LEFT)) {
 		if (!inAir) {
 			if (normalGravity) {
-				addSmoke(0.2f, smokeParticleBatch, glm::fvec2(getPosition().x + 30.0f, getPosition().y), 3, glm::vec2(0.3f, 0.8f));
+				addSmoke(0.2f, smokeParticleBatch, glm::fvec2(getPosition().x + 30.0f, getPosition().y), 5, glm::vec2(0.3f, 0.8f));
 			}
 			else {
-				addSmoke(0.2f, smokeParticleBatch, glm::fvec2(getPosition().x + 30.0f, getPosition().y + 35), 3, glm::vec2(0.3f, 0.8f));
+				addSmoke(0.2f, smokeParticleBatch, glm::fvec2(getPosition().x + 30.0f, getPosition().y + 35), 5, glm::vec2(0.3f, 0.8f));
 			}
 		}
 		direction = "left";
@@ -261,10 +261,10 @@ void Player::updateHorizontalMovement(GEngine::ParticleBatch2D* smokeParticleBat
 	else if (m_inputManager->isKeyDown(SDLK_d) || m_inputManager->isKeyDown(SDLK_RIGHT)) {
 		if (!inAir) {
 			if (normalGravity) {
-				addSmoke(0.2f, smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y), 3, glm::vec2(-0.3f, 0.8f));
+				addSmoke(0.2f, smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y), 5, glm::vec2(-0.3f, 0.8f));
 			}
 			else {
-				addSmoke(0.2f, smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 35), 3, glm::vec2(0.3f, 0.8f));
+				addSmoke(0.2f, smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 35), 5, glm::vec2(0.3f, 0.8f));
 			}
 		}
 		direction = "right";
@@ -326,10 +326,11 @@ void Player::applyDoubleJump(GEngine::ParticleBatch2D* smokeParticleBatch) {
 
 }
 
-void Player::applyGravityBend() {
+void Player::applyGravityBend(GEngine::ParticleBatch2D* smokeParticleBatch) {
 	if (normalGravity) {
 		if (!inAir && gravityAcceleration > 0) {
 			m_reverseGravitySound.play();
+			addSmoke(1.0f, smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 5), 50, glm::vec2(0.2f, 0.0f));
 
 			upsideDown = true;
 			gravityAcceleration *= -1;
@@ -339,6 +340,7 @@ void Player::applyGravityBend() {
 	else {
 		if (!inAir && gravityAcceleration < 0) {
 			m_normalGravitySound.play();
+			addSmoke(1.0f, smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 30), 50, glm::vec2(0.2f, 0.0f));
 
 			upsideDown = false;
 			gravityAcceleration *= -1;
