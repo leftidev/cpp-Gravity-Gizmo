@@ -7,7 +7,7 @@
 #include <GEngine/ShaderProgram.h>
 #include <GEngine/SpriteFont.h>
 #include <GEngine/Timing.h>
-#include <GEngine/AudioEngine.h>
+#include <GEngine/soundManager.h>
 
 #include "Player.h"
 #include "Tile.h"
@@ -33,7 +33,7 @@ public:
 	bool addDisappearingBlock = false;
 
 private:
-	GEngine::AudioEngine m_audioEngine;
+	GEngine::SoundManager m_soundManager;
 	GEngine::SpriteBatch m_spriteBatch;
 	GEngine::SpriteBatch m_hudSpriteBatch;
 	GEngine::ShaderProgram m_shaderProgram;

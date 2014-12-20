@@ -66,7 +66,7 @@ void PlayState::init() {
 	// Set up the shaders
 	loadShaders();
 
-	m_audioEngine.init();
+	m_soundManager.init();
 
 	// Initialize the sprite batch
 	m_spriteBatch.init();
@@ -91,10 +91,6 @@ void PlayState::init() {
 
 	// Start the timer
 	m_levelTimer.start();
-
-	// Load and play music
-	music = m_audioEngine.loadMusic("../assets/musics/music_1.ogg");
-	music.play(-1);
 }
 
 void PlayState::loadShaders() {
@@ -159,7 +155,7 @@ void PlayState::initLevel() {
 
 	// Initialize the player
 	m_player = new Player();
-	m_player->init(m_level->startPlayerPos, &m_inputManager, &m_camera, &m_audioEngine);
+	m_player->init(m_level->startPlayerPos, &m_inputManager, &m_camera, &m_soundManager);
 
 	// Add the enemies
 	const std::vector<glm::vec2>& enemyPositions = m_level->enemyStartPositions;
@@ -171,7 +167,9 @@ void PlayState::initLevel() {
 		m_enemies.back()->init(enemyTextureIDs[i], enemyVelocities[i], enemyPositions[i], enemyTypes[i]);
 	}
 
-
+	// Load and play music
+	music = m_soundManager.loadMusic("../assets/musics/music_1.ogg");
+	music.play(-1);
 }
 
 void PlayState::processEvents() {

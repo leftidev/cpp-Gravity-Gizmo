@@ -14,7 +14,7 @@ Player::~Player() {
 	}
 }
 
-void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera, GEngine::AudioEngine* audioEngine) {
+void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera, GEngine::SoundManager* soundManager) {
 	m_textureID = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_right.png").id;
 	textureID2 = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_right.png").id;
 	textureID3 = GEngine::ResourceManager::getTexture("../assets/Textures/gizmo_left.png").id;
@@ -33,12 +33,12 @@ void Player::init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::
     m_camera = camera;
 	m_color = GEngine::ColorRGBA8(255, 255, 255, 255);
 
-	m_jumpSound = audioEngine->loadSoundEffect("../assets/sounds/jump_sound.ogg");
-	m_doubleJumpSound = audioEngine->loadSoundEffect("../assets/sounds/double_jump_sound.ogg");
-	m_normalGravitySound = audioEngine->loadSoundEffect("../assets/sounds/normal_gravity_sound.ogg");
-	m_reverseGravitySound = audioEngine->loadSoundEffect("../assets/sounds/reverse_gravity_sound.ogg");
-	m_shootBubbleSound = audioEngine->loadSoundEffect("../assets/sounds/shoot_sound.ogg");
-	m_bubbleHitSound = audioEngine->loadSoundEffect("../assets/sounds/shoot_hit_sound.ogg");
+	m_jumpSound = soundManager->loadSoundEffect("../assets/sounds/jump_sound.ogg");
+	m_doubleJumpSound = soundManager->loadSoundEffect("../assets/sounds/double_jump_sound.ogg");
+	m_normalGravitySound = soundManager->loadSoundEffect("../assets/sounds/normal_gravity_sound.ogg");
+	m_reverseGravitySound = soundManager->loadSoundEffect("../assets/sounds/reverse_gravity_sound.ogg");
+	m_shootBubbleSound = soundManager->loadSoundEffect("../assets/sounds/shoot_sound.ogg");
+	m_bubbleHitSound = soundManager->loadSoundEffect("../assets/sounds/shoot_hit_sound.ogg");
 	
 	flickerTimer.start();
 }
