@@ -2,11 +2,11 @@ Gravity Gizmo
 ----------
 Latest screenshot
 -----------------------
-![alt tag](https://cloud.githubusercontent.com/assets/5671281/5514419/b0794414-883c-11e4-93d9-a56b46e8d840.png)
+![alt tag](https://cloud.githubusercontent.com/assets/5671281/5515630/04c29582-887b-11e4-9305-8b276dde3506.png)
 What?
 -----
 This repo contains Gravity Gizmo. This is a game I originally developed in Python and Pygame.
-I am going to re-program the game in C++, using GEngine. NOTE: In very early stages of development.
+I am going to re-program the game in C++, using GEngine. NOTE: Under heavy development.
 
 - GEngine is a 2D game engine, based on SDL2 and OpenGL
 - SDL2 (Simple DirectMedia Layer) is used for handling input, audio, windowing and text
@@ -15,10 +15,11 @@ I am going to re-program the game in C++, using GEngine. NOTE: In very early sta
 Project:
 ---------
 - Sidescrolling platformer, where quick reactions are a must
+- You must reverse gravity to get to inaccessible locations
 - Graphics created in Paint.net
 - Uses GEngine from cpp-GEngine
-- Uses the project from cpp-GEngine/platformer-demo as the basic template
-- In early stages of development
+- Uses the demo from cpp-GEngine/demo-platformer as the basic project skeleton
+- Under heavy development
 
 How to download?
 ----------------

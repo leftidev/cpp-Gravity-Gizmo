@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
 
 	// Create the StateManager
 	GEngine::StateManager stateManager;
-	stateManager.changeState(new PlayState(stateManager, window, inputManager, 3));
+	stateManager.changeState(new PlayState(stateManager, window, inputManager, 9));
 
 	// Used to cap the FPS
 	GEngine::FpsLimiter fpsLimiter;

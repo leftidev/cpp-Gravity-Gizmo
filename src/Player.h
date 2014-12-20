@@ -20,9 +20,10 @@ public:
 
 	void init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera, GEngine::SoundManager* soundManager);
 	void draw(GEngine::SpriteBatch& spriteBatch);
-	void update(GEngine::ParticleBatch2D* smokeParticleBatch, std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float deltaTime);
-	void addSmoke(float lifeTime, GEngine::ParticleBatch2D* spriteBatch, const glm::vec2& position, int numParticles, glm::vec2 vel);
-	void shootProjectile();
+	void update(GEngine::ParticleBatch2D* smokeParticleBatch, GEngine::ParticleBatch2D* bubbleParticleBatch, std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float deltaTime);
+	void addSmoke(float lifeTime, GEngine::ParticleBatch2D* smokeParticleBatch, const glm::vec2& position, int numParticles, glm::vec2 vel);
+	void addBubbles(float lifeTime, GEngine::ParticleBatch2D* bubbleParticleBatch, const glm::vec2& position, int numParticles, glm::vec2 vel);
+	void shootProjectile(GEngine::ParticleBatch2D* bubbleParticleBatch);
 	void applyDeathFlicker();
 	void respawnAt(glm::vec2 respawnPos);
 	void updateHorizontalMovement(GEngine::ParticleBatch2D* smokeParticleBatch);

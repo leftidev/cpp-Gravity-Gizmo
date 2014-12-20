@@ -71,20 +71,20 @@ void Player::draw(GEngine::SpriteBatch& spriteBatch) {
 	spriteBatch.draw(destRect, uvRect, m_textureID, 0.0f, m_color);
 }
 
-void Player::update(GEngine::ParticleBatch2D* smokeParticleBatch, std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float deltaTime) {
+void Player::update(GEngine::ParticleBatch2D* smokeParticleBatch, GEngine::ParticleBatch2D* bubbleParticleBatch, std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float deltaTime) {
 	if (timeSinceFlickerStarted < 0.70f) {
 		applyDeathFlicker();
 	}
 	// Shoot projectile
 	if (m_inputManager->isKeyPressed(SDLK_LCTRL)) {
-		shootProjectile();
+		shootProjectile(bubbleParticleBatch);
 	}
 	// Apply bend gravity, if player presses W or UP arrow and the gravity is normal
-	if ((m_inputManager->isKeyDown(SDLK_w) || m_inputManager->isKeyDown(SDLK_UP)) && normalGravity) {
+	if ((m_inputManager->isKeyPressed(SDLK_w) || m_inputManager->isKeyPressed(SDLK_UP)) && normalGravity) {
 		applyGravityBend(smokeParticleBatch);
 	}
 	// Apply bend gravity, if player presses S or DOWN arrow and the gravity is reversed
-	if ((m_inputManager->isKeyDown(SDLK_s) || m_inputManager->isKeyDown(SDLK_DOWN)) && !normalGravity) {
+	if ((m_inputManager->isKeyPressed(SDLK_s) || m_inputManager->isKeyPressed(SDLK_DOWN)) && !normalGravity) {
 		applyGravityBend(smokeParticleBatch);
 	}
     // Space jumps
@@ -131,7 +131,12 @@ void Player::update(GEngine::ParticleBatch2D* smokeParticleBatch, std::vector<Ti
 	// Update projectiles
 	for (unsigned int i = 0; i < projectiles.size(); i++) {
 		projectiles[i]->update(tiles, enemies, deltaTime);
-
+		if (direction == "right") {
+			addBubbles(2.0f, bubbleParticleBatch, glm::fvec2(projectiles.back()->getPosition().x, projectiles.back()->getPosition().y + 12.5f), 1, glm::vec2(0.0f, 1.5f));
+		}
+		else if (direction == "left") {
+			addBubbles(2.0f, bubbleParticleBatch, glm::fvec2(projectiles.back()->getPosition().x + 15.0f, projectiles.back()->getPosition().y + 12.5f), 1, glm::vec2(0.0f, 1.5f));
+		}
 		// Projectile hits 
 		if (projectiles[i]->destroyed || dead) {
 			m_bubbleHitSound.play();
@@ -161,11 +166,22 @@ void Player::addSmoke(float lifeTime, GEngine::ParticleBatch2D* smokeParticleBat
 	}
 }
 
-void Player::shootProjectile() {
+void Player::addBubbles(float lifeTime, GEngine::ParticleBatch2D* bubbleParticleBatch, const glm::vec2& position, int numParticles, glm::vec2 vel) {
+	static std::mt19937 randEngine(time(nullptr));
+	static std::uniform_real_distribution<float> randAngle(0.0f, 360.0f);
+
+	GEngine::ColorRGBA8 col(255, 255, 255, 255);
+
+	for (int i = 0; i < numParticles; i++) {
+		bubbleParticleBatch->addParticle(lifeTime, glm::fvec2(position.x, position.y), glm::rotate(vel, randAngle(randEngine)), col, 15.0f);
+	}
+}
+
+void Player::shootProjectile(GEngine::ParticleBatch2D* bubbleParticleBatch) {
 	if (projectiles.size() == 0) {
 		m_shootBubbleSound.play();
 
-		if (upsideDown) {
+		if (!normalGravity) {
 			if (direction == "right") {
 				projectiles.push_back(new Projectile(glm::fvec2(11.0f, 0.0f), glm::vec2(m_position.x + 42, m_position.y)));
 			}
@@ -176,9 +192,11 @@ void Player::shootProjectile() {
 		else {
 			if (direction == "right") {
 				projectiles.push_back(new Projectile(glm::fvec2(11.0f, 0.0f), glm::vec2(m_position.x + 42, m_position.y)));
+
 			}
 			else if (direction == "left") {
 				projectiles.push_back(new Projectile(glm::fvec2(-11.0f, 0.0f), glm::vec2(m_position.x - 42, m_position.y)));
+				addBubbles(2.0f, bubbleParticleBatch, glm::fvec2(projectiles.back()->getPosition().x + 30.0f, projectiles.back()->getPosition().y), 1, glm::vec2(0.3f, 0.3f));
 			}
 		}
 	}
@@ -328,7 +346,7 @@ void Player::applyDoubleJump(GEngine::ParticleBatch2D* smokeParticleBatch) {
 
 void Player::applyGravityBend(GEngine::ParticleBatch2D* smokeParticleBatch) {
 	if (normalGravity) {
-		if (!inAir && gravityAcceleration > 0) {
+		if (!jumped && gravityAcceleration > 0) {
 			m_reverseGravitySound.play();
 			addSmoke(1.0f, smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 5), 50, glm::vec2(0.2f, 0.0f));
 
@@ -338,7 +356,7 @@ void Player::applyGravityBend(GEngine::ParticleBatch2D* smokeParticleBatch) {
 		}
 	}
 	else {
-		if (!inAir && gravityAcceleration < 0) {
+		if (!jumped && gravityAcceleration < 0) {
 			m_normalGravitySound.play();
 			addSmoke(1.0f, smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 30), 50, glm::vec2(0.2f, 0.0f));
 

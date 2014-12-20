@@ -94,8 +94,11 @@ void PlayState::init() {
 
 	// Initialize particles
 	m_smokeParticleBatch = new GEngine::ParticleBatch2D;
-	m_smokeParticleBatch->init(1000, 0.025f, GEngine::ResourceManager::getTexture("../assets/textures/smoke3.png"));
+	m_bubbleParticleBatch = new GEngine::ParticleBatch2D;
+	m_smokeParticleBatch->init(1000, 0.025f, GEngine::ResourceManager::getTexture("../assets/textures/smoke_particle.png"));
+	m_bubbleParticleBatch->init(1000, 0.1f, GEngine::ResourceManager::getTexture("../assets/textures/bubble_particle.png"));
 	m_particleEngine.addParticleBatch(m_smokeParticleBatch);
+	m_particleEngine.addParticleBatch(m_bubbleParticleBatch);
 
 	// Start the timer
 	m_levelTimer.start();
@@ -227,7 +230,7 @@ void PlayState::update(float deltaTime) {
 
 	m_particleEngine.update(deltaTime);
 
-	m_player->update(m_smokeParticleBatch, m_level->tiles, m_enemies, deltaTime);
+	m_player->update(m_smokeParticleBatch, m_bubbleParticleBatch, m_level->tiles, m_enemies, deltaTime);
 
 	if (m_player->dead) {
 		m_player->dead = false;
@@ -289,9 +292,9 @@ void PlayState::drawHud() {
 
 void PlayState::draw() {
 	if (m_player->upsideDown) {
-		glClearColor(0.15f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.10f, 0.0f, 0.0f, 1.0f);
 	} else {
-		glClearColor(0.0f, 0.0f, 0.15f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.10f, 1.0f);
 	}
 
 	// Set the base depth to 1.0
