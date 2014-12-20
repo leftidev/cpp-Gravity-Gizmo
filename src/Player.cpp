@@ -1,8 +1,11 @@
+#include <random>
+#include <ctime>
+#include <iostream>
+
 #include <SDL/SDL.h>
+#include <glm/gtx/rotate_vector.hpp>
 
 #include "Player.h"
-
-#include <iostream>
 
 
 Player::Player() { }
@@ -68,7 +71,7 @@ void Player::draw(GEngine::SpriteBatch& spriteBatch) {
 	spriteBatch.draw(destRect, uvRect, m_textureID, 0.0f, m_color);
 }
 
-void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float deltaTime) {
+void Player::update(GEngine::ParticleBatch2D* smokeParticleBatch, std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float deltaTime) {
 	if (timeSinceFlickerStarted < 0.70f) {
 		applyDeathFlicker();
 	}
@@ -88,14 +91,14 @@ void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float
     if(m_inputManager->isKeyPressed(SDLK_SPACE)) {
         if(jumped) {
             // Double jumping
-            applyDoubleJump();
+			applyDoubleJump(smokeParticleBatch);
         }
     }
 	// Space jumps
     if(m_inputManager->isKeyDown(SDLK_SPACE)) {
 		if (!jumped) {
 			// Normal jumping
-			applyJump();
+			applyJump(smokeParticleBatch);
 		}
     }
 
@@ -145,6 +148,18 @@ void Player::update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float
 	}
 
 	timeSinceFlickerStarted = flickerTimer.getTicks() / 1000.f;
+}
+
+void Player::addSmoke(GEngine::ParticleBatch2D* smokeParticleBatch, const glm::vec2& position, int numParticles) {
+	static std::mt19937 randEngine(time(nullptr));
+	static std::uniform_real_distribution<float> randAngle(0.0f, 360.0f);
+
+	glm::vec2 vel(0.2f, 0.0f);
+	GEngine::ColorRGBA8 col(255, 255, 255, 255);
+
+	for (int i = 0; i < numParticles; i++) {
+		smokeParticleBatch->addParticle(glm::fvec2((position.x + 5) + i * 1.0f, position.y), glm::rotate(vel, randAngle(randEngine)), col, 7.0f);
+	}
 }
 
 void Player::shootProjectile() {
@@ -262,30 +277,35 @@ void Player::updateHorizontalMovement() {
 	}
 }
 
-void Player::applyJump() {
+void Player::applyJump(GEngine::ParticleBatch2D* smokeParticleBatch) {
 	m_jumpSound.play();
+
 
 	inAir = true;
 	jumped = true;
 	canDoubleJump = true;
 
 	if (normalGravity) {
+		addSmoke(smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 5), 30);
 		m_speed.y = JUMP_SPEED;
 	}
 	else {
+		addSmoke(smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 30), 30);
 		m_speed.y = -JUMP_SPEED;
 	}
 }
 
-void Player::applyDoubleJump() {
+void Player::applyDoubleJump(GEngine::ParticleBatch2D* smokeParticleBatch) {
     if(canDoubleJump) {
 		m_doubleJumpSound.play();
 
         canDoubleJump = false;
         if(normalGravity) {
+			addSmoke(smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 5), 30);
             m_speed.y = JUMP_SPEED + 1;
         }
         else {
+			addSmoke(smokeParticleBatch, glm::fvec2(getPosition().x, getPosition().y + 30), 30);
             m_speed.y = -JUMP_SPEED - 1;
         }
     }

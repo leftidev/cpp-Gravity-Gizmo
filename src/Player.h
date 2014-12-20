@@ -3,7 +3,9 @@
 #include <GEngine/InputManager.h>
 #include <GEngine/Camera2D.h>
 #include <GEngine/Timing.h>
-#include <GEngine/soundManager.h>
+#include <GEngine/SoundManager.h>
+#include <GEngine/ParticleEngine2D.h>
+#include <GEngine/ParticleBatch2D.h>
 
 #include "Entity.h"
 #include "Tile.h"
@@ -18,13 +20,14 @@ public:
 
 	void init(glm::fvec2 pos, GEngine::InputManager* inputManager, GEngine::Camera2D* camera, GEngine::SoundManager* soundManager);
 	void draw(GEngine::SpriteBatch& spriteBatch);
-	void update(std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float deltaTime);
+	void update(GEngine::ParticleBatch2D* smokeParticleBatch, std::vector<Tile*> tiles, std::vector<Enemy*> enemies, float deltaTime);
+	void addSmoke(GEngine::ParticleBatch2D* spriteBatch, const glm::vec2& position, int numParticles);
 	void shootProjectile();
 	void applyDeathFlicker();
 	void respawnAt(glm::vec2 respawnPos);
 	void updateHorizontalMovement();
-    void applyJump();
-	void applyDoubleJump();
+	void applyJump(GEngine::ParticleBatch2D* smokeParticleBatch);
+	void applyDoubleJump(GEngine::ParticleBatch2D* smokeParticleBatch);
 	void applyGravityBend();
 	void applyCollisions(glm::fvec2(speed), std::vector<Tile*> tiles, std::vector<Enemy*> enemies);
 

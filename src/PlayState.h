@@ -45,7 +45,7 @@ private:
 	GEngine::SpriteFont* m_spriteFont;
 	GEngine::Music m_music;
 	GEngine::ParticleEngine2D m_particleEngine;
-	GEngine::ParticleBatch2D* m_bloodParticleBatch;
+	GEngine::ParticleBatch2D* m_smokeParticleBatch;
 
 	std::vector<GEngine::Shader> m_shaders;
 	std::vector<Enemy*> m_enemies; // All enemies

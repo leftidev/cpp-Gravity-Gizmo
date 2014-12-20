@@ -93,9 +93,9 @@ void PlayState::init() {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Initialize particles
-	m_bloodParticleBatch = new GEngine::ParticleBatch2D;
-	m_bloodParticleBatch->init(1000, 0.05f, GEngine::ResourceManager::getTexture("../assets/textures/circle.png"));
-	m_particleEngine.addParticleBatch(m_bloodParticleBatch);
+	m_smokeParticleBatch = new GEngine::ParticleBatch2D;
+	m_smokeParticleBatch->init(1000, 0.025f, GEngine::ResourceManager::getTexture("../assets/textures/smoke3.png"));
+	m_particleEngine.addParticleBatch(m_smokeParticleBatch);
 
 	// Start the timer
 	m_levelTimer.start();
@@ -227,13 +227,11 @@ void PlayState::update(float deltaTime) {
 
 	m_particleEngine.update(deltaTime);
 
-	m_player->update(m_level->tiles, m_enemies, deltaTime);
+	m_player->update(m_smokeParticleBatch, m_level->tiles, m_enemies, deltaTime);
 
 	if (m_player->dead) {
 		m_player->dead = false;
 		restart();
-		// Add blood
-		addBlood(m_player->getPosition(), 5);
 	}
 	// Player dies when going out of level bounds
 	if (m_player->getPosition().y < -400 || m_player->getPosition().y > m_level->levelHeight + 400) {
@@ -271,11 +269,11 @@ void PlayState::addBlood(const glm::vec2& position, int numParticles) {
 	static std::mt19937 randEngine(time(nullptr));
 	static std::uniform_real_distribution<float> randAngle(0.0f, 360.0f);
 
-	glm::vec2 vel(2.0f, 0.0f);
-	GEngine::ColorRGBA8 col(255, 0, 0, 255);
+	glm::vec2 vel(0.2f, 0.0f);
+	GEngine::ColorRGBA8 col(255, 255, 255, 255);
 
 	for (int i = 0; i < numParticles; i++) {
-		m_bloodParticleBatch->addParticle(position, glm::rotate(vel, randAngle(randEngine)), col, 10.0f);
+		m_smokeParticleBatch->addParticle(glm::fvec2((position.x + 5) + i * 1.0f, position.y - 6.0f), glm::rotate(vel, randAngle(randEngine)), col, 7.0f);
 	}
 }
 
